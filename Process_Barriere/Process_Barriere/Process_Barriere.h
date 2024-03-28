@@ -2,7 +2,7 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_Process_Barriere.h"
-#include <QtSql>
+#include "DatabaseConnect.h"
 
 class Process_Barriere : public QMainWindow
 {
@@ -17,5 +17,5 @@ private slots:
 
 private:
     Ui::Process_BarriereClass ui;
-    QSqlDatabase db;
+    DatabaseConnect databaseConnect;
 };

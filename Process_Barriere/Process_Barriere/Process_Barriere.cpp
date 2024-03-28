@@ -5,20 +5,15 @@ Process_Barriere::Process_Barriere(QWidget* parent)
 {
     ui.setupUi(this);
 
-    // Connexion à la base de données
-    db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("192.168.65.167");
-    db.setDatabaseName("parking");
-    db.setUserName("root");
-    db.setPassword("root");
+    ui.menuBar_Modes->setVisible(false);
 
     // Vérification si la BDD est accessible
-    if (!db.open()) {
+    /*if (DatabaseConnect.isConnected()) { // A REGLER
         ui.label_BDDVerif->setText("Non");
     }
     else {
         ui.label_BDDVerif->setText("Oui");
-    }
+    }*/
 }
 
 Process_Barriere::~Process_Barriere()
@@ -30,6 +25,7 @@ void Process_Barriere::on_btnAccesConnexion_clicked() // Vérification Connexion
 {
     QString login = ui.edit_Login->text();
     QString mdp = ui.edit_Mdp->text();
+    ui.edit_Mdp->setEchoMode(QLineEdit::Password);
 
     QSqlQuery query;
     query.prepare("SELECT * FROM User WHERE login = :login AND password = :mdp AND type = 'superviseur'");
@@ -39,6 +35,8 @@ void Process_Barriere::on_btnAccesConnexion_clicked() // Vérification Connexion
 
     if (query.next()) { // Vérification des identifians
         ui.label_ErrorConnect->setText("Identifiants corrects !");
+        ui.widget_Accueil->hide();
+        ui.menuBar_Modes->setVisible(true);
     }
     else {
         ui.label_ErrorConnect->setText("Identifiants incorrects");

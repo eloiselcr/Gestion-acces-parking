@@ -92,8 +92,12 @@
     <QtRcc Include="Process_Barriere.qrc" />
     <QtUic Include="Process_Barriere.ui" />
     <QtMoc Include="Process_Barriere.h" />
+    <ClCompile Include="DatabaseConnect.cpp" />
     <ClCompile Include="Process_Barriere.cpp" />
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DatabaseConnect.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
