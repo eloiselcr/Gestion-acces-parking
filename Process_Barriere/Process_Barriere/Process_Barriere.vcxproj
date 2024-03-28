@@ -38,7 +38,7 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>5.14.2_msvc2017_64</QtInstall>
-    <QtModules>core;sql;gui;widgets</QtModules>
+    <QtModules>core;sql;gui;widgets;websockets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
@@ -92,11 +92,13 @@
     <QtRcc Include="Process_Barriere.qrc" />
     <QtUic Include="Process_Barriere.ui" />
     <QtMoc Include="Process_Barriere.h" />
+    <ClCompile Include="ManageMode.cpp" />
     <ClCompile Include="DatabaseConnect.cpp" />
     <ClCompile Include="Process_Barriere.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="ManageMode.h" />
     <ClInclude Include="DatabaseConnect.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
