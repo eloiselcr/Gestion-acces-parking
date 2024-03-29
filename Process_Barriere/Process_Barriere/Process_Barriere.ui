@@ -124,7 +124,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="interface_accueil">
      <widget class="QWidget" name="widget_Accueil" native="true">
@@ -290,6 +290,19 @@
        </property>
        <property name="text">
         <string>Bienvenue sur l'espace de gestion des modes de la barrière au sein de La Providence.</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="test_envoi">
+       <property name="geometry">
+        <rect>
+         <x>810</x>
+         <y>130</y>
+         <width>171</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Envoi demande</string>
        </property>
       </widget>
      </widget>
@@ -843,9 +856,26 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>test_envoi</sender>
+   <signal>clicked()</signal>
+   <receiver>Process_BarriereClass</receiver>
+   <slot>on_btnEnvoiDemande_cliked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>845</x>
+     <y>312</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>569</x>
+     <y>346</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>on_btnAccesConnexion_clicked()</slot>
   <slot>on_BtnAccueilGestionGlobale_cliked()</slot>
+  <slot>on_btnEnvoiDemande_cliked()</slot>
  </slots>
 </ui>

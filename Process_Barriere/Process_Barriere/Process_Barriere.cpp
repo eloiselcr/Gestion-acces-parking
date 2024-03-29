@@ -32,8 +32,20 @@ Process_Barriere::~Process_Barriere()
 void Process_Barriere::sendLicensePlateRequest() // Envoi de la demande de plaque
 {
     if (clientConnection) {
-        QString message = "DemandeRecoPlaque: DemandeOUI";
-        clientConnection->write(message.toUtf8()); // Conversion JSON
+        // Et ensuite la retouner afin de la renvoyer au superviseur/piloteur
+        // Créer un nouvel objet JSON avec la structure souhaitée
+        QJsonObject message;
+        QJsonArray tableauDonnees;
+
+        message["DemandeRecoPlaque"] = "DemandeOUI";
+
+        // Conversion de l'objet JSON en chaîne JSON
+        QJsonDocument jsonDocument(message);
+        QString jsonString = jsonDocument.toJson(QJsonDocument::Compact);  // Compact pour une chaîne JSON minimisée
+
+        // if (socketClient->state() == QTcpSocket::ConnectedState) // Si le socket est bien connecté
+        clientConnection->write(jsonString.toUtf8()); // On envoie le message au serveur
+
         ui.label_StatutServeurDisplay->setText("Demande envoyée");
     }
 }
@@ -89,6 +101,11 @@ void Process_Barriere::on_BtnAccueilGestionGlobale_cliked()
 
 void Process_Barriere::on_btnCasparCas_cliked()
 {
+}
+
+void Process_Barriere::on_btnEnvoiDemande_cliked()
+{
+    sendLicensePlateRequest();
 }
 
 

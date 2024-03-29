@@ -23,6 +23,8 @@ private slots:
     void onClientReadyRead();
 
     void on_btnCasparCas_cliked();
+
+    void on_btnEnvoiDemande_cliked();
    
 
 private:
