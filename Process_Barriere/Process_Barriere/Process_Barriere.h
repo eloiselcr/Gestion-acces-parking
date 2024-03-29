@@ -14,7 +14,6 @@ public:
     ~Process_Barriere();
 
 private slots:
-
     void on_btnAccesConnexion_clicked();
     void on_BtnAccueilGestionGlobale_cliked();
 
@@ -23,11 +22,11 @@ private slots:
     void onClientReadyRead();
 
     void on_btnCasparCas_cliked();
-   
 
 private:
     Ui::Process_BarriereClass ui;
     DatabaseConnect databaseConnect;
     QTcpServer* server; // Déclaration du serveur TCP/IP
     QTcpSocket* clientConnection; // Déclaration du socket pour la connexion avec le client
+    QString plaque;
 };

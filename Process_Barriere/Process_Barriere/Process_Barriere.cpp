@@ -68,15 +68,15 @@ void Process_Barriere::onClientReadyRead()
     // Décodage JSON de la présence d'un véhicule
     QJsonObject jsonMessage = QJsonDocument::fromJson(str.toUtf8()).object();
 
-    if (jsonMessage.contains("InfoVeh") && jsonMessage["InfoVeh"].toString() == "VehiculeDetecter") 
+    if (jsonMessage.contains("InfoVeh") && jsonMessage["InfoVeh"].toString() == "VehiculeDetecter")
     {
         ui.label_VehiculePresenceDisplay->setText("Vehicule detecte");
-        sendLicensePlateRequest(); 
+        sendLicensePlateRequest();
         // return; 
     }
 
     if (jsonMessage.contains("reponsePlaqueReco")) {
-        QString plaque = jsonMessage["reponsePlaqueReco"].toString();
+        plaque = jsonMessage["reponsePlaqueReco"].toString(); // Affectation de la valeur de plaque
         qDebug() << "Plaque recue :" << plaque;
 
         ui.label_StatutClientDisplay->setText("Plaque recue");
@@ -104,6 +104,7 @@ void Process_Barriere::on_btnAccesConnexion_clicked() // Form Connexion
         ui.label_ErrorConnect->setText("Identifiants corrects !");
         ui.stackedWidget->setCurrentIndex(1);
         ui.widget_SCStatut->setVisible(true);
+        ui.widget_SupervisionBarriere->setVisible(false);
     }
     else {
         ui.label_ErrorConnect->setText("Identifiants incorrects");
@@ -119,9 +120,49 @@ void Process_Barriere::on_BtnAccueilGestionGlobale_cliked()
     // NOTE : FAIRE EN SORTE QU'IL NE PUISSE PAS ACCEDER AUX AUTRES MODES
 }
 
+
 void Process_Barriere::on_btnCasparCas_cliked()
 {
+    QSqlQuery query;
+    query.prepare("SELECT statut, date FROM Demande_Vehicule WHERE immatriculation = :plaque");
+    query.bindValue(":plaque", plaque);
+
+    if (query.next()) {
+        QString statut = query.value(0).toString(); // récupère le statut
+        QDateTime date = query.value(1).toDateTime(); // récupère la date
+
+        // 1 - On vérifie le statut du véhicule pour une anomalie
+        if (statut == "Refusee" || statut == "Traitement en cours" || statut == "Informations demandees") {
+            if (statut == "Refusee") {
+                ui.label_StatutVehiculeDisplay->setText("Le vehicule a ete refuse par l'administration.");
+            }
+            else if (statut == "Traitement en cours") {
+                ui.label_StatutVehiculeDisplay->setText("La demande pour ce vehicule est en cours de traitement.");
+            }
+            else if (statut == "Informations demandees") {
+                ui.label_StatutVehiculeDisplay->setText("Des informations supplementaires ont ete demandes pour ce vehicule.");
+            }
+        }
+        // 2 - On vérifie si l'autorisation est <= 1 an de validité
+        else if (statut == "Valide") {
+            if (date <= QDateTime::currentDateTime()) {
+                qDebug() << "Validité expirée";
+                ui.label_StatutVehiculeDisplay->setText("Validite expiree");
+            }
+            // Si tout OK, on accepte
+            else {
+                qDebug() << "Véhicule autorisé";
+                ui.label_StatutVehiculeDisplay->setText("Vehicule autorise");
+            }
+        }
+    }
+    else {
+        qDebug() << "Plaque inconnue";
+        ui.label_StatutVehiculeDisplay->setText("Vehicule inconnu de la base de donnees.");
+        ui.widget_SupervisionBarriere->setVisible(true); // on affiche la possibilité d'ouvrir
+    }
 }
+
 
 
 

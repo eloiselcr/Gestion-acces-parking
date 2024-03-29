@@ -512,7 +512,7 @@
        <property name="geometry">
         <rect>
          <x>110</x>
-         <y>180</y>
+         <y>110</y>
          <width>131</width>
          <height>51</height>
         </rect>
@@ -523,7 +523,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Ouvrir</string>
+        <string>Ouvrir la barrière</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_TitleInfos_2">
@@ -549,24 +549,6 @@
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="test_envoi">
-       <property name="geometry">
-        <rect>
-         <x>110</x>
-         <y>90</y>
-         <width>131</width>
-         <height>51</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Envoi demande</string>
        </property>
       </widget>
      </widget>
@@ -854,22 +836,6 @@
     <hint type="sourcelabel">
      <x>905</x>
      <y>428</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>569</x>
-     <y>346</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>test_envoi</sender>
-   <signal>clicked()</signal>
-   <receiver>Process_BarriereClass</receiver>
-   <slot>on_btnEnvoiDemande_cliked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>925</x>
-     <y>477</y>
     </hint>
     <hint type="destinationlabel">
      <x>569</x>
