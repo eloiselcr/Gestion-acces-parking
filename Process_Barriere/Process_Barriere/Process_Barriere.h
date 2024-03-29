@@ -18,13 +18,11 @@ private slots:
     void on_btnAccesConnexion_clicked();
     void on_BtnAccueilGestionGlobale_cliked();
 
-    void sendLicensePlateRequest();
     void onClientConnected();
+    void sendLicensePlateRequest();
     void onClientReadyRead();
 
     void on_btnCasparCas_cliked();
-
-    void on_btnEnvoiDemande_cliked();
    
 
 private:
