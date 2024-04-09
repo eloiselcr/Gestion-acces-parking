@@ -831,7 +831,7 @@
    <sender>btn_AccesGestionGlobale</sender>
    <signal>clicked()</signal>
    <receiver>Process_BarriereClass</receiver>
-   <slot>on_BtnAccueilGestionGlobale_cliked()</slot>
+   <slot>on_btnAccueilGestionGlobale_cliked()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>905</x>
@@ -843,10 +843,44 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>btn_OuvertureBarriere</sender>
+   <signal>clicked()</signal>
+   <receiver>Process_BarriereClass</receiver>
+   <slot>on_btnOuvrirBarriere_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>925</x>
+     <y>497</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>569</x>
+     <y>346</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_CasparCas</sender>
+   <signal>clicked()</signal>
+   <receiver>Process_BarriereClass</receiver>
+   <slot>on_btnCasparCas_cliked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>145</x>
+     <y>297</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>569</x>
+     <y>346</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>on_btnAccesConnexion_clicked()</slot>
-  <slot>on_BtnAccueilGestionGlobale_cliked()</slot>
+  <slot>on_btnAccueilGestionGlobale_cliked()</slot>
   <slot>on_btnEnvoiDemande_cliked()</slot>
+  <slot>on_btnOuvrirBarriere_clicked()</slot>
+  <slot>on_btnCasparCas_cliked()</slot>
  </slots>
 </ui>

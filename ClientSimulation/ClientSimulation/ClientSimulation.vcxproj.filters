@@ -23,30 +23,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <QtRcc Include="Process_Barriere.qrc">
-      <Filter>Resource Files</Filter>
-    </QtRcc>
-    <QtUic Include="Process_Barriere.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtMoc Include="Process_Barriere.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <ClCompile Include="Process_Barriere.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DatabaseConnect.cpp">
+    <ClCompile Include="ClientSimulation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DatabaseConnect.h">
+    <QtMoc Include="ClientSimulation.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
+    </QtMoc>
   </ItemGroup>
 </Project>
