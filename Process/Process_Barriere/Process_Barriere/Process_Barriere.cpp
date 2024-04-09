@@ -15,7 +15,8 @@ Process_Barriere::Process_Barriere(QWidget* parent)
     ui.widget_SCStatut->setVisible(false);
     ui.edit_Mdp->setEchoMode(QLineEdit::Password);
 
-    plaque = "AA-508-CP";
+    // Pour les tests
+    plaque = "JQ-657-ML";
 
 
     // Vérification si la BDD est accessible
@@ -149,8 +150,8 @@ void Process_Barriere::on_btnCasparCas_cliked()
         QDateTime date = query.value(1).toDateTime(); // récupère la date
 
         qDebug() << "Plaque : " << plaque;
-        qDebug() << "Statut du vehicule:" << statut;
-        qDebug() << "Date de validite:" << date.toString();
+        qDebug() << "Statut du vehicule :" << statut;
+        qDebug() << "Date effective :" << date.toString();
         ui.label_ImmatriculationDisplay->setText(plaque);
         this->statut = statut;
 
@@ -173,29 +174,29 @@ void Process_Barriere::on_btnCasparCas_cliked()
                 ui.label_StatutVehiculeDisplay->setText("Des informations supplementaires ont ete demandes pour ce vehicule.");
                 ui.widget_SupervisionBarriere->setVisible(true);
             }
+            else if (statut == "") {
+                qDebug() << "Plaque inconnue ou mal reconnu";
+                ui.label_StatutVehiculeDisplay->setText("Vehicule inconnu de la base de donnees.");
+                ui.widget_SupervisionBarriere->setVisible(true);
+            }
         }
 
-        // 2 - On vérifie si l'autorisation est <= 1 an de validité
-        /*
-        // NE MARCHE PAS, A REFAIRE
-        else if (statut == "Valide") {
-            if (date <= QDateTime::currentDateTime()) {
-                qDebug() << "Validité expirée";
-                ui.label_StatutVehiculeDisplay->setText("Validite expiree");
+        else if (statut == "Validee") {
+
+            QDateTime dateActuelle = QDateTime::currentDateTime();
+            QDateTime dateLimite = dateActuelle.addYears(-1);
+
+            if (date > dateLimite) {
+                qDebug() << "Date de validite valide";
+                ui.label_StatutVehiculeDisplay->setText("Vehicule valide.");
+                // Ouvrir la barrière
             }
-            // Si tout OK, on accepte
             else {
-                qDebug() << "Véhicule autorisé";
-                ui.label_StatutVehiculeDisplay->setText("Vehicule autorise");
+                qDebug() << "Date de validite expiree";
+                ui.label_StatutVehiculeDisplay->setText("Vehicule avec une validite expirze.");
+                ui.widget_SupervisionBarriere->setVisible(true);
             }
         }
-        */
-
-    }
-    else {
-        qDebug() << "Plaque inconnue";
-        ui.label_ImmatriculationDisplay->setText("Vehicule inconnu de la base de donnees.");
-        ui.widget_SupervisionBarriere->setVisible(true);
     }
 }
 
@@ -231,6 +232,7 @@ void Process_Barriere::on_btnOuvrirBarriere_clicked() {
     }
     else {
         qDebug() << "Insertion dans la table Acces_SansDemande reussie.";
+        // Ouvrir la barrière
     }
 }
 
