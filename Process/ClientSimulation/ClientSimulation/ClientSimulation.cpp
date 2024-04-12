@@ -3,27 +3,30 @@
 ClientSimulation::ClientSimulation(QObject* parent) : QObject(parent)
 {
     socketClient = new QTcpSocket(this);
+
     connect(socketClient, SIGNAL(connected()), this, SLOT(onSocketConnected()));
     connect(socketClient, SIGNAL(disconnected()), this, SLOT(onSocketDisconnected()));
     connect(socketClient, SIGNAL(readyRead()), this, SLOT(onSocketReadyRead()));
 
     socketClient->connectToHost("127.0.0.1", 1234);
+
+    qDebug() << "=== Programme pour simuler l'envoi d'une plaque par le client. ===\n\n";
 }
 
 void ClientSimulation::onSocketConnected()
 {
     if (socketClient->state() == QTcpSocket::ConnectedState)
     {
-        qDebug() << "Serveur connecte!";
+        qDebug() << "Serveur connecte !\n";
         sendVehicleDetection();
     }
     else
-        qDebug() << "Serveur introuvable";
+        qDebug() << "Serveur introuvable\n";
 }
 
 void ClientSimulation::onSocketDisconnected()
 {
-    qDebug() << "Serveur deconnecte !";
+    qDebug() << "Serveur deconnecte !\n";
 }
 
 void ClientSimulation::sendVehicleDetection()
@@ -35,34 +38,34 @@ void ClientSimulation::sendVehicleDetection()
     QString jsonString = jsonDocument.toJson(QJsonDocument::Compact);
 
     socketClient->write(jsonString.toUtf8());
+
+    qDebug() << "Message de detection de vehicule envoye.\n";
 }
 
 void ClientSimulation::onSocketReadyRead()
 {
-    QByteArray data = socketClient->readAll();
+    QByteArray data = socketClient->read(socketClient->bytesAvailable());
     QString str(data);
-    qDebug() << "Message recu du serveur :" << str;
 
-    QJsonObject jsonMessage = QJsonDocument::fromJson(data).object();
+    qDebug() << "Message recu du serveur : " << str;
 
+    QJsonObject jsonMessage = QJsonDocument::fromJson(str.toUtf8()).object(); // On décode en objet JSON
     if (jsonMessage.contains("DemandeRecoPlaque") && jsonMessage["DemandeRecoPlaque"].toString() == "DemandeOUI")
     {
-        // QString randomPlate = getRandomPlate();
-        QString plate = "AA-508-CP";
+        QJsonObject reponsePlaque;
+        QJsonArray tableauDonnees;
 
-        QJsonObject responsePlate;
-        responsePlate["reponsePlaqueReco"] = plate;
+        LicensePlate = "AA-508-CP";
 
-        QJsonDocument jsonResponse(responsePlate);
-        QString jsonString = jsonResponse.toJson(QJsonDocument::Compact);
+        reponsePlaque["reponsePlaqueReco"] = LicensePlate;
 
-        socketClient->write(jsonString.toUtf8());
+        QJsonDocument jsonDocument(reponsePlaque);
+        QString jsonString = jsonDocument.toJson(QJsonDocument::Compact);  // Compact pour une chaîne JSON minimisée
+
+        if (socketClient->state() == QTcpSocket::ConnectedState) // Si le socket est bien connecté
+            socketClient->write(jsonString.toUtf8()); // On envoie le message au serveur
+        qDebug() << "\nMessage retourne au serveur !";
     }
 }
 
-QString ClientSimulation::getRandomPlate()
-{
-    QStringList plates = { "KO-257-XC", "KK-469-JH", "MJ-800-NH" };
-    int index = QRandomGenerator::global()->bounded(plates.size());
-    return plates[index];
-}
+

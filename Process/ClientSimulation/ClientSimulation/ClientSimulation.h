@@ -2,6 +2,7 @@
 #include <QTcpSocket>
 #include <QJsonObject>
 #include <QJsonDocument>
+#include <QJsonArray>
 #include <QRandomGenerator>
 
 class ClientSimulation : public QObject
@@ -10,8 +11,10 @@ class ClientSimulation : public QObject
 
 public:
     ClientSimulation(QObject* parent = nullptr);
+    QString LicensePlate;
 
 private slots:
+
     void onSocketConnected();
     void onSocketDisconnected();
     void onSocketReadyRead();
@@ -19,7 +22,6 @@ private slots:
 
 private:
     QTcpSocket* socketClient;
-    QString getRandomPlate();
 };
 
 

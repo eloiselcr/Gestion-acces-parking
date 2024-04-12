@@ -16,7 +16,7 @@ Process_Barriere::Process_Barriere(QWidget* parent)
     ui.edit_Mdp->setEchoMode(QLineEdit::Password);
 
     // Pour les tests
-    plaque = "PR-148-WR";
+    // plaque = "PR-148-WR";
 
 
     // Vérification si la BDD est accessible
@@ -58,7 +58,7 @@ void Process_Barriere::onClientReadyRead()
     {
         ui.label_VehiculePresenceDisplay->setText("Vehicule detecte");
         sendLicensePlateRequest();
-        // return; 
+        return; 
     }
 
     // Etape 2 : Reception de la plaque
