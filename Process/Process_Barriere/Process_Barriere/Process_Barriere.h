@@ -13,8 +13,11 @@ public:
     Process_Barriere(QWidget* parent = nullptr);
     ~Process_Barriere();
 
+    QString nom;
+    QString prenom;
     QString plaque;
     QString statut;
+    int iduser;
 
 private slots:
     void on_btnAccesConnexion_clicked();

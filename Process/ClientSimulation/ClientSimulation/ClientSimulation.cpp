@@ -60,11 +60,9 @@ void ClientSimulation::onSocketReadyRead()
     }
 }
 
-/*
 QString ClientSimulation::getRandomPlate()
 {
     QStringList plates = { "KO-257-XC", "KK-469-JH", "MJ-800-NH" };
     int index = QRandomGenerator::global()->bounded(plates.size());
     return plates[index];
 }
-*/

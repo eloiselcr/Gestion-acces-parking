@@ -16,7 +16,7 @@ Process_Barriere::Process_Barriere(QWidget* parent)
     ui.edit_Mdp->setEchoMode(QLineEdit::Password);
 
     // Pour les tests
-    plaque = "JQ-657-ML";
+    plaque = "PR-148-WR";
 
 
     // Vérification si la BDD est accessible
@@ -136,22 +136,30 @@ void Process_Barriere::on_btnCasparCas_cliked()
 {
     qDebug() << "Slots on_btnCasparCas_cliked() appele";
 
-    QSqlQuery query;
-    query.prepare("SELECT statut, date FROM Demande_Vehicule WHERE immatriculation = :plaque");
-    query.bindValue(":plaque", plaque);
+    QSqlQuery query1;
+    QSqlQuery query2;
 
-    if (!query.exec()) {
-        qDebug() << "Erreur lors de l'execution de la requete SQL:" << query.lastError().text();
+    query1.prepare("SELECT nom, prenom, statut, date, iduser FROM Demande_Vehicule WHERE immatriculation = :plaque");
+    query1.bindValue(":plaque", plaque);
+
+    if (!query1.exec()) {
+        qDebug() << "Erreur lors de l'execution de la requete SQL:" << query1.lastError().text();
         return; 
     }
 
-    if (query.next()) {
-        QString statut = query.value(0).toString(); // récupère le statut
-        QDateTime date = query.value(1).toDateTime(); // récupère la date
+    if (query1.next()) {
+        QString nom = query1.value(0).toString(); // récupère le nom
+        QString prenom = query1.value(1).toString(); // récupère le prenom
+        QString statut = query1.value(2).toString(); // récupère le statut
+        QDateTime date = query1.value(3).toDateTime(); // récupère la date
+        int iduser = query1.value(4).toInt(); // récupère l'iduser
 
+        qDebug() << "Nom : " << nom;
+        qDebug() << "Prenom : " << prenom;
         qDebug() << "Plaque : " << plaque;
         qDebug() << "Statut du vehicule :" << statut;
         qDebug() << "Date effective :" << date.toString();
+        qDebug() << "iduser : " << iduser;
         ui.label_ImmatriculationDisplay->setText(plaque);
         this->statut = statut;
 
@@ -175,7 +183,7 @@ void Process_Barriere::on_btnCasparCas_cliked()
                 ui.widget_SupervisionBarriere->setVisible(true);
             }
             else if (statut == "") {
-                qDebug() << "Plaque inconnue ou mal reconnu";
+                qDebug() << "Plaque inconnue ou mal reconnue";
                 ui.label_StatutVehiculeDisplay->setText("Vehicule inconnu de la base de donnees.");
                 ui.widget_SupervisionBarriere->setVisible(true);
             }
@@ -188,12 +196,23 @@ void Process_Barriere::on_btnCasparCas_cliked()
 
             if (date > dateLimite) {
                 qDebug() << "Date de validite valide";
-                ui.label_StatutVehiculeDisplay->setText("Vehicule valide.");
+                ui.label_StatutVehiculeDisplay->setText("Vehicule valide."); 
+                /*
+                query2.prepare("INSERT INTO Acces (date_horaire, id_demande) VALUES (:date, :id_demande)");
+                query2.bindValue(":date", QDateTime::currentDateTime());
+                query2.bindValue(":id_demande", iduser);
+                if (!query2.exec()) { // Exécuter la requête d'insertion
+                    qDebug() << "Erreur lors de l'insertion dans la table Acces:" << query2.lastError().text();
+                }
+                else {
+                    qDebug() << "Insertion ok";
+                }
+                */
                 // Ouvrir la barrière
             }
             else {
                 qDebug() << "Date de validite expiree";
-                ui.label_StatutVehiculeDisplay->setText("Vehicule avec une validite expirze.");
+                ui.label_StatutVehiculeDisplay->setText("Vehicule avec une validite expiree.");
                 ui.widget_SupervisionBarriere->setVisible(true);
             }
         }
@@ -218,6 +237,9 @@ void Process_Barriere::on_btnOuvrirBarriere_clicked() {
     }
     else if (statut == "Plaque inconnue") {
         motif = "Plaque inconnue dans la base de donnees";
+    }
+    else if (statut == "Validee") { // en sachant que le bouton n'est visible que si plaque = validité expirée
+        motif = "Validite de la plaque expiree";
     }
 
     // Envoyer la requête d'insertion dans la table "Acces_SansDemande"

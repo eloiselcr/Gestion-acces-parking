@@ -19,7 +19,7 @@ private slots:
 
 private:
     QTcpSocket* socketClient;
-    // QString getRandomPlate();
+    QString getRandomPlate();
 };
 
 

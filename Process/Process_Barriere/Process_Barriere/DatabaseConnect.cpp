@@ -13,7 +13,7 @@ DatabaseConnect::DatabaseConnect()
         qDebug() << "Connexion a la base de donnees echouee";
     }
     else {
-        qDebug() << "Connexion a la base de données reussie";
+        qDebug() << "Connexion a la base de donnees reussie";
     }
 }
 
