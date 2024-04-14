@@ -1,4 +1,5 @@
 #include "Process_Barriere.h"
+#include "Functions.h"
 
 Process_Barriere::Process_Barriere(QWidget* parent)
     : QMainWindow(parent)
@@ -14,9 +15,6 @@ Process_Barriere::Process_Barriere(QWidget* parent)
     ui.stackedWidget->setCurrentIndex(0);
     ui.widget_SCStatut->setVisible(false);
     ui.edit_Mdp->setEchoMode(QLineEdit::Password);
-
-    // Pour les tests
-    // plaque = "PR-148-WR";
 
 
     // Vérification si la BDD est accessible
@@ -35,7 +33,6 @@ Process_Barriere::~Process_Barriere()
 
 
 // ==== PARTIE SERVEUR ====
-
 
 void Process_Barriere::onClientConnected()
 {
@@ -68,6 +65,7 @@ void Process_Barriere::onClientReadyRead()
 
         ui.label_StatutClientDisplay->setText("Plaque recue");
         ui.label_ImmatriculationDisplay->setText(plaque);
+        Functions::AnalysePlaque(plaque, ui, this->statut);
     }
 }
 
@@ -125,99 +123,23 @@ void Process_Barriere::on_btnAccesConnexion_clicked() // Form Connexion
 
 // === PARTIE SELECTION DES MODES ====
 
-void Process_Barriere::on_btnAccueilGestionGlobale_cliked()
+
+void Process_Barriere::on_btnCasparCas_cliked() 
 {
-    ui.stackedWidget->setCurrentIndex(2); 
-    // NOTE : FAIRE EN SORTE QU'IL NE PUISSE PAS ACCEDER AUX AUTRES MODES
+    modeActif = CasParCas;
+    ui.label_ActualModeDisplay->setText("Cas par Cas");
 }
 
-
-void Process_Barriere::on_btnCasparCas_cliked()
-{
-    qDebug() << "Slots on_btnCasparCas_cliked() appele";
-
-    QSqlQuery query1;
-    QSqlQuery query2;
-
-    query1.prepare("SELECT nom, prenom, statut, date, iduser FROM Demande_Vehicule WHERE immatriculation = :plaque");
-    query1.bindValue(":plaque", plaque);
-
-    if (!query1.exec()) {
-        qDebug() << "Erreur lors de l'execution de la requete SQL:" << query1.lastError().text();
-        return; 
-    }
-
-    if (query1.next()) {
-        QString nom = query1.value(0).toString(); // récupère le nom
-        QString prenom = query1.value(1).toString(); // récupère le prenom
-        QString statut = query1.value(2).toString(); // récupère le statut
-        QDateTime date = query1.value(3).toDateTime(); // récupère la date
-        int iduser = query1.value(4).toInt(); // récupère l'iduser
-
-        qDebug() << "Nom : " << nom;
-        qDebug() << "Prenom : " << prenom;
-        qDebug() << "Plaque : " << plaque;
-        qDebug() << "Statut du vehicule :" << statut;
-        qDebug() << "Date effective :" << date.toString();
-        qDebug() << "iduser : " << iduser;
-        ui.label_ImmatriculationDisplay->setText(plaque);
-        this->statut = statut;
-
-        // 1 - On vérifie le statut du véhicule pour une anomalie
-        if (statut == "Refusee" || statut == "Traitement en cour" || statut == "Informations demandees") {
-            qDebug() << "Statut anormal : " << statut;
-
-            if (statut == "Refusee") {
-                qDebug() << "Refusee";
-                ui.label_StatutVehiculeDisplay->setText("Le vehicule a ete refuse par l'administration.");
-                ui.widget_SupervisionBarriere->setVisible(true);
-            }
-            else if (statut == "Traitement en cour") {
-                qDebug() << "Traitement en cours";
-                ui.label_StatutVehiculeDisplay->setText("La demande pour ce vehicule est en cours de traitement.");
-                ui.widget_SupervisionBarriere->setVisible(true);
-            }
-            else if (statut == "Informations demandees") {
-                qDebug() << "Informations demandees";
-                ui.label_StatutVehiculeDisplay->setText("Des informations supplementaires ont ete demandes pour ce vehicule.");
-                ui.widget_SupervisionBarriere->setVisible(true);
-            }
-            else if (statut == "") {
-                qDebug() << "Plaque inconnue ou mal reconnue";
-                ui.label_StatutVehiculeDisplay->setText("Vehicule inconnu de la base de donnees.");
-                ui.widget_SupervisionBarriere->setVisible(true);
-            }
-        }
-
-        else if (statut == "Validee") {
-
-            QDateTime dateActuelle = QDateTime::currentDateTime();
-            QDateTime dateLimite = dateActuelle.addYears(-1);
-
-            if (date > dateLimite) {
-                qDebug() << "Date de validite valide";
-                ui.label_StatutVehiculeDisplay->setText("Vehicule valide."); 
-                /*
-                query2.prepare("INSERT INTO Acces (date_horaire, id_demande) VALUES (:date, :id_demande)");
-                query2.bindValue(":date", QDateTime::currentDateTime());
-                query2.bindValue(":id_demande", iduser);
-                if (!query2.exec()) { // Exécuter la requête d'insertion
-                    qDebug() << "Erreur lors de l'insertion dans la table Acces:" << query2.lastError().text();
-                }
-                else {
-                    qDebug() << "Insertion ok";
-                }
-                */
-                // Ouvrir la barrière
-            }
-            else {
-                qDebug() << "Date de validite expiree";
-                ui.label_StatutVehiculeDisplay->setText("Vehicule avec une validite expiree.");
-                ui.widget_SupervisionBarriere->setVisible(true);
-            }
-        }
-    }
+void Process_Barriere::on_btnGestionGlobale_cliked() {
+    modeActif = GestionGlobale;
+    ui.label_ActualModeDisplay->setText("Gestion Globale");
 }
+
+void Process_Barriere::on_btnManuel_clicked() {
+    modeActif = Manuel;
+    ui.label_ActualModeDisplay->setText("Manuel");
+}
+
 
 void Process_Barriere::on_btnOuvrirBarriere_clicked() {
     // Déterminer le motif de problème en fonction du statut
@@ -259,3 +181,18 @@ void Process_Barriere::on_btnOuvrirBarriere_clicked() {
 }
 
 
+void Process_Barriere::GestionMode()
+{
+    switch (modeActif) {
+
+    case CasParCas:
+        break;
+
+
+    case GestionGlobale:
+        break;
+
+    case Manuel:
+        break;
+    }
+}

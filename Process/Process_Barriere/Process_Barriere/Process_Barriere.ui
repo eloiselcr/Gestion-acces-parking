@@ -457,7 +457,7 @@
         <string>Cas-par-Cas</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="label_Manuel">
+      <widget class="QPushButton" name="btn_Manuel">
        <property name="geometry">
         <rect>
          <x>70</x>
@@ -875,6 +875,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>btn_GestionGlobale</sender>
+   <signal>clicked()</signal>
+   <receiver>Process_BarriereClass</receiver>
+   <slot>on_btnGestionGlobale_cliked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>145</x>
+     <y>407</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>569</x>
+     <y>346</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_Manuel</sender>
+   <signal>clicked()</signal>
+   <receiver>Process_BarriereClass</receiver>
+   <slot>on_btnManuel_cliked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>145</x>
+     <y>527</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>569</x>
+     <y>346</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>on_btnAccesConnexion_clicked()</slot>
@@ -882,5 +914,7 @@
   <slot>on_btnEnvoiDemande_cliked()</slot>
   <slot>on_btnOuvrirBarriere_clicked()</slot>
   <slot>on_btnCasparCas_cliked()</slot>
+  <slot>on_btnGestionGlobale_cliked()</slot>
+  <slot>on_btnManuel_cliked()</slot>
  </slots>
 </ui>
