@@ -43,7 +43,7 @@
     <ClCompile Include="DatabaseConnect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Functions.cpp">
+    <ClCompile Include="Plate_Management.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -51,7 +51,7 @@
     <ClInclude Include="DatabaseConnect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Functions.h">
+    <ClInclude Include="Plate_Management.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
