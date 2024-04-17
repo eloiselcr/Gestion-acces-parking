@@ -55,7 +55,7 @@ void ClientSimulation::onSocketReadyRead()
         QJsonObject reponsePlaque;
         QJsonArray tableauDonnees;
 
-        LicensePlate = "AA-508-CP";
+        LicensePlate = "JQ-657-ML";
 
         reponsePlaque["reponsePlaqueReco"] = LicensePlate;
 

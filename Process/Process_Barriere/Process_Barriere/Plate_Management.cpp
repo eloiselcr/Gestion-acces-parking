@@ -4,6 +4,7 @@
 #include <QSqlQuery>
 #include <QDateTime>
 
+
 void Plate_Management::AnalysePlaque(QString plaque, Ui::Process_BarriereClass& ui) {
 
 	QSqlQuery query1;
@@ -13,7 +14,7 @@ void Plate_Management::AnalysePlaque(QString plaque, Ui::Process_BarriereClass& 
 	query1.bindValue(":plaque", plaque);
 
 	if (!query1.exec()) {
-		qDebug() << "Erreur lors de l'execution de la requete SQL:" << query1.lastError().text();
+		qDebug() << "Erreur lors de l'execution de la requete SQL : " << query1.lastError().text();
 		return;
 	}
 
@@ -21,7 +22,7 @@ void Plate_Management::AnalysePlaque(QString plaque, Ui::Process_BarriereClass& 
 		QString nom = query1.value(0).toString(); // récupère le nom
 		QString prenom = query1.value(1).toString(); // récupère le prenom
 		QString statut = query1.value(2).toString(); // récupère le statut
-		QDateTime date = query1.value(3).toDateTime(); // récupère la date
+		QDateTime date = query1.value(3).toDateTime(); // récupère la date                                      
 		int iduser = query1.value(4).toInt(); // récupère l'iduser
 
 		qDebug() << "Nom : " << nom;
@@ -32,11 +33,12 @@ void Plate_Management::AnalysePlaque(QString plaque, Ui::Process_BarriereClass& 
 		qDebug() << "iduser : " << iduser;
 		ui.label_ImmatriculationDisplay->setText(plaque);
 
+
 		if (statut == "Refusee") {
 			ui.label_StatutVehiculeDisplay->setText("Le vehicule a ete refuse par l'administration.");
 			ui.widget_SupervisionBarriere->setVisible(true);
 		}
-		else if (statut == "Traitement en cour") {
+		else if (statut == "Traitement en cours") {
 			ui.label_StatutVehiculeDisplay->setText("La demande pour ce vehicule est en cours de traitement.");
 			// ui.widget_SupervisionBarriere->setVisible(true);
 		}
@@ -50,17 +52,17 @@ void Plate_Management::AnalysePlaque(QString plaque, Ui::Process_BarriereClass& 
 			ui.widget_SupervisionBarriere->setVisible(true);
 		}
 		else if (statut == "Validee") {
-			QDateTime dateActuelle = QDateTime::currentDateTime();
+			QDateTime dateActuelle = QDateTime::currentDateTime(); // date actuelle
 			QDateTime dateLimite = dateActuelle.addYears(-1);
 
-			if (date > dateLimite) {
-				qDebug() << "Date de validite valide";
-				ui.label_StatutVehiculeDisplay->setText("Vehicule valide.");
-			}
-			else {
+			if (dateActuelle > dateLimite) { // Comparaison inversée
 				qDebug() << "Date de validite expiree";
 				ui.label_StatutVehiculeDisplay->setText("Vehicule avec une validite expiree.");
 				ui.widget_SupervisionBarriere->setVisible(true);
+			}
+			else {
+				qDebug() << "Date de validite valide";
+				ui.label_StatutVehiculeDisplay->setText("Vehicule valide.");
 			}
 		}
 	}
@@ -103,7 +105,7 @@ void Plate_Management::on_btnOuvrirBarriere_clicked(QString plaque, Ui::Process_
 	else if (statut == "Informations demande") {
 		motif = "Informations supplementaires demandees";
 	}
-	else if (statut == "Plaque inconnue") {
+	else if (statut == "") {
 		motif = "Plaque inconnue dans la base de donnees";
 	}
 	else if (statut == "Validee") { // en sachant que le bouton n'est visible que si plaque = validité expirée

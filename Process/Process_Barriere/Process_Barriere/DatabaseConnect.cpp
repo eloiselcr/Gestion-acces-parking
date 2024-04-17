@@ -3,7 +3,7 @@
 DatabaseConnect::DatabaseConnect()
 {
 	db = QSqlDatabase::addDatabase("QMYSQL");
-	db.setHostName("192.168.1.56");
+	db.setHostName("192.168.65.167");
 	db.setDatabaseName("parking");
 	db.setUserName("root");
 	db.setPassword("root");
