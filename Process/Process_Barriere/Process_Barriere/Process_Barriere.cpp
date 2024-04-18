@@ -67,7 +67,7 @@ void Process_Barriere::onClientReadyRead()
 		ui.label_StatutClientDisplay->setText("Plaque recue.");
 		ui.label_ImmatriculationDisplay->setText(plaque);
 		qDebug() << "=== FIN INTERRACTION CLIENT ===\n";
-		Plate_Management::AnalysePlaque(plaque, ui);
+		Plate_Management::AnalysePlaque(plaque, modeActif, ui);
 	}
 }
 

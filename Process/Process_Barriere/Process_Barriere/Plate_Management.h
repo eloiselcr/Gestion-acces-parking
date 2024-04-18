@@ -12,11 +12,12 @@ class Process_Barriere;
 class Plate_Management {
 
 public:
-    static void AnalysePlaque(QString plaque, Ui::Process_BarriereClass& ui);
-    static void GestionMode(Mode modeActif, const QString& statut, Ui::Process_BarriereClass& ui);
+    static void AnalysePlaque(QString plaque, Mode modeactif, Ui::Process_BarriereClass& ui);
+    static void GestionMode(QString plaque, Mode modeActif, const QString& statut, Ui::Process_BarriereClass& ui);
 
 private slots:
-    void Plate_Management::on_btnOuvrirBarriere_clicked(QString plaque, Ui::Process_BarriereClass& ui);
+    void Plate_Management::on_btnOuvrirBarriere_clicked(QString plaque, Mode modeActif, Ui::Process_BarriereClass& ui);
+    void Plate_Management::DirectSendSQL(QString plaque, Mode modeActif, Ui::Process_BarriereClass& ui);
     
 private: 
     QString nom;

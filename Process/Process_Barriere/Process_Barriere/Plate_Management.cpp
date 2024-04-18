@@ -6,7 +6,7 @@
 #include "Process_Barriere.h"
 
 
-void Plate_Management::AnalysePlaque(QString plaque, Ui::Process_BarriereClass& ui) 
+void Plate_Management::AnalysePlaque(QString plaque, Mode modeActif, Ui::Process_BarriereClass& ui) 
 {
 	qDebug() << "\n=== DEBUT ANALYSE PLAQUE ===";
 	QSqlQuery query1;
@@ -35,7 +35,6 @@ void Plate_Management::AnalysePlaque(QString plaque, Ui::Process_BarriereClass& 
 		qDebug() << "Date effective :" << date.toString();
 		qDebug() << "iduser : " << iduser;
 		ui.label_ImmatriculationDisplay->setText(plaque);
-
 
 		if (statut == "Refusee") {
 			ui.label_StatutVehiculeDisplay->setText("Le vehicule a ete refuse par l'administration.");
@@ -66,19 +65,108 @@ void Plate_Management::AnalysePlaque(QString plaque, Ui::Process_BarriereClass& 
 			}
 			else {
 				qDebug() << "Date de validite valide";
-				ui.label_StatutVehiculeDisplay->setText("Vehicule valide.");
+				ui.label_StatutVehiculeDisplay->setText("Vehicule valide."); 
 			}
 		}
-		qDebug() << "=== FIN ANALYSE PLAQUE ===\n";
+		GestionMode(plaque, modeActif, statut, ui);
 	}
 }
 
-void Plate_Management::GestionMode(Mode modeActif, const QString& statut, Ui::Process_BarriereClass& ui)
+
+void Plate_Management::GestionMode(QString plaque, Mode modeActif, const QString& statut, Ui::Process_BarriereClass& ui)
+{
+	switch (modeActif) {
+	// Cette fonction oriente vers les bonnes fonctions en fonction du Mode actif et du Statut.
+	qDebug() << "Entree dans le Process Gestion Mode";
+	
+	case CasparCas:
+		if (statut == "Refusee" || "Traitement en cours" || "Informations demandees" || "" || "Validee mais expiree") {
+			ui.widget_SupervisionBarriere->setVisible(true);
+		}
+		else {
+			// DirectSendSQL
+		}
+		break;
+
+	case GestionGlobale:
+		// DirectSendSQL;
+		break;
+
+	case Manuel:
+		ui.widget_SupervisionBarriere->setVisible(true);
+		break;
+	}
+
+}
+
+
+// CETTE FONCTION ENVOI EN BDD DANS "ACCES" TOUTES LES VOITURES VALIDES : TOUS LES MODES SONT CONCERNES
+void Plate_Management::DirectSendSQL(QString plaque, Mode modeActif, Ui::Process_BarriereClass& ui)
 {
 	switch (modeActif) {
 
 	case CasparCas:
+		QSqlQuery queryCPCValid;
+		if (statut == "Validee") {
+			QString motif = "Vehicule refuse par l'administration.";
+			QSqlQuery query;
+			query.prepare("INSERT INTO Acces_SansDemande (date_horaire, immatriculation, motif) VALUES (:date, :immatriculation, :motif)");
+			query.bindValue(":date", QDateTime::currentDateTime());
+			query.bindValue(":immatriculation", plaque);
+			query.bindValue(":motif", motif);
+			if (!query.exec()) {
+				qDebug() << "Erreur lors de l'insertion dans la table Acces_SansDemande:" << query.lastError().text();
+			}
+			else {
+				qDebug() << "Insertion dans la table Acces_SansDemande reussie.";
+				// Ouvrir la barrière
+			}
+			// Ouvrir la barriere
+		}
+
+	}
+}
+
+
+
+// CETTE FONCTION ENVOI EN BDD DANS "ACCES_SANSDEMANDE" TOUTES LES VOITURES NON VALIDES: TOUS LES MODES SONT CONCERNES
+void Plate_Management::on_btnOuvrirBarriere_clicked(QString plaque,Mode modeActif, Ui::Process_BarriereClass& ui) 
+{
+
+	// Déroulement : on prépare différents motif de base, puis une query principale sans le bindValue motif. 
+	// Ensuite dans le switch, on rajoute le bindValue avec le motif associé.
+	// A la toute fin, on exécute
+
+	QSqlQuery query;
+	// ON créer différent mods 
+	QString motif1 = "Vehicule refuse par l'administration.";
+	QString motif2 = "Vehicule  par l'administration.";
+	
+
+	switch (modeActif) {
+
+	case CasparCas:
 		qDebug() << "Entree dans le Process Gestion Mode";
+
+		query.prepare("INSERT INTO Acces_SansDemande (date_horaire, immatriculation, motif) VALUES (:date, :immatriculation, :motif)");
+		query.bindValue(":date", QDateTime::currentDateTime());
+		query.bindValue(":immatriculation", plaque);
+		query.bindValue(":motif", motif);
+
+		if (statut == "Validee mais expiree") {
+			
+			QSqlQuery query;
+
+			if (!query.exec()) {
+				qDebug() << "Erreur lors de l'insertion dans la table Acces_SansDemande:" << query.lastError().text();
+			}
+			else {
+				qDebug() << "Insertion dans la table Acces_SansDemande reussie.";
+				// Ouvrir la barrière
+			}
+			// Ouvrir la barriere
+		}
+
 		if (statut == "Validee mais expiree") {
 			ui.widget_SupervisionBarriere->setVisible(true);
 		}
@@ -87,20 +175,17 @@ void Plate_Management::GestionMode(Mode modeActif, const QString& statut, Ui::Pr
 
 	case GestionGlobale:
 		qDebug() << "Entree dans le Process Gestion Mode";
+		if (statut == "Refusee") {
+
+		}
 		break;
 
 	case Manuel:
 		qDebug() << "Entree dans le Process Gestion Mode";
 		break;
 	}
-}
 
-
-// DANS TOUS LES CAS, IL FAUT ENREGISTRER LE MOTIF DE PROBLEME, ON AFFICHE PAS ENCORE LA SUPERVISION DANS MOTIF
-
-
-void Plate_Management::on_btnOuvrirBarriere_clicked(QString plaque, Ui::Process_BarriereClass& ui) {
-	// Déterminer le motif de problème en fonction du statut
+	/*
 	QString motif;
 	qDebug() << "Entree dans le mode Supervision";
 	qDebug() << "Statut du vehicule:" << statut;
@@ -136,7 +221,9 @@ void Plate_Management::on_btnOuvrirBarriere_clicked(QString plaque, Ui::Process_
 		qDebug() << "Insertion dans la table Acces_SansDemande reussie.";
 		// Ouvrir la barrière
 	}
+	*/
 }
+
 
 /*
 query2.prepare("INSERT INTO Acces (date_horaire, id_demande) VALUES (:date, :id_demande)");
