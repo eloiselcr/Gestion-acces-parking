@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QSqlQuery>
 #include <QDateTime>
+#include "Process_Barriere.h"
 
 
 void Plate_Management::AnalysePlaque(QString plaque, Ui::Process_BarriereClass& ui) {
@@ -68,22 +69,20 @@ void Plate_Management::AnalysePlaque(QString plaque, Ui::Process_BarriereClass& 
 	}
 }
 
-
-/*void GestionMode(Process_Barriere::Mode modeActif, Ui::Process_BarriereClass& ui)
+void Plate_Management::GestionMode(Mode modeActif, Ui::Process_BarriereClass& ui)
 {
 	switch (modeActif) {
 
-	case Process_Barriere::CasparCas:
+	case CasparCas:
 		break;
 
-	case Process_Barriere::GestionGlobale:
+	case GestionGlobale:
 		break;
 
-	case Process_Barriere::Manuel:
+	case Manuel:
 		break;
 	}
 }
-*/
 
 
 // DANS TOUS LES CAS, IL FAUT ENREGISTRER LE MOTIF DE PROBLEME, ON AFFICHE PAS ENCORE LA SUPERVISION DANS MOTIF

@@ -54,5 +54,8 @@
     <ClInclude Include="Plate_Management.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Mode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

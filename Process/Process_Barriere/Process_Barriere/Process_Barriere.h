@@ -5,7 +5,7 @@
 #include "Plate_Management.h"
 #include <QTcpServer>
 #include <QTcpSocket>
-
+#include "Mode.h"
 
 class Process_Barriere : public QMainWindow
 {
@@ -17,12 +17,6 @@ public:
 	~Process_Barriere();
 
 	QString plaque;
-
-	enum Mode {
-		CasparCas,
-		GestionGlobale,
-		Manuel
-	};
 
 	Mode modeActif;
 
