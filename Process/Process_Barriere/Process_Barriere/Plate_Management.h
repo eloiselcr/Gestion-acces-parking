@@ -13,7 +13,7 @@ class Plate_Management {
 
 public:
     static void AnalysePlaque(QString plaque, Ui::Process_BarriereClass& ui);
-    static void GestionMode(Mode modeActif, Ui::Process_BarriereClass& ui);
+    static void GestionMode(Mode modeActif, const QString& statut, Ui::Process_BarriereClass& ui);
 
 private slots:
     void Plate_Management::on_btnOuvrirBarriere_clicked(QString plaque, Ui::Process_BarriereClass& ui);

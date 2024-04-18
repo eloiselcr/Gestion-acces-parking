@@ -53,6 +53,7 @@ void Process_Barriere::onClientReadyRead()
 	// Etape 1 : Le vehicule a ete detecte
 	if (jsonMessage.contains("InfoVeh") && jsonMessage["InfoVeh"].toString() == "VehiculeDetecter")
 	{
+		qDebug() << "Vehicule detecte par le client.";
 		ui.label_VehiculePresenceDisplay->setText("Vehicule detecte");
 		sendLicensePlateRequest();
 		return;
@@ -63,8 +64,9 @@ void Process_Barriere::onClientReadyRead()
 		plaque = jsonMessage["reponsePlaqueReco"].toString(); // Affectation de la valeur de plaque
 		qDebug() << "Plaque recue :" << plaque;
 
-		ui.label_StatutClientDisplay->setText("Plaque recue");
+		ui.label_StatutClientDisplay->setText("Plaque recue.");
 		ui.label_ImmatriculationDisplay->setText(plaque);
+		qDebug() << "=== FIN INTERRACTION CLIENT ===\n";
 		Plate_Management::AnalysePlaque(plaque, ui);
 	}
 }
@@ -72,6 +74,8 @@ void Process_Barriere::onClientReadyRead()
 void Process_Barriere::sendLicensePlateRequest()
 {
 	if (clientConnection) {
+		qDebug() << "Envoi de la demande de reconnaissance de plaque.";
+
 		QJsonObject message;
 		QJsonArray tableauDonnees;
 

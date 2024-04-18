@@ -2,15 +2,17 @@
 
 ClientSimulation::ClientSimulation(QObject* parent) : QObject(parent)
 {
+    qDebug() << "=== Programme pour simuler l'envoi d'une plaque par le client. ===\n\n";
+
     socketClient = new QTcpSocket(this);
 
     connect(socketClient, SIGNAL(connected()), this, SLOT(onSocketConnected()));
     connect(socketClient, SIGNAL(disconnected()), this, SLOT(onSocketDisconnected()));
     connect(socketClient, SIGNAL(readyRead()), this, SLOT(onSocketReadyRead()));
 
+    qDebug() << "Tentavie de connexion au serveur";
     socketClient->connectToHost("127.0.0.1", 1234);
-
-    qDebug() << "=== Programme pour simuler l'envoi d'une plaque par le client. ===\n\n";
+   
 }
 
 void ClientSimulation::onSocketConnected()
@@ -55,6 +57,8 @@ void ClientSimulation::onSocketReadyRead()
         QJsonObject reponsePlaque;
         QJsonArray tableauDonnees;
 
+        qDebug() << "Requete de reconnaisance de plaque recu. Repondre au serveur";
+
         LicensePlate = "JQ-657-ML";
 
         reponsePlaque["reponsePlaqueReco"] = LicensePlate;
@@ -64,6 +68,7 @@ void ClientSimulation::onSocketReadyRead()
 
         if (socketClient->state() == QTcpSocket::ConnectedState) // Si le socket est bien connecté
             socketClient->write(jsonString.toUtf8()); // On envoie le message au serveur
+
         qDebug() << "\nMessage retourne au serveur !";
     }
 }

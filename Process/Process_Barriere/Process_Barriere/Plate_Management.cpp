@@ -6,13 +6,15 @@
 #include "Process_Barriere.h"
 
 
-void Plate_Management::AnalysePlaque(QString plaque, Ui::Process_BarriereClass& ui) {
-
+void Plate_Management::AnalysePlaque(QString plaque, Ui::Process_BarriereClass& ui) 
+{
+	qDebug() << "\n=== DEBUT ANALYSE PLAQUE ===";
 	QSqlQuery query1;
 	QSqlQuery query2;
 
 	query1.prepare("SELECT nom, prenom, statut, date, iduser FROM Demande_Vehicule WHERE immatriculation = :plaque");
 	query1.bindValue(":plaque", plaque);
+	qDebug() << "Requete SQL preparee : " << query1.lastQuery();
 
 	if (!query1.exec()) {
 		qDebug() << "Erreur lors de l'execution de la requete SQL : " << query1.lastError().text();
@@ -41,11 +43,11 @@ void Plate_Management::AnalysePlaque(QString plaque, Ui::Process_BarriereClass& 
 		}
 		else if (statut == "Traitement en cours") {
 			ui.label_StatutVehiculeDisplay->setText("La demande pour ce vehicule est en cours de traitement.");
-			// ui.widget_SupervisionBarriere->setVisible(true);
+			ui.widget_SupervisionBarriere->setVisible(true);
 		}
 		else if (statut == "Informations demandees") {
 			ui.label_StatutVehiculeDisplay->setText("Des informations supplementaires ont ete demandes pour ce vehicule.");
-			// ui.widget_SupervisionBarriere->setVisible(true);
+			ui.widget_SupervisionBarriere->setVisible(true);
 		}
 		else if (statut == "") {
 			qDebug() << "Plaque inconnue ou mal reconnue";
@@ -58,6 +60,7 @@ void Plate_Management::AnalysePlaque(QString plaque, Ui::Process_BarriereClass& 
 
 			if (dateActuelle > dateLimite) { // Comparaison inversée
 				qDebug() << "Date de validite expiree";
+				statut = "Validee mais expiree";
 				ui.label_StatutVehiculeDisplay->setText("Vehicule avec une validite expiree.");
 				ui.widget_SupervisionBarriere->setVisible(true);
 			}
@@ -66,20 +69,28 @@ void Plate_Management::AnalysePlaque(QString plaque, Ui::Process_BarriereClass& 
 				ui.label_StatutVehiculeDisplay->setText("Vehicule valide.");
 			}
 		}
+		qDebug() << "=== FIN ANALYSE PLAQUE ===\n";
 	}
 }
 
-void Plate_Management::GestionMode(Mode modeActif, Ui::Process_BarriereClass& ui)
+void Plate_Management::GestionMode(Mode modeActif, const QString& statut, Ui::Process_BarriereClass& ui)
 {
 	switch (modeActif) {
 
 	case CasparCas:
+		qDebug() << "Entree dans le Process Gestion Mode";
+		if (statut == "Validee mais expiree") {
+			ui.widget_SupervisionBarriere->setVisible(true);
+		}
+
 		break;
 
 	case GestionGlobale:
+		qDebug() << "Entree dans le Process Gestion Mode";
 		break;
 
 	case Manuel:
+		qDebug() << "Entree dans le Process Gestion Mode";
 		break;
 	}
 }
