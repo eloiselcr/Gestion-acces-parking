@@ -15,7 +15,6 @@ Process_Barriere::Process_Barriere(QWidget* parent)
 	ui.stackedWidget->setCurrentIndex(0);
 	ui.widget_SCStatut->setVisible(false);
 	ui.edit_Mdp->setEchoMode(QLineEdit::Password);
-
 }
 
 Process_Barriere::~Process_Barriere()

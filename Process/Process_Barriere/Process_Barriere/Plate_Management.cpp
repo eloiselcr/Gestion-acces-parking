@@ -20,11 +20,11 @@ void Plate_Management::AnalysePlaque(QString plaque, Mode modeActif, Ui::Process
 	}
 
 	if (queryInfos.next()) {
-		QString nom = queryInfos.value(0).toString(); // rÈcupËre le nom
-		QString prenom = queryInfos.value(1).toString(); // rÈcupËre le prenom
-		QString statut = queryInfos.value(2).toString(); // rÈcupËre le statut
-		QDateTime date = queryInfos.value(3).toDateTime(); // rÈcupËre la date                                      
-		int iduser = queryInfos.value(4).toInt(); // rÈcupËre l'iduser
+		QString nom = queryInfos.value(0).toString(); // r√©cup√®re le nom
+		QString prenom = queryInfos.value(1).toString(); // r√©cup√®re le prenom
+		QString statut = queryInfos.value(2).toString(); // r√©cup√®re le statut
+		QDateTime date = queryInfos.value(3).toDateTime(); // r√©cup√®re la date                                      
+		int iduser = queryInfos.value(4).toInt(); // r√©cup√®re l'iduser
 
 		qDebug() << "Nom : " << nom;
 		qDebug() << "Prenom : " << prenom;
@@ -35,35 +35,35 @@ void Plate_Management::AnalysePlaque(QString plaque, Mode modeActif, Ui::Process
 		ui.label_ImmatriculationDisplay->setText(plaque);
 
 		if (statut == "Refusee") {
-			ui.label_StatutVehiculeDisplay->setText("Le vehicule a ete refuse par l'administration.");
+			ui.label_StatutVehiculeDisplay->setText("Le v√©hicule a ete refus√© par l'administration.");
 			ui.widget_SupervisionBarriere->setVisible(true);
 		}
 		else if (statut == "Traitement en cours") {
-			ui.label_StatutVehiculeDisplay->setText("La demande pour ce vehicule est en cours de traitement.");
+			ui.label_StatutVehiculeDisplay->setText("La demande pour ce v√©hicule est en cours de traitement.");
 			ui.widget_SupervisionBarriere->setVisible(true);
 		}
 		else if (statut == "Informations demandees") {
-			ui.label_StatutVehiculeDisplay->setText("Des informations supplementaires ont ete demandes pour ce vehicule.");
+			ui.label_StatutVehiculeDisplay->setText("Des informations suppl√©mentaires ont √©t√© demand√©es pour ce v√©hicule.");
 			ui.widget_SupervisionBarriere->setVisible(true);
 		}
 		else if (statut == "") {
 			qDebug() << "Plaque inconnue ou mal reconnue";
-			ui.label_StatutVehiculeDisplay->setText("Vehicule inconnu de la base de donnees.");
+			ui.label_StatutVehiculeDisplay->setText("V√©hicule inconnu de la base de donn√©es.");
 			ui.widget_SupervisionBarriere->setVisible(true);
 		}
 		else if (statut == "Validee") {
 			QDateTime dateActuelle = QDateTime::currentDateTime(); // date actuelle
 			QDateTime dateLimite = dateActuelle.addYears(-1);
 
-			if (dateActuelle > dateLimite) { // Comparaison inversÈe
+			if (dateActuelle > dateLimite) { // Comparaison invers√©e
 				qDebug() << "Date de validite expiree";
 				statut = "Validee mais expiree";
-				ui.label_StatutVehiculeDisplay->setText("Vehicule avec une validite expiree.");
+				ui.label_StatutVehiculeDisplay->setText("V√©hicule avec une validit√© expir√©e.");
 				ui.widget_SupervisionBarriere->setVisible(true);
 			}
 			else {
 				qDebug() << "Date de validite valide";
-				ui.label_StatutVehiculeDisplay->setText("Vehicule valide.");
+				ui.label_StatutVehiculeDisplay->setText("V√©hicule valid√©.");
 			}
 		}
 		GestionMode(plaque, modeActif, statut, iduser, ui);
@@ -122,7 +122,7 @@ void Plate_Management::DirectSendSQL(QString plaque, Mode modeActif, const QStri
 			qDebug() << "Erreur lors de l'insertion dans la table Acces:" << queryAcces.lastError().text();
 		}
 		else {
-			qDebug() << "Insertion dans la table Acces rÈussie.";
+			qDebug() << "Insertion dans la table Acces r√©ussie.";
 		}
 		break;
 
@@ -151,13 +151,13 @@ void Plate_Management::DirectSendSQL(QString plaque, Mode modeActif, const QStri
 			qDebug() << "Erreur lors de l'insertion dans la table Acces_SansDemande:" << queryAccesSD.lastError().text();
 		}
 		else {
-			qDebug() << "Insertion dans la table Acces_SansDemande rÈussie.";
-			// Code supplÈmentaire si nÈcessaire aprËs l'insertion rÈussie
+			qDebug() << "Insertion dans la table Acces_SansDemande r√©ussie.";
+			// Code suppl√©mentaire si n√©cessaire apr√®s l'insertion r√©ussie
 		}
 		break;
 
 	}
-	// On exÈcute
+	// On ex√©cute
 }
 
 
@@ -221,11 +221,11 @@ void Plate_Management::on_btnOuvrirBarriere_clicked(QString plaque, Mode modeAct
 	else if (statut == "") {
 		motif = "Plaque inconnue dans la base de donnees";
 	}
-	else if (statut == "Validee") { // en sachant que le bouton n'est visible que si plaque = validitÈ expirÈe
+	else if (statut == "Validee") { // en sachant que le bouton n'est visible que si plaque = validit√© expir√©e
 		motif = "Validite de la plaque expiree";
 	}
 
-	// Envoyer la requÍte d'insertion dans la table "Acces_SansDemande"
+	// Envoyer la requ√™te d'insertion dans la table "Acces_SansDemande"
 	QSqlQuery query;
 	query.prepare("INSERT INTO Acces_SansDemande (date_horaire, immatriculation, motif) VALUES (:date, :immatriculation, :motif)");
 	query.bindValue(":date", QDateTime::currentDateTime());
@@ -237,7 +237,7 @@ void Plate_Management::on_btnOuvrirBarriere_clicked(QString plaque, Mode modeAct
 	}
 	else {
 		qDebug() << "Insertion dans la table Acces_SansDemande reussie.";
-		// Ouvrir la barriËre
+		// Ouvrir la barri√®re
 	}
 	*/
 
@@ -246,7 +246,7 @@ void Plate_Management::on_btnOuvrirBarriere_clicked(QString plaque, Mode modeAct
 query2.prepare("INSERT INTO Acces (date_horaire, id_demande) VALUES (:date, :id_demande)");
 query2.bindValue(":date", QDateTime::currentDateTime());
 query2.bindValue(":id_demande", iduser);
-if (!query2.exec()) { // ExÈcuter la requÍte d'insertion
+if (!query2.exec()) { // Ex√©cuter la requ√™te d'insertion
 	qDebug() << "Erreur lors de l'insertion dans la table Acces:" << query2.lastError().text();
 }
 else {

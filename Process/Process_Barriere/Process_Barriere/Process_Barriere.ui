@@ -58,7 +58,7 @@
      <string>GESTION DE LA BARRIERE</string>
     </property>
    </widget>
-   <widget class="Line" name="line">
+   <widget class="Line" name="line_Accueil">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -282,6 +282,46 @@ color: rgb(255, 255, 255);</string>
          <string/>
         </property>
        </widget>
+       <widget class="QPushButton" name="btn_GestionGlobaleHome">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>380</y>
+          <width>271</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border-radius: 10px;
+border: 2px solid black;
+padding: 5px;
+color: rgb(255, 255, 255);
+background-color: rgb(51, 212, 6);</string>
+        </property>
+        <property name="text">
+         <string>Mode Gestion Globale (invité)</string>
+        </property>
+       </widget>
+       <widget class="Line" name="line_FormConnect">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>340</y>
+          <width>351</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
        <zorder>label_Login</zorder>
        <zorder>edit_Login</zorder>
        <zorder>label_Mdp</zorder>
@@ -290,6 +330,8 @@ color: rgb(255, 255, 255);</string>
        <zorder>label_ErrorConnect</zorder>
        <zorder>label_TitleConnexion</zorder>
        <zorder>img_key</zorder>
+       <zorder>btn_GestionGlobaleHome</zorder>
+       <zorder>line_FormConnect</zorder>
       </widget>
       <widget class="QLabel" name="img_LogoParking">
        <property name="geometry">
@@ -323,7 +365,7 @@ color: rgb(255, 255, 255);</string>
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>100</y>
+         <y>120</y>
          <width>161</width>
          <height>41</height>
         </rect>
@@ -363,7 +405,7 @@ color: rgb(255, 255, 255);</string>
        <property name="geometry">
         <rect>
          <x>60</x>
-         <y>10</y>
+         <y>20</y>
          <width>281</width>
          <height>51</height>
         </rect>
@@ -374,7 +416,7 @@ color: rgb(255, 255, 255);</string>
          <weight>50</weight>
          <italic>true</italic>
          <bold>false</bold>
-         <underline>true</underline>
+         <underline>false</underline>
         </font>
        </property>
        <property name="text">
@@ -388,9 +430,30 @@ color: rgb(255, 255, 255);</string>
        <property name="geometry">
         <rect>
          <x>80</x>
-         <y>160</y>
+         <y>180</y>
          <width>251</width>
          <height>71</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>16</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_StatutVehiculeDisplay">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>340</y>
+         <width>351</width>
+         <height>111</height>
         </rect>
        </property>
        <property name="font">
@@ -405,25 +468,17 @@ color: rgb(255, 255, 255);</string>
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <widget class="QLabel" name="label_StatutVehiculeDisplay">
+      <widget class="Line" name="line_InfosVehicule">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>330</y>
-         <width>351</width>
-         <height>121</height>
+         <x>100</x>
+         <y>80</y>
+         <width>211</width>
+         <height>16</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </widget>
@@ -439,10 +494,10 @@ color: rgb(255, 255, 255);</string>
       <widget class="QPushButton" name="btn_GestionGlobale">
        <property name="geometry">
         <rect>
-         <x>60</x>
+         <x>70</x>
          <y>230</y>
          <width>141</width>
-         <height>41</height>
+         <height>51</height>
         </rect>
        </property>
        <property name="font">
@@ -453,7 +508,7 @@ color: rgb(255, 255, 255);</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 255, 255);
+        <string notr="true">background-color: rgb(51, 212, 6);
 border-radius: 15px;
 border: 2px solid white;</string>
        </property>
@@ -464,8 +519,8 @@ border: 2px solid white;</string>
       <widget class="QPushButton" name="btn_CasparCas">
        <property name="geometry">
         <rect>
-         <x>60</x>
-         <y>120</y>
+         <x>70</x>
+         <y>140</y>
          <width>141</width>
          <height>41</height>
         </rect>
@@ -478,9 +533,8 @@ border: 2px solid white;</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 255, 255);
-border-radius: 15px;
-border: 2px solid white;</string>
+        <string notr="true">background-color: rgb(255, 179, 0);
+border-radius: 15px;</string>
        </property>
        <property name="text">
         <string>Cas-par-Cas</string>
@@ -489,10 +543,10 @@ border: 2px solid white;</string>
       <widget class="QPushButton" name="btn_Manuel">
        <property name="geometry">
         <rect>
-         <x>60</x>
+         <x>70</x>
          <y>330</y>
          <width>141</width>
-         <height>41</height>
+         <height>51</height>
         </rect>
        </property>
        <property name="font">
@@ -503,7 +557,7 @@ border: 2px solid white;</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 255, 255);
+        <string notr="true">background-color: rgb(85, 170, 255);
 border-radius: 15px;
 border: 2px solid white;</string>
        </property>
@@ -514,24 +568,37 @@ border: 2px solid white;</string>
       <widget class="QLabel" name="label_TilteChangeMode">
        <property name="geometry">
         <rect>
-         <x>50</x>
-         <y>20</y>
+         <x>40</x>
+         <y>30</y>
          <width>191</width>
-         <height>41</height>
+         <height>61</height>
         </rect>
        </property>
        <property name="font">
         <font>
          <pointsize>16</pointsize>
          <italic>true</italic>
-         <underline>true</underline>
+         <underline>false</underline>
         </font>
        </property>
        <property name="text">
-        <string>Changer de mode</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Sélection du Mode &lt;/p&gt;&lt;p&gt;de Fonctionnement&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="Line" name="line_ChoixModes">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>100</y>
+         <width>211</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </widget>
@@ -540,23 +607,29 @@ border: 2px solid white;</string>
        <rect>
         <x>790</x>
         <y>230</y>
-        <width>351</width>
+        <width>321</width>
         <height>251</height>
        </rect>
       </property>
       <widget class="QPushButton" name="btn_OuvertureBarriere">
        <property name="geometry">
         <rect>
-         <x>110</x>
-         <y>110</y>
-         <width>131</width>
+         <x>80</x>
+         <y>140</y>
+         <width>161</width>
          <height>51</height>
         </rect>
        </property>
        <property name="font">
         <font>
          <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-radius: 15px;
+background-color: rgb(255, 255, 255);</string>
        </property>
        <property name="text">
         <string>Ouvrir la barrière</string>
@@ -565,7 +638,7 @@ border: 2px solid white;</string>
       <widget class="QLabel" name="label_SupervisionTitle">
        <property name="geometry">
         <rect>
-         <x>30</x>
+         <x>20</x>
          <y>10</y>
          <width>281</width>
          <height>51</height>
@@ -577,7 +650,7 @@ border: 2px solid white;</string>
          <weight>50</weight>
          <italic>true</italic>
          <bold>false</bold>
-         <underline>true</underline>
+         <underline>false</underline>
         </font>
        </property>
        <property name="text">
@@ -587,13 +660,26 @@ border: 2px solid white;</string>
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
+      <widget class="Line" name="line_SupervisionBarriere">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>60</y>
+         <width>211</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
      </widget>
      <widget class="QWidget" name="widget_InfosGlobal" native="true">
       <property name="geometry">
        <rect>
         <x>790</x>
         <y>20</y>
-        <width>351</width>
+        <width>321</width>
         <height>191</height>
        </rect>
       </property>
@@ -717,7 +803,7 @@ border: 2px solid white;</string>
         <string/>
        </property>
        <property name="alignment">
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
        </property>
       </widget>
      </widget>
@@ -791,7 +877,7 @@ border: 2px solid white;</string>
       <string/>
      </property>
      <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="label_StatutClientDisplay">
@@ -812,7 +898,7 @@ border: 2px solid white;</string>
       <string/>
      </property>
      <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
      </property>
     </widget>
    </widget>
@@ -881,7 +967,7 @@ border: 2px solid white;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: qlineargradient(spread:pad, x1:0.975, y1:1, x2:1, y2:0, stop:0 rgba(255, 255, 255, 255), stop:0.308824 rgba(254, 254, 254, 255), stop:0.98 rgba(203, 203, 203, 255), stop:1 rgba(0, 0, 0, 0));
+     <string notr="true">background-color: qlineargradient(spread:pad, x1:0.975, y1:1, x2:1, y2:0, stop:0 rgba(255, 255, 255, 255), stop:0.308824 rgba(254, 254, 254, 255), stop:0.98 rgba(219, 219, 219, 255), stop:1 rgba(0, 0, 0, 0));
 border-radius: 15px;
 </string>
     </property>
@@ -890,7 +976,7 @@ border-radius: 15px;
    <zorder>background_white</zorder>
    <zorder>background_gradient</zorder>
    <zorder>label_TitleGestion</zorder>
-   <zorder>line</zorder>
+   <zorder>line_Accueil</zorder>
    <zorder>stackedWidget</zorder>
    <zorder>widget_SCStatut</zorder>
    <zorder>img_LaProLogo</zorder>
