@@ -17,8 +17,4 @@ DatabaseConnect::DatabaseConnect()
 	}
 }
 
-bool DatabaseConnect::isConnected() const
-{
-	return db.isOpen();
-}
 

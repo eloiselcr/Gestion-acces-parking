@@ -3,7 +3,6 @@
 #include <QDebug>
 #include <QSqlQuery>
 #include <QDateTime>
-#include "Process_Barriere.h"
 
 
 void Plate_Management::AnalysePlaque(QString plaque, Mode modeActif, Ui::Process_BarriereClass& ui)

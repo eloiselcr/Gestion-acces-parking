@@ -16,14 +16,6 @@ Process_Barriere::Process_Barriere(QWidget* parent)
 	ui.widget_SCStatut->setVisible(false);
 	ui.edit_Mdp->setEchoMode(QLineEdit::Password);
 
-
-	// Vérification si la BDD est accessible
-	/*if (DatabaseConnect.isConnected()) { // A REGLER
-	ui.label_BDDVerif->setText("Non");
-	}
-	else {
-	ui.label_BDDVerif->setText("Oui");
-	}*/
 }
 
 Process_Barriere::~Process_Barriere()
@@ -113,6 +105,7 @@ void Process_Barriere::on_btnAccesConnexion_clicked() // Form Connexion
 		ui.stackedWidget->setCurrentIndex(1);
 		ui.widget_SCStatut->setVisible(true);
 		ui.widget_SupervisionBarriere->setVisible(false);
+		ui.label_BienvenueTexte->setVisible(false);
 
 		qDebug() << "ID corrects";
 	}

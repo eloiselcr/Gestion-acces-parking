@@ -1,7 +1,8 @@
 <RCC>
     <qresource prefix="/Process_Barriere">
         <file>ressources/logo_lapro.png</file>
-        <file>ressources/backrgound_accueil.jpg</file>
         <file>ressources/la2.png</file>
+        <file>ressources/key.png</file>
+        <file>ressources/parking_logo.png</file>
     </qresource>
 </RCC>

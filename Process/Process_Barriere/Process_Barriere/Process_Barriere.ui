@@ -37,17 +37,25 @@
      <rect>
       <x>20</x>
       <y>10</y>
-      <width>331</width>
+      <width>391</width>
       <height>71</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>24</pointsize>
+      <family>MS Sans Serif</family>
+      <pointsize>22</pointsize>
+      <weight>9</weight>
+      <italic>true</italic>
+      <bold>false</bold>
+      <underline>false</underline>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">font: 75 italic 22pt &quot;MS Sans Serif&quot;;</string>
+    </property>
     <property name="text">
-     <string>Gestion de la barrière</string>
+     <string>GESTION DE LA BARRIERE</string>
     </property>
    </widget>
    <widget class="Line" name="line">
@@ -63,57 +71,6 @@
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QWidget" name="widget_BDDAcess" native="true">
-    <property name="geometry">
-     <rect>
-      <x>940</x>
-      <y>600</y>
-      <width>191</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <widget class="QLabel" name="label_BDDAcces">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>20</y>
-       <width>91</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>Accès BDD : </string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_BDDVerif">
-     <property name="geometry">
-      <rect>
-       <x>100</x>
-       <y>20</y>
-       <width>71</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-     </property>
-    </widget>
-   </widget>
    <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
@@ -124,14 +81,14 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="interface_accueil">
      <widget class="QWidget" name="widget_Accueil" native="true">
       <property name="geometry">
        <rect>
-        <x>-10</x>
-        <y>20</y>
+        <x>1</x>
+        <y>61</y>
         <width>1121</width>
         <height>471</height>
        </rect>
@@ -140,7 +97,7 @@
        <property name="geometry">
         <rect>
          <x>630</x>
-         <y>0</y>
+         <y>-10</y>
          <width>501</width>
          <height>471</height>
         </rect>
@@ -153,33 +110,46 @@
          <rect>
           <x>40</x>
           <y>30</y>
-          <width>131</width>
-          <height>71</height>
+          <width>251</width>
+          <height>61</height>
          </rect>
         </property>
         <property name="font">
          <font>
+          <family>MS Sans Serif</family>
           <pointsize>16</pointsize>
-          <italic>true</italic>
+          <weight>9</weight>
+          <italic>false</italic>
+          <bold>false</bold>
          </font>
         </property>
+        <property name="styleSheet">
+         <string notr="true">font: 75 16pt &quot;MS Sans Serif&quot;;</string>
+        </property>
         <property name="text">
-         <string>Connexion</string>
+         <string>Connexion à votre espace</string>
         </property>
        </widget>
        <widget class="QLabel" name="label_Login">
         <property name="geometry">
          <rect>
-          <x>110</x>
-          <y>150</y>
+          <x>90</x>
+          <y>100</y>
           <width>71</width>
           <height>31</height>
          </rect>
         </property>
         <property name="font">
          <font>
-          <pointsize>12</pointsize>
+          <family>MS Sans Serif</family>
+          <pointsize>13</pointsize>
+          <weight>50</weight>
+          <italic>true</italic>
+          <bold>false</bold>
          </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font: italic 13pt &quot;MS Sans Serif&quot;;</string>
         </property>
         <property name="text">
          <string>Login</string>
@@ -191,9 +161,9 @@
        <widget class="QLineEdit" name="edit_Login">
         <property name="geometry">
          <rect>
-          <x>230</x>
-          <y>150</y>
-          <width>171</width>
+          <x>90</x>
+          <y>130</y>
+          <width>291</width>
           <height>20</height>
          </rect>
         </property>
@@ -201,16 +171,23 @@
        <widget class="QLabel" name="label_Mdp">
         <property name="geometry">
          <rect>
-          <x>110</x>
-          <y>190</y>
-          <width>101</width>
+          <x>90</x>
+          <y>170</y>
+          <width>111</width>
           <height>41</height>
          </rect>
         </property>
         <property name="font">
          <font>
-          <pointsize>12</pointsize>
+          <family>MS Sans Serif</family>
+          <pointsize>13</pointsize>
+          <weight>50</weight>
+          <italic>true</italic>
+          <bold>false</bold>
          </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font: italic 13pt &quot;MS Sans Serif&quot;;</string>
         </property>
         <property name="text">
          <string>Mot de passe</string>
@@ -222,9 +199,9 @@
        <widget class="QLineEdit" name="edit_Mdp">
         <property name="geometry">
          <rect>
-          <x>230</x>
-          <y>200</y>
-          <width>171</width>
+          <x>90</x>
+          <y>210</y>
+          <width>291</width>
           <height>20</height>
          </rect>
         </property>
@@ -232,20 +209,43 @@
        <widget class="QPushButton" name="btn_AccesConnexion">
         <property name="geometry">
          <rect>
-          <x>320</x>
-          <y>240</y>
-          <width>81</width>
+          <x>160</x>
+          <y>290</y>
+          <width>151</width>
           <height>31</height>
          </rect>
         </property>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border-radius: 15px;
+background-color: rgb(0, 60, 202);
+border: 2px solid white;
+padding: 5px;
+color: rgb(255, 255, 255);</string>
+        </property>
         <property name="text">
          <string>Accéder</string>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
         </property>
        </widget>
        <widget class="QLabel" name="label_ErrorConnect">
         <property name="geometry">
          <rect>
-          <x>40</x>
+          <x>90</x>
           <y>250</y>
           <width>281</width>
           <height>21</height>
@@ -256,11 +256,30 @@
           <italic>true</italic>
          </font>
         </property>
+        <property name="styleSheet">
+         <string notr="true">color: red;</string>
+        </property>
         <property name="text">
          <string/>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="img_key">
+        <property name="geometry">
+         <rect>
+          <x>280</x>
+          <y>40</y>
+          <width>41</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">image: url(:/Process_Barriere/ressources/key.png);</string>
+        </property>
+        <property name="text">
+         <string/>
         </property>
        </widget>
        <zorder>label_Login</zorder>
@@ -270,23 +289,23 @@
        <zorder>btn_AccesConnexion</zorder>
        <zorder>label_ErrorConnect</zorder>
        <zorder>label_TitleConnexion</zorder>
+       <zorder>img_key</zorder>
       </widget>
-      <widget class="QWidget" name="background" native="true">
+      <widget class="QLabel" name="img_LogoParking">
        <property name="geometry">
         <rect>
-         <x>120</x>
-         <y>20</y>
-         <width>441</width>
-         <height>451</height>
+         <x>160</x>
+         <y>90</y>
+         <width>371</width>
+         <height>251</height>
         </rect>
        </property>
-       <property name="layoutDirection">
-        <enum>Qt::LeftToRight</enum>
-       </property>
        <property name="styleSheet">
-        <string notr="true">background-image: url(:/Process_Barriere/ressources/backrgound_accueil.jpg);</string>
+        <string notr="true">background-image: url(:/Process_Barriere/ressources/parking_logo.png);</string>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout"/>
+       <property name="text">
+        <string/>
+       </property>
       </widget>
      </widget>
     </widget>
@@ -420,16 +439,23 @@
       <widget class="QPushButton" name="btn_GestionGlobale">
        <property name="geometry">
         <rect>
-         <x>70</x>
-         <y>240</y>
-         <width>131</width>
-         <height>31</height>
+         <x>60</x>
+         <y>230</y>
+         <width>141</width>
+         <height>41</height>
         </rect>
        </property>
        <property name="font">
         <font>
          <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255);
+border-radius: 15px;
+border: 2px solid white;</string>
        </property>
        <property name="text">
         <string>Gestion Globale</string>
@@ -438,16 +464,23 @@
       <widget class="QPushButton" name="btn_CasparCas">
        <property name="geometry">
         <rect>
-         <x>70</x>
-         <y>130</y>
-         <width>131</width>
-         <height>31</height>
+         <x>60</x>
+         <y>120</y>
+         <width>141</width>
+         <height>41</height>
         </rect>
        </property>
        <property name="font">
         <font>
          <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255);
+border-radius: 15px;
+border: 2px solid white;</string>
        </property>
        <property name="text">
         <string>Cas-par-Cas</string>
@@ -456,16 +489,23 @@
       <widget class="QPushButton" name="btn_Manuel">
        <property name="geometry">
         <rect>
-         <x>70</x>
-         <y>360</y>
-         <width>131</width>
-         <height>31</height>
+         <x>60</x>
+         <y>330</y>
+         <width>141</width>
+         <height>41</height>
         </rect>
        </property>
        <property name="font">
         <font>
          <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255);
+border-radius: 15px;
+border: 2px solid white;</string>
        </property>
        <property name="text">
         <string>Manuel</string>
@@ -522,7 +562,7 @@
         <string>Ouvrir la barrière</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_TitleInfos_2">
+      <widget class="QLabel" name="label_SupervisionTitle">
        <property name="geometry">
         <rect>
          <x>30</x>
@@ -636,7 +676,7 @@
         <string/>
        </property>
        <property name="alignment">
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
        </property>
       </widget>
       <widget class="QLabel" name="label_VehiculePresence">
@@ -776,7 +816,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QLabel" name="logo">
+   <widget class="QLabel" name="img_LaProLogo">
     <property name="geometry">
      <rect>
       <x>980</x>
@@ -795,42 +835,65 @@
    <widget class="QLabel" name="label_BienvenueTexte">
     <property name="geometry">
      <rect>
-      <x>50</x>
+      <x>40</x>
       <y>100</y>
-      <width>501</width>
+      <width>611</width>
       <height>31</height>
      </rect>
     </property>
     <property name="font">
      <font>
+      <family>MS Sans Serif</family>
       <pointsize>12</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;MS Sans Serif&quot;;</string>
     </property>
     <property name="text">
      <string>Bienvenue sur l'espace de gestion des modes de la barrière au sein de La Providence.</string>
     </property>
    </widget>
-   <widget class="QWidget" name="verticalWidget" native="true">
+   <widget class="QWidget" name="background_white" native="true">
     <property name="geometry">
      <rect>
-      <x>-1</x>
+      <x>9</x>
       <y>-1</y>
-      <width>1141</width>
-      <height>651</height>
+      <width>1131</width>
+      <height>661</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(255, 255, 255);</string>
     </property>
-    <layout class="QVBoxLayout" name="background_white"/>
+    <layout class="QVBoxLayout" name="verticalLayout_2"/>
    </widget>
-   <zorder>verticalWidget</zorder>
+   <widget class="QWidget" name="background_gradient" native="true">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>150</y>
+      <width>1061</width>
+      <height>481</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: qlineargradient(spread:pad, x1:0.975, y1:1, x2:1, y2:0, stop:0 rgba(255, 255, 255, 255), stop:0.308824 rgba(254, 254, 254, 255), stop:0.98 rgba(203, 203, 203, 255), stop:1 rgba(0, 0, 0, 0));
+border-radius: 15px;
+</string>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_4"/>
+   </widget>
+   <zorder>background_white</zorder>
+   <zorder>background_gradient</zorder>
    <zorder>label_TitleGestion</zorder>
    <zorder>line</zorder>
-   <zorder>widget_BDDAcess</zorder>
    <zorder>stackedWidget</zorder>
    <zorder>widget_SCStatut</zorder>
-   <zorder>logo</zorder>
+   <zorder>img_LaProLogo</zorder>
    <zorder>label_BienvenueTexte</zorder>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
@@ -863,22 +926,6 @@
   <include location="Process_Barriere.qrc"/>
  </resources>
  <connections>
-  <connection>
-   <sender>btn_AccesConnexion</sender>
-   <signal>clicked()</signal>
-   <receiver>Process_BarriereClass</receiver>
-   <slot>on_btnAccesConnexion_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>280</x>
-     <y>468</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>569</x>
-     <y>346</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>btn_OuvertureBarriere</sender>
    <signal>clicked()</signal>
@@ -936,6 +983,22 @@
     <hint type="sourcelabel">
      <x>145</x>
      <y>527</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>569</x>
+     <y>346</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_AccesConnexion</sender>
+   <signal>clicked()</signal>
+   <receiver>Process_BarriereClass</receiver>
+   <slot>on_btnAccesConnexion_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>280</x>
+     <y>468</y>
     </hint>
     <hint type="destinationlabel">
      <x>569</x>

@@ -1,3 +1,4 @@
+#include <qtimer.h>
 #include "ClientSimulation.h"
 
 ClientSimulation::ClientSimulation(QObject* parent) : QObject(parent)
@@ -20,7 +21,8 @@ void ClientSimulation::onSocketConnected()
     if (socketClient->state() == QTcpSocket::ConnectedState)
     {
         qDebug() << "Serveur connecte !\n";
-        sendVehicleDetection();
+        QTimer::singleShot(5000, this, SLOT(sendVehicleDetection())); // 5000 ms = 5 secondes
+        //sendVehicleDetection();
     }
     else
         qDebug() << "Serveur introuvable\n";
