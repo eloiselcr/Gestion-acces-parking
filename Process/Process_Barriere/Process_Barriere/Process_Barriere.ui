@@ -32,12 +32,12 @@
    <string>Process_Barriere</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QLabel" name="label_TitleProcess">
+   <widget class="QLabel" name="label_TitleGestion">
     <property name="geometry">
      <rect>
       <x>20</x>
       <y>10</y>
-      <width>271</width>
+      <width>331</width>
       <height>71</height>
      </rect>
     </property>
@@ -47,7 +47,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Gestion Process</string>
+     <string>Gestion de la barrière</string>
     </property>
    </widget>
    <widget class="Line" name="line">
@@ -119,12 +119,12 @@
      <rect>
       <x>-40</x>
       <y>120</y>
-      <width>1151</width>
+      <width>1121</width>
       <height>511</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="interface_accueil">
      <widget class="QWidget" name="widget_Accueil" native="true">
@@ -132,18 +132,21 @@
        <rect>
         <x>-10</x>
         <y>20</y>
-        <width>1091</width>
-        <height>511</height>
+        <width>1121</width>
+        <height>471</height>
        </rect>
       </property>
       <widget class="QWidget" name="widget_FormConnect" native="true">
        <property name="geometry">
         <rect>
-         <x>100</x>
-         <y>70</y>
-         <width>621</width>
-         <height>401</height>
+         <x>630</x>
+         <y>0</y>
+         <width>501</width>
+         <height>471</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
        </property>
        <widget class="QLabel" name="label_TitleConnexion">
         <property name="geometry">
@@ -167,10 +170,10 @@
        <widget class="QLabel" name="label_Login">
         <property name="geometry">
          <rect>
-          <x>70</x>
-          <y>130</y>
+          <x>110</x>
+          <y>150</y>
           <width>71</width>
-          <height>51</height>
+          <height>31</height>
          </rect>
         </property>
         <property name="font">
@@ -188,7 +191,7 @@
        <widget class="QLineEdit" name="edit_Login">
         <property name="geometry">
          <rect>
-          <x>150</x>
+          <x>230</x>
           <y>150</y>
           <width>171</width>
           <height>20</height>
@@ -198,10 +201,10 @@
        <widget class="QLabel" name="label_Mdp">
         <property name="geometry">
          <rect>
-          <x>40</x>
+          <x>110</x>
           <y>190</y>
           <width>101</width>
-          <height>61</height>
+          <height>41</height>
          </rect>
         </property>
         <property name="font">
@@ -219,8 +222,8 @@
        <widget class="QLineEdit" name="edit_Mdp">
         <property name="geometry">
          <rect>
-          <x>150</x>
-          <y>210</y>
+          <x>230</x>
+          <y>200</y>
           <width>171</width>
           <height>20</height>
          </rect>
@@ -229,8 +232,8 @@
        <widget class="QPushButton" name="btn_AccesConnexion">
         <property name="geometry">
          <rect>
-          <x>240</x>
-          <y>300</y>
+          <x>320</x>
+          <y>240</y>
           <width>81</width>
           <height>31</height>
          </rect>
@@ -260,37 +263,30 @@
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
        </widget>
+       <zorder>label_Login</zorder>
+       <zorder>edit_Login</zorder>
+       <zorder>label_Mdp</zorder>
+       <zorder>edit_Mdp</zorder>
+       <zorder>btn_AccesConnexion</zorder>
+       <zorder>label_ErrorConnect</zorder>
+       <zorder>label_TitleConnexion</zorder>
       </widget>
-      <widget class="QPushButton" name="btn_AccesGestionGlobale">
+      <widget class="QWidget" name="background" native="true">
        <property name="geometry">
         <rect>
-         <x>840</x>
-         <y>210</y>
-         <width>171</width>
-         <height>91</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Mode Gestion Globale</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_BienvenueTexte">
-       <property name="geometry">
-        <rect>
-         <x>80</x>
+         <x>120</x>
          <y>20</y>
-         <width>631</width>
-         <height>31</height>
+         <width>441</width>
+         <height>451</height>
         </rect>
        </property>
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-        </font>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
        </property>
-       <property name="text">
-        <string>Bienvenue sur l'espace de gestion des modes de la barrière au sein de La Providence.</string>
+       <property name="styleSheet">
+        <string notr="true">background-image: url(:/Process_Barriere/ressources/backrgound_accueil.jpg);</string>
        </property>
+       <layout class="QVBoxLayout" name="verticalLayout"/>
       </widget>
      </widget>
     </widget>
@@ -693,7 +689,7 @@
      <rect>
       <x>570</x>
       <y>20</y>
-      <width>491</width>
+      <width>331</width>
       <height>91</height>
      </rect>
     </property>
@@ -780,6 +776,62 @@
      </property>
     </widget>
    </widget>
+   <widget class="QLabel" name="logo">
+    <property name="geometry">
+     <rect>
+      <x>980</x>
+      <y>10</y>
+      <width>91</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">image: url(:/Process_Barriere/ressources/logo_lapro.png);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_BienvenueTexte">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>100</y>
+      <width>501</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Bienvenue sur l'espace de gestion des modes de la barrière au sein de La Providence.</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="verticalWidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>-1</x>
+      <y>-1</y>
+      <width>1141</width>
+      <height>651</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);</string>
+    </property>
+    <layout class="QVBoxLayout" name="background_white"/>
+   </widget>
+   <zorder>verticalWidget</zorder>
+   <zorder>label_TitleGestion</zorder>
+   <zorder>line</zorder>
+   <zorder>widget_BDDAcess</zorder>
+   <zorder>stackedWidget</zorder>
+   <zorder>widget_SCStatut</zorder>
+   <zorder>logo</zorder>
+   <zorder>label_BienvenueTexte</zorder>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -820,22 +872,6 @@
     <hint type="sourcelabel">
      <x>280</x>
      <y>468</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>569</x>
-     <y>346</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>btn_AccesGestionGlobale</sender>
-   <signal>clicked()</signal>
-   <receiver>Process_BarriereClass</receiver>
-   <slot>on_btnAccueilGestionGlobale_cliked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>905</x>
-     <y>428</y>
     </hint>
     <hint type="destinationlabel">
      <x>569</x>

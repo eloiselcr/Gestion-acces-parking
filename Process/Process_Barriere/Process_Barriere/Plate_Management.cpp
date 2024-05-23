@@ -83,7 +83,7 @@ void Plate_Management::GestionMode(QString plaque, Mode modeActif, const QString
 			ui.widget_SupervisionBarriere->setVisible(true);
 		}
 		else {
-			DirectSendSQL(plaque, modeActif, statut, iduser, ui);
+			//DirectSendSQL(plaque, modeActif, statut, iduser, ui);
 		}
 		break;
 
@@ -196,7 +196,7 @@ void Plate_Management::on_btnOuvrirBarriere_clicked(QString plaque, Mode modeAct
 		break;
 
 	case Manuel:
-
+		break;
 	}
 }
 
@@ -241,7 +241,6 @@ void Plate_Management::on_btnOuvrirBarriere_clicked(QString plaque, Mode modeAct
 		// Ouvrir la barrière
 	}
 	*/
-}
 
 
 /*
