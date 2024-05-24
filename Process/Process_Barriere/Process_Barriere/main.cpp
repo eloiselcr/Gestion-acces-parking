@@ -1,5 +1,5 @@
-#include "Process_Barriere.h"
 #include <QtWidgets/QApplication>
+#include "Process_Barriere.h"
 
 int main(int argc, char *argv[])
 {

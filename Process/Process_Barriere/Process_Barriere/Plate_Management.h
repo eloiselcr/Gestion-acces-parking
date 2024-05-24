@@ -7,24 +7,27 @@
 #include "Mode.h"
 
 
-class Process_Barriere;
-
-class Plate_Management {
+class Plate_Management
+{
+public:
+    Plate_Management();
+    ~Plate_Management();
 
 public:
-    QString motifRef = "Vehicule refuse par l'administration.";
+    QString motifRefus = "Vehicule refuse par l'administration.";
     QString motifDemCours = "Vehicule dont le traitement de la demande est en cours.";
     QString motifDemInfos = "Vehicule dont des informations on ete demandees.";
-    QString motifExpVal = "Vehicule avec une validitee expiree";
-    QString motifInco = "Vehicule iconnu";
+    QString motifValidExp = "Vehicule avec une validitee expiree";
+    QString motifVehInco = "Vehicule inconnu";
 
-    static void AnalysePlaque(QString plaque, Mode modeactif, Ui::Process_BarriereClass& ui);
-    static void GestionMode(QString plaque, Mode modeActif, const QString& statut, const int iduser, Ui::Process_BarriereClass& ui);
+    void AnalysePlaque(QString plaque, Mode modeactif, Ui::Process_BarriereClass& ui);
+    void GestionMode(QString plaque, Mode modeActif, const QString& statut, const int iduser, Ui::Process_BarriereClass& ui);
 
-private slots:
-    void Plate_Management::on_btnOuvrirBarriere_clicked(QString plaque, Mode modeActif, const QString& statut, const int iduser, Ui::Process_BarriereClass& ui);
-    void Plate_Management::DirectSendSQL(QString plaque, Mode modeActif, const QString& statut, const int iduser, Ui::Process_BarriereClass& ui);
-    
+public slots:
+    //void on_btnOuvrirBarriere_clicked(QString plaque, Mode modeActif, const QString& statut, const int iduser, Ui::Process_BarriereClass& ui);
+    void DirectSendSQL(QString plaque, Mode modeActif, const QString& statut, const int iduser, Ui::Process_BarriereClass& ui);
+    void on_test();
+
 private: 
     QString nom;
     QString prenom;

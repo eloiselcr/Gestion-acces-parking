@@ -6,6 +6,8 @@ Process_Barriere::Process_Barriere(QWidget* parent)
 {
 	ui.setupUi(this);
 
+
+
 	// Init du serveur
 	server = new QTcpServer(this);
 	connect(server, SIGNAL(newConnection()), this, SLOT(onClientConnected()));
@@ -15,6 +17,12 @@ Process_Barriere::Process_Barriere(QWidget* parent)
 	ui.stackedWidget->setCurrentIndex(0);
 	ui.widget_SCStatut->setVisible(false);
 	ui.edit_Mdp->setEchoMode(QLineEdit::Password);
+
+	
+	plateManagement = new Plate_Management();
+
+	QObject::connect(ui.btn_OuvertureBarriere, SIGNAL(clicked()), this, SLOT(on_btnOuvrirBarriere_clicked()));
+	modeActif = Manuel; // mode par défaut en cas de non sélection
 }
 
 Process_Barriere::~Process_Barriere()
@@ -58,7 +66,7 @@ void Process_Barriere::onClientReadyRead()
 		ui.label_StatutClientDisplay->setText("Plaque recue.");
 		ui.label_ImmatriculationDisplay->setText(plaque);
 		qDebug() << "=== FIN INTERRACTION CLIENT ===\n";
-		Plate_Management::AnalysePlaque(plaque, modeActif, ui);
+		plateManagement->AnalysePlaque(plaque, modeActif, ui);
 	}
 }
 
@@ -119,9 +127,7 @@ void Process_Barriere::on_btnAccesConnexion_clicked() // Form Connexion
 
 // === PARTIE SELECTION DES MODES ====
 
-
-void Process_Barriere::on_btnCasparCas_cliked()
-{
+void Process_Barriere::on_btnCasparCas_cliked() {
 	modeActif = CasparCas;
 	ui.label_ActualModeDisplay->setText("Cas par Cas");
 	qDebug() << "Mode Cas par Cas actif";
@@ -133,8 +139,14 @@ void Process_Barriere::on_btnGestionGlobale_cliked() {
 	qDebug() << "Mode Gestion Globale actif";
 }
 
-void Process_Barriere::on_btnManuel_clicked() {
+void Process_Barriere::on_btnManuel_cliked() {
 	modeActif = Manuel;
 	ui.label_ActualModeDisplay->setText("Manuel");
 	qDebug() << "Mode Manuel actif";
+}
+
+void Process_Barriere::on_btnOuvrirBarriere_clicked()
+{
+	// TODO : Appeler les méthodes dans plate management.
+	qDebug() << "Slot btnOuvrirBarriere_clicked";
 }

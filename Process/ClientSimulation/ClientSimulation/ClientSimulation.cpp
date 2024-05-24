@@ -21,7 +21,7 @@ void ClientSimulation::onSocketConnected()
     if (socketClient->state() == QTcpSocket::ConnectedState)
     {
         qDebug() << "Serveur connecte !\n";
-        QTimer::singleShot(5000, this, SLOT(sendVehicleDetection())); // 5000 ms = 5 secondes
+        QTimer::singleShot(3000, this, SLOT(sendVehicleDetection())); // 3000 ms = 3 secondes
         //sendVehicleDetection();
     }
     else
@@ -61,7 +61,7 @@ void ClientSimulation::onSocketReadyRead()
 
         qDebug() << "Requete de reconnaisance de plaque recu. Repondre au serveur";
 
-        LicensePlate = "JQ-657-ML";
+        LicensePlate = "AA-508-CP";
 
         reponsePlaque["reponsePlaqueReco"] = LicensePlate;
 

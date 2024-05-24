@@ -481,6 +481,19 @@ background-color: rgb(51, 212, 6);</string>
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
+      <widget class="QPushButton" name="proutbtn">
+       <property name="geometry">
+        <rect>
+         <x>260</x>
+         <y>260</y>
+         <width>80</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>prout</string>
+       </property>
+      </widget>
      </widget>
      <widget class="QWidget" name="widget_ChoixModes" native="true">
       <property name="geometry">
@@ -614,8 +627,8 @@ border: 2px solid white;</string>
       <widget class="QPushButton" name="btn_OuvertureBarriere">
        <property name="geometry">
         <rect>
-         <x>80</x>
-         <y>140</y>
+         <x>70</x>
+         <y>130</y>
          <width>161</width>
          <height>51</height>
         </rect>
@@ -1013,22 +1026,6 @@ border-radius: 15px;
  </resources>
  <connections>
   <connection>
-   <sender>btn_OuvertureBarriere</sender>
-   <signal>clicked()</signal>
-   <receiver>Process_BarriereClass</receiver>
-   <slot>on_btnOuvrirBarriere_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>925</x>
-     <y>497</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>569</x>
-     <y>346</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>btn_CasparCas</sender>
    <signal>clicked()</signal>
    <receiver>Process_BarriereClass</receiver>
@@ -1061,22 +1058,6 @@ border-radius: 15px;
    </hints>
   </connection>
   <connection>
-   <sender>btn_Manuel</sender>
-   <signal>clicked()</signal>
-   <receiver>Process_BarriereClass</receiver>
-   <slot>on_btnManuel_cliked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>145</x>
-     <y>527</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>569</x>
-     <y>346</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>btn_AccesConnexion</sender>
    <signal>clicked()</signal>
    <receiver>Process_BarriereClass</receiver>
@@ -1085,6 +1066,38 @@ border-radius: 15px;
     <hint type="sourcelabel">
      <x>280</x>
      <y>468</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>569</x>
+     <y>346</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_Manuel</sender>
+   <signal>clicked()</signal>
+   <receiver>Process_BarriereClass</receiver>
+   <slot>on_btnManuel_cliked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>150</x>
+     <y>512</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>569</x>
+     <y>346</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>proutbtn</sender>
+   <signal>clicked()</signal>
+   <receiver>Process_BarriereClass</receiver>
+   <slot>on_test()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>619</x>
+     <y>427</y>
     </hint>
     <hint type="destinationlabel">
      <x>569</x>
@@ -1101,5 +1114,6 @@ border-radius: 15px;
   <slot>on_btnCasparCas_cliked()</slot>
   <slot>on_btnGestionGlobale_cliked()</slot>
   <slot>on_btnManuel_cliked()</slot>
+  <slot>on_test()</slot>
  </slots>
 </ui>

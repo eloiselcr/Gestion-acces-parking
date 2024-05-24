@@ -1,14 +1,14 @@
 #pragma once
 #include <QtWidgets/QMainWindow>
+#include <QTcpServer>
+#include <QTcpSocket>
 #include "ui_Process_Barriere.h"
 #include "DatabaseConnect.h"
 #include "Plate_Management.h"
-#include <QTcpServer>
-#include <QTcpSocket>
 #include "Mode.h"
 
-class Process_Barriere : public QMainWindow
-{
+class Process_Barriere : public QMainWindow {
+	
 	Q_OBJECT
 
 public:
@@ -17,7 +17,6 @@ public:
 	~Process_Barriere();
 
 	QString plaque;
-
 	Mode modeActif;
 
 private slots:
@@ -30,10 +29,12 @@ private slots:
 
 	void on_btnCasparCas_cliked();
 	void on_btnGestionGlobale_cliked();
-	void on_btnManuel_clicked();
+	void on_btnManuel_cliked();
+	void on_btnOuvrirBarriere_clicked();
 
 
 private:
+	Plate_Management* plateManagement;
 	Ui::Process_BarriereClass ui;
 	DatabaseConnect databaseConnect;
 	QTcpServer* server; // Déclaration du serveur TCP/IP

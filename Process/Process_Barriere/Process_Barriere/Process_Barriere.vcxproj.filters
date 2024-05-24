@@ -29,9 +29,6 @@
     <QtUic Include="Process_Barriere.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtMoc Include="Process_Barriere.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <ClCompile Include="Process_Barriere.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -51,11 +48,16 @@
     <ClInclude Include="DatabaseConnect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Plate_Management.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Mode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Plate_Management.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="Process_Barriere.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
 </Project>
