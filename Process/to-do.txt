@@ -1,15 +1,8 @@
 Ce qu'il reste à faire : 
 
-APP interface supervision des équipements
-
 APP Gestion Process
- - bouton de déconnexion
  - relier la carte arduino pour l'état de la barrière ainsi que l'envoi du signal 
  - faire le mode gestion globale en invité (+au lieu de btn_déconnexion, faire un bouton qui renvoi à l'accueil)
  - vérifier supporte l'envoi de plusieurs plaques
- - corriger btn manuel qui ne marche pas 
- - corriger les envois SQL 
- - meme si une plaque est envoyée, ne doit rien faire tant que le mode n'est pas sélectionné
  - lors d'une nouvelle plaque, si celle-ci est valide, faire disparaitre le bouton du superviseur
  - si client lancé avant serveur, faire des tentatives de connnexion toutes les 3sec
- - si la plaque existe pas, faire une condition plaque inconnue

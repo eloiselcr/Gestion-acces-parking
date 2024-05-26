@@ -81,7 +81,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="interface_accueil">
      <widget class="QWidget" name="widget_Accueil" native="true">
@@ -484,8 +484,8 @@ background-color: rgb(51, 212, 6);</string>
       <widget class="QPushButton" name="proutbtn">
        <property name="geometry">
         <rect>
-         <x>260</x>
-         <y>260</y>
+         <x>320</x>
+         <y>30</y>
          <width>80</width>
          <height>21</height>
         </rect>
@@ -619,16 +619,16 @@ border: 2px solid white;</string>
       <property name="geometry">
        <rect>
         <x>790</x>
-        <y>230</y>
+        <y>220</y>
         <width>321</width>
-        <height>251</height>
+        <height>151</height>
        </rect>
       </property>
       <widget class="QPushButton" name="btn_OuvertureBarriere">
        <property name="geometry">
         <rect>
-         <x>70</x>
-         <y>130</y>
+         <x>80</x>
+         <y>80</y>
          <width>161</width>
          <height>51</height>
         </rect>
@@ -741,20 +741,24 @@ background-color: rgb(255, 255, 255);</string>
         <rect>
          <x>160</x>
          <y>90</y>
-         <width>171</width>
-         <height>31</height>
+         <width>121</width>
+         <height>41</height>
         </rect>
        </property>
        <property name="font">
         <font>
-         <pointsize>8</pointsize>
+         <family>MS Shell Dlg 2</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
        </property>
        <property name="text">
         <string/>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
        </property>
       </widget>
       <widget class="QLabel" name="label_ActualModeDisplay">
@@ -762,14 +766,21 @@ background-color: rgb(255, 255, 255);</string>
         <rect>
          <x>110</x>
          <y>150</y>
-         <width>171</width>
+         <width>131</width>
          <height>31</height>
         </rect>
        </property>
        <property name="font">
         <font>
-         <pointsize>8</pointsize>
+         <family>MS Shell Dlg 2</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
        </property>
        <property name="text">
         <string/>
@@ -789,10 +800,15 @@ background-color: rgb(255, 255, 255);</string>
        </property>
        <property name="font">
         <font>
+         <family>MS Shell Dlg 2</family>
          <pointsize>10</pointsize>
          <weight>75</weight>
+         <italic>false</italic>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
        </property>
        <property name="text">
         <string>Véhicule devant la barrière : </string>
@@ -801,16 +817,24 @@ background-color: rgb(255, 255, 255);</string>
       <widget class="QLabel" name="label_VehiculePresenceDisplay">
        <property name="geometry">
         <rect>
-         <x>210</x>
-         <y>40</y>
-         <width>111</width>
-         <height>31</height>
+         <x>200</x>
+         <y>30</y>
+         <width>121</width>
+         <height>41</height>
         </rect>
        </property>
        <property name="font">
         <font>
-         <pointsize>8</pointsize>
+         <family>MS Shell Dlg 2</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 10pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(0, 170, 0);</string>
        </property>
        <property name="text">
         <string/>
@@ -819,6 +843,31 @@ background-color: rgb(255, 255, 255);</string>
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
        </property>
       </widget>
+     </widget>
+     <widget class="QPushButton" name="btn_Deconnexion">
+      <property name="geometry">
+       <rect>
+        <x>1000</x>
+        <y>460</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius: 15px;
+background-color: rgb(209, 0, 0);
+color: white;</string>
+      </property>
+      <property name="text">
+       <string>Déconnexion</string>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="interface_invite"/>
@@ -875,7 +924,7 @@ background-color: rgb(255, 255, 255);</string>
     <widget class="QLabel" name="label_StatutServeurDisplay">
      <property name="geometry">
       <rect>
-       <x>130</x>
+       <x>120</x>
        <y>10</y>
        <width>191</width>
        <height>31</height>
@@ -883,8 +932,15 @@ background-color: rgb(255, 255, 255);</string>
      </property>
      <property name="font">
       <font>
+       <family>MS Shell Dlg 2</family>
        <pointsize>10</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
       </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
      <property name="text">
       <string/>
@@ -904,8 +960,15 @@ background-color: rgb(255, 255, 255);</string>
      </property>
      <property name="font">
       <font>
+       <family>MS Shell Dlg 2</family>
        <pointsize>10</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
       </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
      <property name="text">
       <string/>
@@ -1105,6 +1168,22 @@ border-radius: 15px;
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>btn_Deconnexion</sender>
+   <signal>clicked()</signal>
+   <receiver>Process_BarriereClass</receiver>
+   <slot>on_btnDeconnexion_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1015</x>
+     <y>612</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>569</x>
+     <y>346</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>on_btnAccesConnexion_clicked()</slot>
@@ -1115,5 +1194,6 @@ border-radius: 15px;
   <slot>on_btnGestionGlobale_cliked()</slot>
   <slot>on_btnManuel_cliked()</slot>
   <slot>on_test()</slot>
+  <slot>on_btnDeconnexion_clicked()</slot>
  </slots>
 </ui>

@@ -32,6 +32,7 @@ private slots:
 	void on_btnManuel_cliked();
 	void on_btnOuvrirBarriere_clicked();
 
+	void on_btnDeconnexion_clicked();
 
 private:
 	Plate_Management* plateManagement;
