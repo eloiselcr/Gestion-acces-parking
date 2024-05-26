@@ -8,6 +8,7 @@ DatabaseConnect::DatabaseConnect()
 	db.setUserName("root");
 	db.setPassword("root");
 
+	// Vérification si la BDD est accessible
 	if (!db.open()) {
 		qDebug() << "Connexion a la base de donnees echouee";
 	}
@@ -15,5 +16,3 @@ DatabaseConnect::DatabaseConnect()
 		qDebug() << "Connexion a la base de donnees reussie";
 	}
 }
-
-

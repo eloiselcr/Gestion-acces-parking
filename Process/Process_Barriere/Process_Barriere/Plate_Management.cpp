@@ -5,18 +5,12 @@
 #include "Plate_Management.h"
 #include "Process_Barriere.h"
 
-Plate_Management::Plate_Management()
-{
-
-}
-
-Plate_Management::~Plate_Management()
-{
-
-}
 
 void Plate_Management::AnalysePlaque(QString plaque, Mode modeActif, Ui::Process_BarriereClass& ui)
 {
+	/* AnalysePlaque() : récupère les informations de la plaque en BDD, connecte les données aux variables
+	associées, les affiche sur l'ui puis envoi à GestionMode. */
+
 	qDebug() << "\n=== DEBUT ANALYSE PLAQUE ===";
 	QSqlQuery queryInfos;
 
@@ -30,11 +24,11 @@ void Plate_Management::AnalysePlaque(QString plaque, Mode modeActif, Ui::Process
 	}
 
 	if (queryInfos.next()) {
-		QString nom = queryInfos.value(0).toString(); // récupère le nom
-		QString prenom = queryInfos.value(1).toString(); // récupère le prenom
-		QString statut = queryInfos.value(2).toString(); // récupère le statut
-		QDateTime date = queryInfos.value(3).toDateTime(); // récupère la date                                      
-		int iduser = queryInfos.value(4).toInt(); // récupère l'iduser
+		QString nom = queryInfos.value(0).toString();
+		QString prenom = queryInfos.value(1).toString();
+		QString statut = queryInfos.value(2).toString(); 
+		QDateTime date = queryInfos.value(3).toDateTime();                                    
+		int iduser = queryInfos.value(4).toInt();
 
 		qDebug() << "Nom : " << nom;
 		qDebug() << "Prenom : " << prenom;
@@ -44,7 +38,7 @@ void Plate_Management::AnalysePlaque(QString plaque, Mode modeActif, Ui::Process
 		qDebug() << "iduser : " << iduser;
 		ui.label_ImmatriculationDisplay->setText(plaque);
 
-		// Vérification des différents statuts
+
 		static const QMap<QString, QString> statutMessages = {
 			{"Refusee", "Le véhicule a été refusé par l'administration."},
 			{"Traitement en cours", "La demande pour ce véhicule est en cours de traitement."},
@@ -57,7 +51,7 @@ void Plate_Management::AnalysePlaque(QString plaque, Mode modeActif, Ui::Process
 		}
 		else if (statut == "Validee") {
 			QDateTime dateActuelle = QDateTime::currentDateTime();
-			QDateTime dateLimite = date.addYears(1); // Assuming date is the validation date
+			QDateTime dateLimite = date.addYears(1);
 
 			if (dateActuelle > dateLimite) {
 				qDebug() << "Date de validite expiree";
@@ -75,8 +69,10 @@ void Plate_Management::AnalysePlaque(QString plaque, Mode modeActif, Ui::Process
 
 void Plate_Management::GestionMode(QString plaque, Mode modeActif, const QString& statut, const int iduser, Ui::Process_BarriereClass& ui)
 {
-	qDebug() << "Entree dans le Process Gestion Mode";
+	/* GestionMode() : en fonction du mode actif, oriente vers une suite d'évènements.
+	2 cas possible = intervention du superviseur ou envoi direct en BDD. */
 
+	qDebug() << "Entree dans le Process Gestion Mode";
 	switch (modeActif) {
 
 	case CasparCas:
@@ -100,6 +96,8 @@ void Plate_Management::GestionMode(QString plaque, Mode modeActif, const QString
 
 void Plate_Management::DirectSendSQL(QString plaque, Mode modeActif, const QString& statut, const int iduser, Ui::Process_BarriereClass& ui)
 {
+	/* DirectSendSQL() : envoi direct en BDD si la plaque est valide. */
+
 	QSqlQuery queryAcces;
 	queryAcces.prepare("INSERT INTO Acces (date_horaire, id_demande) VALUES (:date, :id_demande)");
 	queryAcces.bindValue(":date", QDateTime::currentDateTime());
@@ -135,11 +133,6 @@ void Plate_Management::DirectSendSQL(QString plaque, Mode modeActif, const QStri
 			qDebug() << "Insertion dans la table Acces_SansDemande réussie.";
 		}
 	}
-}
-
-void Plate_Management::on_test()
-{
-	qDebug() << "dfdfdfdf";
 }
 
 //void Plate_Management::on_btnOuvrirBarriere_clicked(QString plaque, Mode modeActif, const QString& statut, int iduser, Ui::Process_BarriereClass& ui)

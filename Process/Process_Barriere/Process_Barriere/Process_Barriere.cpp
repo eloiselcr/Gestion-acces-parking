@@ -6,8 +6,6 @@ Process_Barriere::Process_Barriere(QWidget* parent)
 {
 	ui.setupUi(this);
 
-
-
 	// Init du serveur
 	server = new QTcpServer(this);
 	connect(server, SIGNAL(newConnection()), this, SLOT(onClientConnected()));
@@ -22,7 +20,7 @@ Process_Barriere::Process_Barriere(QWidget* parent)
 	plateManagement = new Plate_Management();
 
 	QObject::connect(ui.btn_OuvertureBarriere, SIGNAL(clicked()), this, SLOT(on_btnOuvrirBarriere_clicked()));
-	modeActif = Manuel; // mode par défaut en cas de non sélection
+	modeActif = Manuel; // Mode par défaut
 }
 
 Process_Barriere::~Process_Barriere()
@@ -35,6 +33,8 @@ Process_Barriere::~Process_Barriere()
 
 void Process_Barriere::onClientConnected()
 {
+	/* onClientConnected() : établit une connexion avec le client. */
+
 	clientConnection = server->nextPendingConnection();
 	connect(clientConnection, SIGNAL(readyRead()), this, SLOT(onClientReadyRead()));
 	connect(clientConnection, SIGNAL(disconnected()), clientConnection, SLOT(deleteLater()));
@@ -43,13 +43,16 @@ void Process_Barriere::onClientConnected()
 
 void Process_Barriere::onClientReadyRead()
 {
+	/* onClientReadyRead() : permet de lire les données envoyée par le client.
+	Se décompose en 2 = une partie pour le signal véhicule détecté, une partie pour la réception de la plaque. */
+
 	QByteArray data = clientConnection->readAll();
 	QString str(data);
 	qDebug() << "Message recu du client :" << str;
 
 	QJsonObject jsonMessage = QJsonDocument::fromJson(str.toUtf8()).object(); // Décodage JSON
 
-	// Etape 1 : Le vehicule a ete detecte
+	// Étape 1
 	if (jsonMessage.contains("InfoVeh") && jsonMessage["InfoVeh"].toString() == "VehiculeDetecter")
 	{
 		qDebug() << "Vehicule detecte par le client.";
@@ -58,7 +61,7 @@ void Process_Barriere::onClientReadyRead()
 		return;
 	}
 
-	// Etape 2 : Reception de la plaque
+	// Étape 2 :
 	if (jsonMessage.contains("reponsePlaqueReco")) {
 		plaque = jsonMessage["reponsePlaqueReco"].toString(); // Affectation de la valeur de plaque
 		qDebug() << "Plaque recue :" << plaque;
@@ -72,6 +75,8 @@ void Process_Barriere::onClientReadyRead()
 
 void Process_Barriere::sendLicensePlateRequest()
 {
+	/* sendLicensePlateRequest() : envoi au client une demande de récupèration de plaque. */
+
 	if (clientConnection) {
 		qDebug() << "Envoi de la demande de reconnaissance de plaque.";
 
@@ -84,7 +89,6 @@ void Process_Barriere::sendLicensePlateRequest()
 		QJsonDocument jsonDocument(message);
 		QString jsonString = jsonDocument.toJson(QJsonDocument::Compact);
 
-		// if (socketClient->state() == QTcpSocket::ConnectedState) // Si le socket est bien connecté
 		clientConnection->write(jsonString.toUtf8());
 
 		ui.label_StatutServeurDisplay->setText("Demande envoyee");
@@ -94,8 +98,11 @@ void Process_Barriere::sendLicensePlateRequest()
 
 // ==== PARTIE Accueil ====
 
-void Process_Barriere::on_btnAccesConnexion_clicked() // Form Connexion
+void Process_Barriere::on_btnAccesConnexion_clicked()
 {
+	/* on_btnAccesConnexion_clicked() : vérifie en BDD si l'utilisateur a les permissions nécessaires pour 
+	se connecter, ainsi que les bons identifiants. */
+
 	QString login = ui.edit_Login->text();
 	QString mdp = ui.edit_Mdp->text();
 
@@ -107,7 +114,7 @@ void Process_Barriere::on_btnAccesConnexion_clicked() // Form Connexion
 
 	qDebug() << "Requete SQL efffectuee";
 
-	if (query.next()) { // Vérification des identifiants
+	if (query.next()) {
 		ui.label_ErrorConnect->setText("Identifiants corrects !");
 		ui.stackedWidget->setCurrentIndex(1);
 		ui.widget_SCStatut->setVisible(true);
@@ -124,8 +131,8 @@ void Process_Barriere::on_btnAccesConnexion_clicked() // Form Connexion
 }
 
 
-
 // === PARTIE SELECTION DES MODES ====
+
 
 void Process_Barriere::on_btnCasparCas_cliked() {
 	modeActif = CasparCas;
