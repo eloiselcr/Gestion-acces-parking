@@ -11,6 +11,10 @@ Process_Barriere::Process_Barriere(QWidget* parent)
 	connect(server, SIGNAL(newConnection()), this, SLOT(onClientConnected()));
 	server->listen(QHostAddress::Any, 1234);
 
+	knownClients["::ffff:192.168.65.33"] = "Arduino1";
+	knownClients["::ffff:192.168.65.95"] = "Arduino2";
+	knownClients["::ffff:192.168.64.91"] = "PCQuentin";
+
 	// Paramètres de visibilité graphiques
 	ui.stackedWidget->setCurrentIndex(0);
 	ui.widget_SCStatut->setVisible(false);
@@ -32,67 +36,107 @@ Process_Barriere::~Process_Barriere()
 
 // ==== PARTIE SERVEUR ====
 
+
 void Process_Barriere::onClientConnected()
 {
-	/* onClientConnected() : établit une connexion avec le client. */
+	/* onClientConnected() : permet au client de se connecter et de vérifier si l'IP est connue. */
 
-	clientConnection = server->nextPendingConnection();
-	connect(clientConnection, SIGNAL(readyRead()), this, SLOT(onClientReadyRead()));
-	connect(clientConnection, SIGNAL(disconnected()), clientConnection, SLOT(deleteLater()));
+	QTcpSocket* clientSocket = server->nextPendingConnection();
+	QString clientIp = clientSocket->peerAddress().toString();
+	QString clientName = knownClients.value(clientIp, "Unknown");
+
+	Clients* newClient = new Clients(clientSocket, clientName);
+	clients[clientSocket] = newClient;
+
+	connect(clientSocket, SIGNAL(readyRead()), this, SLOT(onClientReadyRead()));
+	connect(clientSocket, SIGNAL(disconnected()), clientSocket, SLOT(deleteLater()));
+
+	qDebug() << "Client connecté : " << clientName << " avec l'IP : " << clientIp;
 }
-
 
 void Process_Barriere::onClientReadyRead()
 {
-	/* onClientReadyRead() : permet de lire les données envoyée par le client.
-	Se décompose en 2 = une partie pour le signal véhicule détecté, une partie pour la réception de la plaque. */
+	/* onClientReadyRead() : permet de lire les données reçues et de les convertir en JSON. */
 
-	QByteArray data = clientConnection->readAll();
+	QTcpSocket* senderSocket = qobject_cast<QTcpSocket*>(sender());
+	Clients* client = clients.value(senderSocket, nullptr);
+
+	if (!client) {
+		qDebug() << "Client non trouvé pour le socket : " << senderSocket;
+		return;
+	}
+
+	QByteArray data = senderSocket->readAll();
 	QString str(data);
-	qDebug() << "Message recu du client :" << str;
+	qDebug() << "Message reçu du client :" << client->getName() << " : " << str;
 
-	QJsonObject jsonMessage = QJsonDocument::fromJson(str.toUtf8()).object(); // Décodage JSON
+	QJsonObject jsonMessage = QJsonDocument::fromJson(str.toUtf8()).object();
+	interractClient(client, jsonMessage);
+}
+
+void Process_Barriere::sendLicensePlateRequest()
+{
+	/* sendLicensePlateRequest() : envoi d'une demande de reconaissance de plaque uniquement au PCQuentin. */
+
+	if (!clients.isEmpty()) {
+		for (Clients* client : clients) {
+			qDebug() << "Vérification du client pour l'envoi de la demande de reconnaissance de plaque : " << client->getName();
+			if (client->getName() == "PCQuentin") {
+				qDebug() << "Envoi de la demande de reconnaissance de plaque à " << client->getName();
+
+				QJsonObject message;
+				message["DemandeRecoPlaque"] = "DemandeOUI";
+
+				QJsonDocument jsonDocument(message);
+				QString jsonString = jsonDocument.toJson(QJsonDocument::Compact);
+
+				client->getSocket()->write(jsonString.toUtf8());
+
+				ui.label_StatutServeurDisplay->setText("Demande envoyée");
+				break;
+			}
+		}
+	}
+	else {
+		qDebug() << "Aucun client connecté pour envoyer la demande de reconnaissance de plaque.";
+	}
+}
+
+void Process_Barriere::interractClient(Clients* client, const QJsonObject& jsonMessage)
+{
+	/* interractClient() : permet de lire les données envoyée par le client.
+	Se décompose en 3 = le signal véhicule détecté, la réception de la plaque et l'état de la barrière. */
 
 	// Étape 1
-	if (jsonMessage.contains("InfoVeh") && jsonMessage["InfoVeh"].toString() == "VehiculeDetecter")
-	{
-		qDebug() << "Vehicule detecte par le client.";
+	if (jsonMessage.contains("InfoVeh") && jsonMessage["InfoVeh"].toString() == "VehiculeDetecter") {
+		qDebug() << "Véhicule détecté par le client " << client->getName();
 		ui.label_VehiculePresenceDisplay->setText("Véhicule détecté");
 		sendLicensePlateRequest();
 		return;
 	}
 
-	// Étape 2 :
+	// Étape 2
 	if (jsonMessage.contains("reponsePlaqueReco")) {
-		plaque = jsonMessage["reponsePlaqueReco"].toString(); // Affectation de la valeur de plaque
-		qDebug() << "Plaque recue :" << plaque;
+		plaque = jsonMessage["reponsePlaqueReco"].toString();
+		qDebug() << "Plaque reçue : " << plaque << " de " << client->getName();
 
 		ui.label_StatutClientDisplay->setText("Plaque reçue");
 		ui.label_ImmatriculationDisplay->setText(plaque);
-		qDebug() << "=== FIN INTERRACTION CLIENT ===\n";
+		qDebug() << "=== FIN INTERACTION CLIENT ===\n";
+
 		plateManagement->AnalysePlaque(plaque, modeActif, ui);
 	}
-}
 
-void Process_Barriere::sendLicensePlateRequest()
-{
-	/* sendLicensePlateRequest() : envoi au client une demande de récupèration de plaque. */
-
-	if (clientConnection) {
-		qDebug() << "Envoi de la demande de reconnaissance de plaque.";
-
-		QJsonObject message;
-		QJsonArray tableauDonnees;
-
-		message["DemandeRecoPlaque"] = "DemandeOUI";
-
-		// Conversion de l'objet JSON en chaîne JSON
-		QJsonDocument jsonDocument(message);
-		QString jsonString = jsonDocument.toJson(QJsonDocument::Compact);
-
-		clientConnection->write(jsonString.toUtf8());
-
-		ui.label_StatutServeurDisplay->setText("Demande envoyée");
+	// Étape 3
+	if (jsonMessage.contains("statutBarriere") && jsonMessage["statutBarriere"].toString() == "Ouverte") {
+		barriere = jsonMessage["statutBarriere"].toString();
+		qDebug() << "Statut de la barrière : " << barriere << " de " << client->getName();
+		ui.label_StatutBarriereDisplay->setText("Ouverte");
+	}
+	else if (jsonMessage.contains("statutBarriere") && jsonMessage["statutBarriere"].toString() == "Fermer") {
+		barriere = jsonMessage["statutBarriere"].toString();
+		qDebug() << "Statut de la barrière : " << barriere << " de " << client->getName();
+		ui.label_StatutBarriereDisplay->setText("Fermée");
 	}
 }
 
@@ -169,3 +213,105 @@ void Process_Barriere::on_btnDeconnexion_clicked()
 	ui.stackedWidget->setCurrentIndex(0);
 	ui.widget_SCStatut->setVisible(false);
 }
+
+/*
+void Process_Barriere::sendOpenBarriere()
+{
+	if (!clients.isEmpty()) {
+		for (Clients* client : clients) {
+			qDebug() << "Vérification du client pour l'envoi de la demande d'ouverture de la barrière : " << client->getName();
+			if (client->getName() == "Arduino2") {
+				qDebug() << "Envoi de la demande d'ouverture de la barriere " << client->getName();
+
+				QJsonObject message;
+				message["DemandeOpenBarriere"] = "DemandeOUVERTURE";
+
+				QJsonDocument jsonDocument(message);
+				QString jsonString = jsonDocument.toJson(QJsonDocument::Compact);
+
+				client->getSocket()->write(jsonString.toUtf8());
+
+				ui.label_StatutServeurDisplay->setText("Demande envoyée");
+				break;
+			}
+		}
+	}
+	else {
+		qDebug() << "Aucun client connecté pour envoyer la demande de reconnaissance de plaque.";
+	}
+
+}
+*/
+
+
+//void Process_Barriere::onClientConnected()
+//{
+//	/* onClientConnected() : établit une connexion avec le client. */
+//
+//	clientConnection = server->nextPendingConnection();
+//	connect(clientConnection, SIGNAL(readyRead()), this, SLOT(onClientReadyRead()));
+//	connect(clientConnection, SIGNAL(disconnected()), clientConnection, SLOT(deleteLater()));
+//
+//	if (clientConnection->peerAddress() == QHostAddress("::ffff:192.168.65.33"))
+//		qDebug() << "Arduino Capteur/FeuBicolore connecter (192.168.65.33)";
+//	else
+//		qDebug() << "Un client s'est connecter : " << clientConnection->peerAddress();
+//
+//}
+//
+//
+//void Process_Barriere::onClientReadyRead()
+//{
+//	/* onClientReadyRead() : permet de lire les données envoyée par le client.
+//	Se décompose en 2 = une partie pour le signal véhicule détecté, une partie pour la réception de la plaque. */
+//
+//	QByteArray data = clientConnection->readAll();
+//	QString str(data);
+//	qDebug() << "Message recu du client :" << str;
+//
+//	QJsonObject jsonMessage = QJsonDocument::fromJson(str.toUtf8()).object(); // Décodage JSON
+//
+//	// Étape 1
+//	if (jsonMessage.contains("InfoVeh") && jsonMessage["InfoVeh"].toString() == "VehiculeDetecter")
+//	{
+//		qDebug() << "Vehicule detecte par le client.";
+//		ui.label_VehiculePresenceDisplay->setText("Véhicule détecté");
+//		sendLicensePlateRequest();
+//		return;
+//	}
+//
+//	// Étape 2 :
+//	if (jsonMessage.contains("reponsePlaqueReco")) {
+//		plaque = jsonMessage["reponsePlaqueReco"].toString(); // Affectation de la valeur de plaque
+//		qDebug() << "Plaque recue :" << plaque;
+//
+//		ui.label_StatutClientDisplay->setText("Plaque reçue");
+//		ui.label_ImmatriculationDisplay->setText(plaque);
+//		qDebug() << "=== FIN INTERRACTION CLIENT ===\n";
+//		plateManagement->AnalysePlaque(plaque, modeActif, ui);
+//	}
+//}
+//
+//void Process_Barriere::sendLicensePlateRequest()
+//{
+//	/* sendLicensePlateRequest() : envoi au client une demande de récupèration de plaque. */
+//
+//	if (clientConnection) {
+//		qDebug() << "Envoi de la demande de reconnaissance de plaque.";
+//
+//		QJsonObject message;
+//		QJsonArray tableauDonnees;
+//
+//		message["DemandeRecoPlaque"] = "DemandeOUI";
+//
+//		// Conversion de l'objet JSON en chaîne JSON
+//		QJsonDocument jsonDocument(message);
+//		QString jsonString = jsonDocument.toJson(QJsonDocument::Compact);
+//
+//		clientConnection->write(jsonString.toUtf8());
+//
+//		ui.label_StatutServeurDisplay->setText("Demande envoyée");
+//	}
+//}
+//
+

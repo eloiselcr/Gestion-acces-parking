@@ -89,6 +89,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Clients.cpp" />
     <ClCompile Include="Querys.cpp" />
     <QtRcc Include="Process_Barriere.qrc" />
     <QtUic Include="Process_Barriere.ui" />
@@ -99,6 +100,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Clients.h" />
     <ClInclude Include="DatabaseConnect.h" />
     <ClInclude Include="Mode.h" />
     <ClInclude Include="Plate_Management.h" />

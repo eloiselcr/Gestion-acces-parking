@@ -1,7 +1,10 @@
 #pragma once
+#include <QTcpServer>
+#include <QTcpSocket>
 #include <QtWidgets/QMainWindow>
 #include "ui_Supervision.h"
 #include "DatabaseConnect.h"
+#include "Clients.h"
 
 class Supervision : public QMainWindow
 {
@@ -15,7 +18,15 @@ private slots:
     void on_btnAccesConnexion_clicked();
     void on_btnAskStatut_clicked();
 
+    void onClientConnected();
+
 private:
     Ui::SupervisionClass ui;
     DatabaseConnect databaseConnect;
+    QTcpServer* server; // Déclaration du serveur TCP/IP
+    QTcpSocket* clientConnection; // Déclaration du socket pour la connexion avec le client
+
+    QMap<QTcpSocket*, Clients*> clients;  // Map for storing clients by their socket
+    QMap<QString, QString> knownClients;
+    
 };

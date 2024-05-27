@@ -282,46 +282,6 @@ color: rgb(255, 255, 255);</string>
          <string/>
         </property>
        </widget>
-       <widget class="QPushButton" name="btn_GestionGlobaleHome">
-        <property name="geometry">
-         <rect>
-          <x>110</x>
-          <y>380</y>
-          <width>271</width>
-          <height>51</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">border-radius: 10px;
-border: 2px solid black;
-padding: 5px;
-color: rgb(255, 255, 255);
-background-color: rgb(51, 212, 6);</string>
-        </property>
-        <property name="text">
-         <string>Mode Gestion Globale (invité)</string>
-        </property>
-       </widget>
-       <widget class="Line" name="line_FormConnect">
-        <property name="geometry">
-         <rect>
-          <x>60</x>
-          <y>340</y>
-          <width>351</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
        <zorder>label_Login</zorder>
        <zorder>edit_Login</zorder>
        <zorder>label_Mdp</zorder>
@@ -330,8 +290,6 @@ background-color: rgb(51, 212, 6);</string>
        <zorder>label_ErrorConnect</zorder>
        <zorder>label_TitleConnexion</zorder>
        <zorder>img_key</zorder>
-       <zorder>btn_GestionGlobaleHome</zorder>
-       <zorder>line_FormConnect</zorder>
       </widget>
       <widget class="QLabel" name="img_LogoParking">
        <property name="geometry">
@@ -481,17 +439,17 @@ background-color: rgb(51, 212, 6);</string>
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
-      <widget class="QPushButton" name="proutbtn">
+      <widget class="QPushButton" name="btn_barriere">
        <property name="geometry">
         <rect>
-         <x>320</x>
-         <y>30</y>
-         <width>80</width>
-         <height>21</height>
+         <x>219</x>
+         <y>140</y>
+         <width>121</width>
+         <height>41</height>
         </rect>
        </property>
        <property name="text">
-        <string>prout</string>
+        <string>barriere</string>
        </property>
       </widget>
      </widget>
@@ -1153,22 +1111,6 @@ border-radius: 15px;
    </hints>
   </connection>
   <connection>
-   <sender>proutbtn</sender>
-   <signal>clicked()</signal>
-   <receiver>Process_BarriereClass</receiver>
-   <slot>on_test()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>619</x>
-     <y>427</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>569</x>
-     <y>346</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>btn_Deconnexion</sender>
    <signal>clicked()</signal>
    <receiver>Process_BarriereClass</receiver>
@@ -1177,6 +1119,22 @@ border-radius: 15px;
     <hint type="sourcelabel">
      <x>1015</x>
      <y>612</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>569</x>
+     <y>346</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_barriere</sender>
+   <signal>clicked()</signal>
+   <receiver>Process_BarriereClass</receiver>
+   <slot>sendBarriereOpenRequest()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>599</x>
+     <y>317</y>
     </hint>
     <hint type="destinationlabel">
      <x>569</x>
@@ -1193,7 +1151,7 @@ border-radius: 15px;
   <slot>on_btnCasparCas_cliked()</slot>
   <slot>on_btnGestionGlobale_cliked()</slot>
   <slot>on_btnManuel_cliked()</slot>
-  <slot>on_test()</slot>
   <slot>on_btnDeconnexion_clicked()</slot>
+  <slot>sendBarriereOpenRequest()</slot>
  </slots>
 </ui>

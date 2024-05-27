@@ -8,6 +8,14 @@ Supervision::Supervision(QWidget *parent)
     // Paramètres de visibilité graphiques
     ui.stackedWidget->setCurrentIndex(0);
     ui.edit_Mdp->setEchoMode(QLineEdit::Password);
+
+	// Init du serveur
+	server = new QTcpServer(this);
+	connect(server, SIGNAL(newConnection()), this, SLOT(onClientConnected()));
+	server->listen(QHostAddress::Any, 1234);
+
+	knownClients["::ffff:192.168.65.33"] = "Arduino1";
+	knownClients["::ffff:192.168.64.91"] = "PCQuentin";
 }
 
 Supervision::~Supervision()
@@ -56,4 +64,19 @@ void Supervision::on_btnAccesConnexion_clicked()
 void Supervision::on_btnAskStatut_clicked()
 {
 	/* on_btnAskStatut_clicked() : envoi une demande d'actualisation des status des équipements. */
+}
+
+void Supervision::onClientConnected()
+{
+	QTcpSocket* clientSocket = server->nextPendingConnection();
+	QString clientIp = clientSocket->peerAddress().toString();
+	QString clientName = knownClients.value(clientIp, "Unknown");
+
+	Clients* newClient = new Clients(clientSocket, clientName);
+	clients[clientSocket] = newClient;
+
+	connect(clientSocket, SIGNAL(readyRead()), this, SLOT(onClientReadyRead()));
+	connect(clientSocket, SIGNAL(disconnected()), clientSocket, SLOT(deleteLater()));
+
+	qDebug() << "Client connecté : " << clientName << " avec l'IP : " << clientIp;
 }
