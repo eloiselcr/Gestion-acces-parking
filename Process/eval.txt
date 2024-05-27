@@ -1,3 +1,4 @@
 POUR L'EVAL : 
 
 - préparer 4 bases BDD clean pour chaque passage d'étudiants
+- être au courant des données qui transitent
