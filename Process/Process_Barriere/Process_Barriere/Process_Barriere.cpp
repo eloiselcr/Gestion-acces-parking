@@ -20,7 +20,6 @@ Process_Barriere::Process_Barriere(QWidget* parent)
 	ui.widget_SCStatut->setVisible(false);
 	ui.edit_Mdp->setEchoMode(QLineEdit::Password);
 
-	
 	plateManagement = new Plate_Management();
 
 	QObject::connect(ui.btn_OuvertureBarriere, SIGNAL(clicked()), this, SLOT(on_btnOuvrirBarriere_clicked()));
@@ -49,7 +48,7 @@ void Process_Barriere::onClientConnected()
 	clients[clientSocket] = newClient;
 
 	connect(clientSocket, SIGNAL(readyRead()), this, SLOT(onClientReadyRead()));
-	connect(clientSocket, SIGNAL(disconnected()), clientSocket, SLOT(deleteLater()));
+	connect(clientSocket, SIGNAL(disconnected()), this, SLOT(onClientDisconnected()));
 
 	qDebug() << "Client connecté : " << clientName << " avec l'IP : " << clientIp;
 }
@@ -111,7 +110,8 @@ void Process_Barriere::interractClient(Clients* client, const QJsonObject& jsonM
 	if (jsonMessage.contains("InfoVeh") && jsonMessage["InfoVeh"].toString() == "VehiculeDetecter") {
 		qDebug() << "Véhicule détecté par le client " << client->getName();
 		ui.label_VehiculePresenceDisplay->setText("Véhicule détecté");
-		sendLicensePlateRequest();
+		// sendLicensePlateRequest();
+		sendOpenBarriere();
 		return;
 	}
 
@@ -214,7 +214,7 @@ void Process_Barriere::on_btnDeconnexion_clicked()
 	ui.widget_SCStatut->setVisible(false);
 }
 
-/*
+
 void Process_Barriere::sendOpenBarriere()
 {
 	if (!clients.isEmpty()) {
@@ -241,7 +241,19 @@ void Process_Barriere::sendOpenBarriere()
 	}
 
 }
-*/
+
+void Process_Barriere::onClientDisconnected()
+{
+	QTcpSocket* senderSocket = qobject_cast<QTcpSocket*>(sender());
+	Clients* client = clients.value(senderSocket, nullptr);
+
+	if (client) {
+		qDebug() << "Client déconnecté : " << client->getName();
+		clients.remove(senderSocket);
+		delete client;
+	}
+}
+
 
 
 //void Process_Barriere::onClientConnected()

@@ -36,14 +36,15 @@ private slots:
 	void sendLicensePlateRequest();
 	void interractClient(Clients* client, const QJsonObject& jsonMessage);
 
-	// void sendOpenBarriere();
+	void onClientDisconnected();
+
+	void sendOpenBarriere();
 
 	// void onClientConnected();
 	// void onClientReadyRead();
 	// void sendLicensePlateRequest();
 
 private:
-
 	Plate_Management* plateManagement;
 	Ui::Process_BarriereClass ui;
 	DatabaseConnect databaseConnect;

@@ -130,6 +130,7 @@ void Plate_Management::DirectSendSQL(const int id_demande, QString plaque, Mode 
 		}
 		else {
 			qDebug() << "Insertion dans la table Acces réussie.";
+			//sendOpenBarriere();
 		}
 	}
 	else {
@@ -139,6 +140,7 @@ void Plate_Management::DirectSendSQL(const int id_demande, QString plaque, Mode 
 		}
 		else {
 			qDebug() << "Insertion dans la table Acces_SansDemande réussie.";
+			//sendOpenBarriere();
 		}
 	}
 }
@@ -171,7 +173,9 @@ void Plate_Management::on_btnOuvrirBarriere_clicked(const int id_demande, QStrin
 	{"Validee mais expiree", "Validité expirée"},
 	{"Iconnue", "Véhicule inconnu"}
 	};
+
 	qDebug() << "prout : " << statut;
+
 	if (statut == "Validee")
 	{
 		if (!queryAccesSD.exec()) {
@@ -179,6 +183,7 @@ void Plate_Management::on_btnOuvrirBarriere_clicked(const int id_demande, QStrin
 		}
 		else {
 			qDebug() << "Insertion dans la table Acces_SansDemande réussie.";
+			//sendOpenBarriere();
 		}
 	} 
 	else
