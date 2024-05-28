@@ -25,20 +25,17 @@ private slots:
 
 	void onClientConnected();
 	void onClientReadyRead();
+	void onClientDisconnected();
+	void sendLicensePlateRequest();
+	// void interractClient(Clients* client, const QJsonObject& jsonMessage);
 
 	void on_btnCasparCas_cliked();
 	void on_btnGestionGlobale_cliked();
 	void on_btnManuel_cliked();
 	void on_btnOuvrirBarriere_clicked();
+	void sendOpenBarriere();
 
 	void on_btnDeconnexion_clicked();
-
-	void sendLicensePlateRequest();
-	void interractClient(Clients* client, const QJsonObject& jsonMessage);
-
-	void onClientDisconnected();
-
-	void sendOpenBarriere();
 
 	// void onClientConnected();
 	// void onClientReadyRead();
@@ -52,6 +49,6 @@ private:
 	QTcpSocket* clientConnection; // Déclaration du socket pour la connexion avec le client
 
 	QMap<QTcpSocket*, Clients*> clients;  
-	QMap<QString, QString> knownClients;
+	QMap<QString, QString> clientsConnus;
 
 };

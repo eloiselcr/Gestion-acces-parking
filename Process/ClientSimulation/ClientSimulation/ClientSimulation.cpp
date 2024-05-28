@@ -61,7 +61,7 @@ void ClientSimulation::onSocketReadyRead()
 
         qDebug() << "Requete de reconnaisance de plaque recu. Repondre au serveur";
 
-        LicensePlate = "JQ-657-ML";
+        LicensePlate = "AA-508-CP";
 
         reponsePlaque["reponsePlaqueReco"] = LicensePlate;
 

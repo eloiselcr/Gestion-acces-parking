@@ -439,19 +439,6 @@ color: rgb(255, 255, 255);</string>
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
-      <widget class="QPushButton" name="btn_barriere">
-       <property name="geometry">
-        <rect>
-         <x>219</x>
-         <y>140</y>
-         <width>121</width>
-         <height>41</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>barriere</string>
-       </property>
-      </widget>
      </widget>
      <widget class="QWidget" name="widget_ChoixModes" native="true">
       <property name="geometry">
@@ -1119,22 +1106,6 @@ border-radius: 15px;
     <hint type="sourcelabel">
      <x>1015</x>
      <y>612</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>569</x>
-     <y>346</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>btn_barriere</sender>
-   <signal>clicked()</signal>
-   <receiver>Process_BarriereClass</receiver>
-   <slot>sendBarriereOpenRequest()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>599</x>
-     <y>317</y>
     </hint>
     <hint type="destinationlabel">
      <x>569</x>

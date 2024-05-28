@@ -1,7 +1,7 @@
 #include "Querys.h"
 
 QString SQLQueries::getqueryInfos(const QString& plaque) {
-    return "SELECT id, nom, prenom, statut, date, iduser FROM Demande_Vehicule WHERE immatriculation = :plaque";
+    return "SELECT id, nom, prenom, statut, immatriculation, date, iduser FROM Demande_Vehicule WHERE immatriculation = :plaque";
 }
 
 QString SQLQueries::insertAcces() {

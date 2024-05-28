@@ -9,19 +9,30 @@
 class Plate_Management
 {
 public:
-    QString statut;
-    QDateTime date;
-    int id_demande;
-    int iduser;
+    Plate_Management(Ui::Process_BarriereClass& ui) : ui(ui) {}
+    Ui::Process_BarriereClass& ui;
 
-    void AnalysePlaque(QString plaque, Mode modeactif, Ui::Process_BarriereClass& ui);
-    void GestionMode(const int id_demande, QString plaque, Mode modeActif, const QString& statut, const int iduser, Ui::Process_BarriereClass& ui);
+    void AnalysePlaque(QString plaque, Mode modeActif);
+    void GestionMode(Mode modeActif);
+    void setplaque(QString plaque) { this->plaque = plaque; };
+    
+    QString getplaque() { return this->plaque; };
+    QString getstatut() { return this->statut; };
+    QDateTime getdate() { return this->date; };
+    int getid_demande() { return this->id_demande; };
+    int getiduser() { return this->iduser; };
 
 public slots:
-    void on_btnOuvrirBarriere_clicked(const int id_demande, QString plaque, Mode modeActif, const QString& statut, const int iduser, Ui::Process_BarriereClass& ui);
-    void DirectSendSQL(const int id_demande, QString plaque, Mode modeActif, const QString& statut, const int iduser, Ui::Process_BarriereClass& ui);
+    void on_btnOuvrirBarriere_clicked(Mode modeActif);
+    void DirectSendSQL(Mode modeActif);
 
 private: 
     QString nom;
     QString prenom;
+    QString plaque;
+    QString statut;
+    QDateTime date;
+    int id_demande;
+    int iduser;
+    Mode modeActif;
 };
