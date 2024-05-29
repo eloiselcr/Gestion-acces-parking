@@ -11,6 +11,7 @@ Process_Barriere::Process_Barriere(QWidget* parent)
 	connect(server, SIGNAL(newConnection()), this, SLOT(onClientConnected()));
 	server->listen(QHostAddress::Any, 1234);
 
+	// Init des adresses IP des équipements
 	clientsConnus["::ffff:192.168.65.33"] = "Arduino1";
 	clientsConnus["::ffff:192.168.65.95"] = "Arduino2";
 	clientsConnus["::ffff:192.168.64.91"] = "PCQuentin";
@@ -18,13 +19,15 @@ Process_Barriere::Process_Barriere(QWidget* parent)
 	// Paramètres de visibilité graphiques
 	ui.stackedWidget->setCurrentIndex(0);
 	ui.widget_SCStatut->setVisible(false);
+	ui.widget_SupervisionBarriere->setVisible(false);
 	ui.edit_Mdp->setEchoMode(QLineEdit::Password);
 
 	plateManagement = new Plate_Management(ui);
 
-	QObject::connect(ui.btn_OuvertureBarriere, SIGNAL(clicked()), this, SLOT(on_btnOuvrirBarriere_clicked()));
+	// QObject::connect(ui.btn_OuvertureBarriere, SIGNAL(clicked()), this, SLOT(on_btnOuvrirBarriere_clicked()));
 	modeActif = Manuel; // Mode par défaut
 	ui.label_ActualModeDisplay->setText("Manuel");
+	ui.label_StatutBarriereDisplay->setText("Fermée");
 }
 
 Process_Barriere::~Process_Barriere()
@@ -110,8 +113,7 @@ Process_Barriere::~Process_Barriere()
 //	if (jsonMessage.contains("InfoVeh") && jsonMessage["InfoVeh"].toString() == "VehiculeDetecter") {
 //		qDebug() << "Véhicule détecté par le client " << client->getName();
 //		ui.label_VehiculePresenceDisplay->setText("Véhicule détecté");
-//		// sendLicensePlateRequest();
-//		sendOpenBarriere();
+//		sendLicensePlateRequest();
 //		return;
 //	}
 //
@@ -124,7 +126,7 @@ Process_Barriere::~Process_Barriere()
 //		ui.label_ImmatriculationDisplay->setText(plaque);
 //		qDebug() << "=== FIN INTERACTION CLIENT ===\n";
 //
-//		plateManagement->AnalysePlaque(plaque, modeActif, ui);
+//		plateManagement->AnalysePlaque(plaque, modeActif);
 //	}
 //
 //	// Étape 3
@@ -137,6 +139,7 @@ Process_Barriere::~Process_Barriere()
 //		barriere = jsonMessage["statutBarriere"].toString();
 //		qDebug() << "Statut de la barrière : " << barriere << " de " << client->getName();
 //		ui.label_StatutBarriereDisplay->setText("Fermée");
+//		resetInterface();
 //	}
 //}
 
@@ -163,7 +166,6 @@ void Process_Barriere::on_btnAccesConnexion_clicked()
 		ui.label_ErrorConnect->setText("Identifiants corrects !");
 		ui.stackedWidget->setCurrentIndex(1);
 		ui.widget_SCStatut->setVisible(true);
-		ui.widget_SupervisionBarriere->setVisible(false);
 		ui.label_BienvenueTexte->setVisible(false);
 
 		qDebug() << "ID corrects";
@@ -178,30 +180,31 @@ void Process_Barriere::on_btnAccesConnexion_clicked()
 
 // === PARTIE SELECTION DES MODES ====
 
-
 void Process_Barriere::on_btnCasparCas_cliked() {
 	modeActif = CasparCas;
 	ui.label_ActualModeDisplay->setText("Cas par Cas");
 	qDebug() << "Mode actif : " << modeActif;
+	resetInterface();
 }
 
 void Process_Barriere::on_btnGestionGlobale_cliked() {
 	modeActif = GestionGlobale;
 	ui.label_ActualModeDisplay->setText("Gestion Globale");
 	qDebug() << "Mode actif : " << modeActif;
+	resetInterface();
 }
 
 void Process_Barriere::on_btnManuel_cliked() {
 	modeActif = Manuel;
 	ui.label_ActualModeDisplay->setText("Manuel");
 	qDebug() << "Mode actif : " << modeActif;
+	resetInterface();
 }
+
 
 void Process_Barriere::on_btnOuvrirBarriere_clicked()
 {
-	// TODO : Appeler les méthodes dans plate management.
 	qDebug() << "Slot btnOuvrirBarriere_clicked";
-
 	plateManagement->on_btnOuvrirBarriere_clicked(modeActif);
 }
 
@@ -210,10 +213,20 @@ void Process_Barriere::on_btnDeconnexion_clicked()
 {
 	/* on_btnDeconnexion_clicked() : permet la déconnexion de l'interface de gestion. */
 
-	// refermer barrière
 	modeActif = Manuel;
+	resetInterface();
 	ui.stackedWidget->setCurrentIndex(0);
 	ui.widget_SCStatut->setVisible(false);
+}
+
+void Process_Barriere::resetInterface()
+{
+	ui.label_ImmatriculationDisplay->setText("");
+	ui.label_StatutServeurDisplay->setText("");
+	ui.label_StatutClientDisplay->setText("");
+	ui.label_StatutVehiculeDisplay->setText("");
+	ui.label_VehiculePresenceDisplay->setText("");
+	ui.widget_SupervisionBarriere->setVisible(false);
 }
 
 
@@ -245,6 +258,7 @@ void Process_Barriere::sendOpenBarriere()
 	}
 
 }
+
 
 void Process_Barriere::onClientDisconnected()
 {

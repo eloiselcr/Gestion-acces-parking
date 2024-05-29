@@ -14,13 +14,13 @@ public:
 
     void AnalysePlaque(QString plaque, Mode modeActif);
     void GestionMode(Mode modeActif);
-    void setplaque(QString plaque) { this->plaque = plaque; };
+    void setPlaque(QString plaque) { this->plaque = plaque; };
     
-    QString getplaque() { return this->plaque; };
-    QString getstatut() { return this->statut; };
-    QDateTime getdate() { return this->date; };
-    int getid_demande() { return this->id_demande; };
-    int getiduser() { return this->iduser; };
+    QString gPlaque() { return this->plaque; };
+    QString gStatut() { return this->statut; };
+    QDateTime gDate() { return this->date; };
+    int gid_Demande() { return this->id_demande; };
+    int gid_User() { return this->id_user; };
 
 public slots:
     void on_btnOuvrirBarriere_clicked(Mode modeActif);
@@ -33,6 +33,6 @@ private:
     QString statut;
     QDateTime date;
     int id_demande;
-    int iduser;
+    int id_user;
     Mode modeActif;
 };

@@ -12,14 +12,14 @@ void Plate_Management::AnalysePlaque(QString plaque, Mode modeActif)
 	/* AnalysePlaque() : récupère les informations de la plaque en BDD, connecte les données aux variables
 	associées, les affiche sur l'ui puis envoi à GestionMode. */
 
-	qDebug() << "\n=== DEBUT ANALYSE PLAQUE ===";
+	qDebug() << "\n=== Entrée dans AnalysePlaque ===\n";
 
 	QSqlQuery queryInfos;
 	queryInfos.prepare(SQLQueries::getqueryInfos(plaque));
 	queryInfos.bindValue(":plaque", plaque);
 
 	if (!queryInfos.exec()) {
-		qDebug() << "Erreur lors de l'execution de la requete SQL : " << queryInfos.lastError().text();
+		qDebug() << "Erreur lors de l'execution de la requête SQL : " << queryInfos.lastError().text();
 		return;
 	}
 
@@ -29,17 +29,17 @@ void Plate_Management::AnalysePlaque(QString plaque, Mode modeActif)
 		prenom = queryInfos.value(2).toString();
 		statut = queryInfos.value(3).toString();
 		plaque = queryInfos.value(4).toString();
-		date = queryInfos.value(4).toDateTime();                                    
-		iduser = queryInfos.value(5).toInt();
+		date = queryInfos.value(5).toDateTime();                                    
+		id_user = queryInfos.value(6).toInt();
 
 		qDebug() << "id demande : " << id_demande;
 		qDebug() << "Nom : " << nom;
-		qDebug() << "Prenom : " << prenom;
+		qDebug() << "Prénom : " << prenom;
 		qDebug() << "Plaque : " << plaque;
-		qDebug() << "Statut du vehicule :" << statut;
+		qDebug() << "Statut du véhicule :" << statut;
 		qDebug() << "Date effective :" << date;
-		qDebug() << "iduser : " << iduser;
-		qDebug() << "mode actif : " << modeActif;
+		qDebug() << "id user : " << id_user;
+		qDebug() << "Mode actif : " << modeActif;
 		ui.label_ImmatriculationDisplay->setText(plaque);
 
 
@@ -50,7 +50,7 @@ void Plate_Management::AnalysePlaque(QString plaque, Mode modeActif)
 			{"Validee", "Ce véhicule a été validé par l'administration."},
 		};
 
-		if (statut == "Validee") {
+		if (gStatut() == "Validee") {
 			QDateTime dateActuelle = QDateTime::currentDateTime();
 			QDateTime dateLimite = date.addYears(1);
 
@@ -64,8 +64,8 @@ void Plate_Management::AnalysePlaque(QString plaque, Mode modeActif)
 				ui.label_StatutVehiculeDisplay->setText("Véhicule validé.");
 			}
 		}
-		if (statutMessages.contains(getstatut())) {
-			ui.label_StatutVehiculeDisplay->setText(statutMessages[getstatut()]);
+		if (statutMessages.contains(gStatut())) {
+			ui.label_StatutVehiculeDisplay->setText(statutMessages[gStatut()]);
 		}
 	}
 	else {
@@ -74,22 +74,23 @@ void Plate_Management::AnalysePlaque(QString plaque, Mode modeActif)
 		ui.label_ImmatriculationDisplay->setText(plaque);
 		ui.label_StatutVehiculeDisplay->setText("Plaque inconnue du système.");
 	}
-	setplaque(plaque);
+	setPlaque(plaque);
 	GestionMode(modeActif);
 }
+
 
 void Plate_Management::GestionMode(Mode modeActif)
 {
 	/* GestionMode() : en fonction du mode actif, oriente vers une suite d'évènements.
 	2 cas possible = intervention du superviseur ou envoi direct en BDD. */
 
-	qDebug() << "Entree dans le Process Gestion Mode";
+	qDebug() << "\n=== Entrée dans GestionMode ===\n";
 	qDebug() << "Mode : " << modeActif;
-	qDebug() << "Plaque : " << getplaque();
+	qDebug() << "Plaque : " << gPlaque();
 	switch (modeActif) {
 
 	case CasparCas:
-		if (statut != "Validee") {
+		if (gStatut() != "Validee") {
 			ui.widget_SupervisionBarriere->setVisible(true);
 		}
 		else {
@@ -107,26 +108,26 @@ void Plate_Management::GestionMode(Mode modeActif)
 	}
 }
 
+
 void Plate_Management::DirectSendSQL(Mode modeActif)
 {
 	/* DirectSendSQL() : envoi direct en BDD si la plaque est valide en CPC et GB. */
 
-	qDebug() << "=== directsend ===";
-	qDebug() << "id demande : " << getid_demande();
-	qDebug() << "Plaque : " << getplaque();
-	// qDebug() << "Mode actif : " << modeActif;
-	qDebug() << "Statut : " << getstatut();
-	qDebug() << "id utilisateur : " << getiduser();
+	qDebug() << "\n=== Entrée dans DirectSendSQL ===\n";
+	qDebug() << "id demande : " << gid_Demande();
+	qDebug() << "Plaque : " << gPlaque();
+	qDebug() << "Statut : " << gStatut();
+	qDebug() << "id user : " << gid_User();
 
 	QSqlQuery queryAcces;
 	queryAcces.prepare(SQLQueries::insertAcces());
 	queryAcces.bindValue(":date", QDateTime::currentDateTime());
-	queryAcces.bindValue(":id_demande", getid_demande());
+	queryAcces.bindValue(":id_demande", gid_Demande());
 
 	QSqlQuery queryAccesSD;
 	queryAccesSD.prepare(SQLQueries::insertAccesSD());
 	queryAccesSD.bindValue(":date", QDateTime::currentDateTime());
-	queryAccesSD.bindValue(":immatriculation", getplaque());
+	queryAccesSD.bindValue(":immatriculation", gPlaque());
 
 	static const QMap<QString, QString> motifs = {
 		{"Refusee", "Refusé"},
@@ -136,9 +137,9 @@ void Plate_Management::DirectSendSQL(Mode modeActif)
 		{"Iconnue", "Véhicule inconnu"}
 	};
 
-	if (modeActif == CasparCas || (modeActif == GestionGlobale && getstatut() == "Validee")) {
+	if (modeActif == CasparCas || (modeActif == GestionGlobale && gStatut() == "Validee")) {
 		if (!queryAcces.exec()) {
-			qDebug() << "Erreur lors de l'insertion dans la table Acces:" << queryAcces.lastError().text();
+			qDebug() << "Erreur lors de l'insertion dans la table Accs : " << queryAcces.lastError().text();
 		}
 		else {
 			qDebug() << "Insertion dans la table Acces réussie.";
@@ -146,9 +147,9 @@ void Plate_Management::DirectSendSQL(Mode modeActif)
 		}
 	}
 	else {
-		queryAccesSD.bindValue(":motif", motifs.value(getstatut()));
+		queryAccesSD.bindValue(":motif", motifs.value(gStatut()));
 		if (!queryAccesSD.exec()) {
-			qDebug() << "Erreur lors de l'insertion dans la table Acces_SansDemande:" << queryAccesSD.lastError().text();
+			qDebug() << "Erreur lors de l'insertion dans la table Acces_SansDemande : " << queryAccesSD.lastError().text();
 		}
 		else {
 			qDebug() << "Insertion dans la table Acces_SansDemande réussie.";
@@ -157,26 +158,26 @@ void Plate_Management::DirectSendSQL(Mode modeActif)
 	}
 }
 
+
 void Plate_Management::on_btnOuvrirBarriere_clicked(Mode modeActif)
 {
-	/* on_btnOuvrirBarriere_clicked() : */
+	/* on_btnOuvrirBarriere_clicked() : permet au superviseur d'ouvrir la barrière en cas d'intervention. */
 
-	qDebug() << "=== on_btnOuvrirBarriere_clicked ===";
-	qDebug() << "id demande : " << getid_demande();
-	qDebug() << "Plaque : " << getplaque();
-	// qDebug() << "Mode actif : " << modeActif;
-	qDebug() << "Statut : " << getstatut();
-	qDebug() << "id utilisateur : " << getiduser();
+	qDebug() << "\n===Entrée dans on_btnOuvrirBarriere_clicked ===\n";
+	qDebug() << "id demande : " << gid_Demande();
+	qDebug() << "Plaque : " << gPlaque();
+	qDebug() << "Statut : " << gStatut();
+	qDebug() << "id user : " << gid_User();
 
 	QSqlQuery queryAcces;
 	queryAcces.prepare(SQLQueries::insertAcces());
 	queryAcces.bindValue(":date", QDateTime::currentDateTime());
-	queryAcces.bindValue(":id_demande", getid_demande());
+	queryAcces.bindValue(":id_demande", gid_Demande());
 
 	QSqlQuery queryAccesSD;
 	queryAccesSD.prepare(SQLQueries::insertAccesSD());
 	queryAccesSD.bindValue(":date", QDateTime::currentDateTime());
-	queryAccesSD.bindValue(":immatriculation", getplaque());
+	queryAccesSD.bindValue(":immatriculation", gPlaque());
 
 	static const QMap<QString, QString> motifs = {
 	{"Refusee", "Refusé"},
@@ -186,29 +187,26 @@ void Plate_Management::on_btnOuvrirBarriere_clicked(Mode modeActif)
 	{"Iconnue", "Véhicule inconnu"}
 	};
 
-	if (getstatut() == "Validee")
+	if (gStatut() == "Validee")
 	{
-		if (!queryAccesSD.exec()) {
-			qDebug() << "Erreur lors de l'insertion dans la table Acces_SansDemande:" << queryAccesSD.lastError().text();
+		if (!queryAcces.exec()) {
+			qDebug() << "Erreur lors de l'insertion dans la table Acces : " << queryAccesSD.lastError().text();
 		}
 		else {
-			qDebug() << "Insertion dans la table Acces_SansDemande réussie.";
+			qDebug() << "Insertion dans la table Acces réussie.";
 			//sendOpenBarriere();
 		}
 	} 
 	else
 	{
-		queryAccesSD.bindValue(":motif", motifs.value(getstatut()));
+		queryAccesSD.bindValue(":motif", motifs.value(gStatut()));
 		if (!queryAccesSD.exec()) {
-			qDebug() << "Erreur lors de l'insertion dans la table Acces_SansDemande:" << queryAccesSD.lastError().text();
+			qDebug() << "Erreur lors de l'insertion dans la table Acces_SansDemande : " << queryAccesSD.lastError().text();
 		}
 		else {
 			qDebug() << "Insertion dans la table Acces_SansDemande réussie.";
+			//sendOpenBarriere();
 		}
 	}
 }
-
-
-
-
 

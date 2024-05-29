@@ -1,8 +1,6 @@
 Ce qu'il reste à faire : 
 
 APP Gestion Process
- - relier la carte arduino pour l'état de la barrière ainsi que l'envoi du signal 
- - faire le mode gestion globale en invité (+au lieu de btn_déconnexion, faire un bouton qui renvoi à l'accueil)
- - vérifier supporte l'envoi de plusieurs plaques
  - lors d'une nouvelle plaque, si celle-ci est valide, faire disparaitre le bouton du superviseur
- - si client lancé avant serveur, faire des tentatives de connnexion toutes les 3sec
+ - relier le sendOpenBarriere
+ - faire en sorte que la barriere soit tout le temps ouverte en gestion globale

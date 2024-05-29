@@ -1113,6 +1113,22 @@ border-radius: 15px;
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>btn_OuvertureBarriere</sender>
+   <signal>clicked()</signal>
+   <receiver>Process_BarriereClass</receiver>
+   <slot>on_btnOuvrirBarriere_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>910</x>
+     <y>462</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>569</x>
+     <y>346</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>on_btnAccesConnexion_clicked()</slot>

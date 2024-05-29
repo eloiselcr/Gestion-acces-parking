@@ -16,6 +16,8 @@ public:
 	Process_Barriere(QWidget* parent = nullptr);
 	~Process_Barriere();
 
+	void sendOpenBarriere();
+
 	QString plaque;
 	QString barriere;
 	Mode modeActif;
@@ -27,13 +29,14 @@ private slots:
 	void onClientReadyRead();
 	void onClientDisconnected();
 	void sendLicensePlateRequest();
-	// void interractClient(Clients* client, const QJsonObject& jsonMessage);
+	//void interractClient(Clients* client, const QJsonObject& jsonMessage);
 
 	void on_btnCasparCas_cliked();
 	void on_btnGestionGlobale_cliked();
 	void on_btnManuel_cliked();
 	void on_btnOuvrirBarriere_clicked();
-	void sendOpenBarriere();
+
+	void resetInterface();
 
 	void on_btnDeconnexion_clicked();
 
