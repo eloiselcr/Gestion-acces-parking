@@ -3,6 +3,7 @@
 
 class DatabaseConnect
 {
+
 public:
     DatabaseConnect();
 

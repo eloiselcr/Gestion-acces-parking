@@ -1,7 +1,9 @@
+#pragma once
 #include <QTcpSocket>
 #include <QString>
 
 class Clients {
+
 public:
     Clients(QTcpSocket* socket, const QString& name);
     QTcpSocket* getSocket() const;
@@ -11,6 +13,3 @@ private:
     QTcpSocket* socket;
     QString name;
 };
-
-
-

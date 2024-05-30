@@ -21,10 +21,9 @@ Process_Barriere::Process_Barriere(QWidget* parent)
 	ui.widget_SCStatut->setVisible(false);
 	ui.widget_SupervisionBarriere->setVisible(false);
 	ui.edit_Mdp->setEchoMode(QLineEdit::Password);
-
+	
 	plateManagement = new Plate_Management(ui);
 
-	// QObject::connect(ui.btn_OuvertureBarriere, SIGNAL(clicked()), this, SLOT(on_btnOuvrirBarriere_clicked()));
 	modeActif = Manuel; // Mode par défaut
 	ui.label_ActualModeDisplay->setText("Manuel");
 	ui.label_StatutBarriereDisplay->setText("Fermée");
@@ -39,109 +38,109 @@ Process_Barriere::~Process_Barriere()
 // ==== PARTIE SERVEUR ====
 
 
-//void Process_Barriere::onClientConnected()
-//{
-//	/* onClientConnected() : permet au client de se connecter et de vérifier si l'IP est connue. */
-//
-//	QTcpSocket* clientSocket = server->nextPendingConnection();
-//	QString clientIp = clientSocket->peerAddress().toString();
-//	QString clientName = clientsConnus.value(clientIp, "Inconnu");
-//
-//	Clients* newClient = new Clients(clientSocket, clientName);
-//	clients[clientSocket] = newClient;
-//
-//	connect(clientSocket, SIGNAL(readyRead()), this, SLOT(onClientReadyRead()));
-//	connect(clientSocket, SIGNAL(disconnected()), this, SLOT(onClientDisconnected()));
-//
-//	qDebug() << "Client connecté : " << clientName << " avec l'IP : " << clientIp;
-//}
-//
-//void Process_Barriere::onClientReadyRead()
-//{
-//	/* onClientReadyRead() : permet de lire les données reçues et de les convertir en JSON. */
-//
-//	QTcpSocket* senderSocket = qobject_cast<QTcpSocket*>(sender());
-//	Clients* client = clients.value(senderSocket, nullptr);
-//
-//	if (!client) {
-//		qDebug() << "Client non trouvé pour le socket : " << senderSocket;
-//		return;
-//	}
-//
-//	QByteArray data = senderSocket->readAll();
-//	QString str(data);
-//	qDebug() << "Message reçu du client :" << client->getName() << " : " << str;
-//
-//	QJsonObject jsonMessage = QJsonDocument::fromJson(str.toUtf8()).object();
-//	interractClient(client, jsonMessage);
-//}
-//
-//void Process_Barriere::sendLicensePlateRequest()
-//{
-//	/* sendLicensePlateRequest() : envoi d'une demande de reconaissance de plaque uniquement au PCQuentin. */
-//
-//	if (!clients.isEmpty()) {
-//		for (Clients* client : clients) {
-//			qDebug() << "Vérification du client pour l'envoi de la demande de reconnaissance de plaque : " << client->getName();
-//			if (client->getName() == "PCQuentin") {
-//				qDebug() << "Envoi de la demande de reconnaissance de plaque à " << client->getName();
-//
-//				QJsonObject message;
-//				message["DemandeRecoPlaque"] = "DemandeOUI";
-//
-//				QJsonDocument jsonDocument(message);
-//				QString jsonString = jsonDocument.toJson(QJsonDocument::Compact);
-//
-//				client->getSocket()->write(jsonString.toUtf8());
-//
-//				ui.label_StatutServeurDisplay->setText("Demande envoyée");
-//				break;
-//			}
-//		}
-//	}
-//	else {
-//		qDebug() << "Aucun client connecté pour envoyer la demande de reconnaissance de plaque.";
-//	}
-//}
-//
-//void Process_Barriere::interractClient(Clients* client, const QJsonObject& jsonMessage)
-//{
-//	/* interractClient() : permet de lire les données envoyée par le client.
-//	Se décompose en 3 = le signal véhicule détecté, la réception de la plaque et l'état de la barrière. */
-//
-//	// Étape 1
-//	if (jsonMessage.contains("InfoVeh") && jsonMessage["InfoVeh"].toString() == "VehiculeDetecter") {
-//		qDebug() << "Véhicule détecté par le client " << client->getName();
-//		ui.label_VehiculePresenceDisplay->setText("Véhicule détecté");
-//		sendLicensePlateRequest();
-//		return;
-//	}
-//
-//	// Étape 2
-//	if (jsonMessage.contains("reponsePlaqueReco")) {
-//		plaque = jsonMessage["reponsePlaqueReco"].toString();
-//		qDebug() << "Plaque reçue : " << plaque << " de " << client->getName();
-//
-//		ui.label_StatutClientDisplay->setText("Plaque reçue");
-//		ui.label_ImmatriculationDisplay->setText(plaque);
-//		qDebug() << "=== FIN INTERACTION CLIENT ===\n";
-//
-//		plateManagement->AnalysePlaque(plaque, modeActif);
-//	}
-//
-//	// Étape 3
-//	if (jsonMessage.contains("statutBarriere") && jsonMessage["statutBarriere"].toString() == "Ouverte") {
-//		barriere = jsonMessage["statutBarriere"].toString();
-//		qDebug() << "Statut de la barrière : " << barriere << " de " << client->getName();
-//		ui.label_StatutBarriereDisplay->setText("Ouverte");
-//	}
-//	else if (jsonMessage.contains("statutBarriere") && jsonMessage["statutBarriere"].toString() == "Fermer") {
-//		barriere = jsonMessage["statutBarriere"].toString();
-//		qDebug() << "Statut de la barrière : " << barriere << " de " << client->getName();
-//		ui.label_StatutBarriereDisplay->setText("Fermée");
-//		resetInterface();
-//	}
-//}
+void Process_Barriere::onClientConnected()
+{
+	/* onClientConnected() : permet au client de se connecter et de vérifier si l'IP est connue. */
+
+	QTcpSocket* clientSocket = server->nextPendingConnection();
+	QString clientIp = clientSocket->peerAddress().toString();
+	QString clientName = clientsConnus.value(clientIp, "Inconnu");
+
+	Clients* newClient = new Clients(clientSocket, clientName);
+	clients[clientSocket] = newClient;
+
+	connect(clientSocket, SIGNAL(readyRead()), this, SLOT(onClientReadyRead()));
+	connect(clientSocket, SIGNAL(disconnected()), this, SLOT(onClientDisconnected()));
+
+	qDebug() << "Client connecté : " << clientName << " avec l'IP : " << clientIp;
+}
+
+void Process_Barriere::onClientReadyRead()
+{
+	/* onClientReadyRead() : permet de lire les données reçues et de les convertir en JSON. */
+
+	QTcpSocket* senderSocket = qobject_cast<QTcpSocket*>(sender());
+	Clients* client = clients.value(senderSocket, nullptr);
+
+	if (!client) {
+		qDebug() << "Client non trouvé pour le socket : " << senderSocket;
+		return;
+	}
+
+	QByteArray data = senderSocket->readAll();
+	QString str(data);
+	qDebug() << "Message reçu du client :" << client->getName() << " : " << str;
+
+	QJsonObject jsonMessage = QJsonDocument::fromJson(str.toUtf8()).object();
+	interractClient(client, jsonMessage);
+}
+
+void Process_Barriere::sendLicensePlateRequest()
+{
+	/* sendLicensePlateRequest() : envoi d'une demande de reconaissance de plaque uniquement au PCQuentin. */
+
+	if (!clients.isEmpty()) {
+		for (Clients* client : clients) {
+			qDebug() << "Vérification du client pour l'envoi de la demande de reconnaissance de plaque : " << client->getName();
+			if (client->getName() == "PCQuentin") {
+				qDebug() << "Envoi de la demande de reconnaissance de plaque à " << client->getName();
+
+				QJsonObject message;
+				message["DemandeRecoPlaque"] = "DemandeOUI";
+
+				QJsonDocument jsonDocument(message);
+				QString jsonString = jsonDocument.toJson(QJsonDocument::Compact);
+
+				client->getSocket()->write(jsonString.toUtf8());
+
+				ui.label_StatutServeurDisplay->setText("Demande envoyée");
+				break;
+			}
+		}
+	}
+	else {
+		qDebug() << "Aucun client connecté pour envoyer la demande de reconnaissance de plaque.";
+	}
+}
+
+void Process_Barriere::interractClient(Clients* client, const QJsonObject& jsonMessage)
+{
+	/* interractClient() : permet de lire les données envoyée par le client.
+	Se décompose en 3 = le signal véhicule détecté, la réception de la plaque et l'état de la barrière. */
+
+	// Étape 1
+	if (jsonMessage.contains("InfoVeh") && jsonMessage["InfoVeh"].toString() == "VehiculeDetecter") {
+		qDebug() << "Véhicule détecté par le client " << client->getName();
+		ui.label_VehiculePresenceDisplay->setText("Véhicule détecté");
+		sendLicensePlateRequest();
+		return;
+	}
+
+	// Étape 2
+	if (jsonMessage.contains("reponsePlaqueReco")) {
+		plaque = jsonMessage["reponsePlaqueReco"].toString();
+		qDebug() << "Plaque reçue : " << plaque << " de " << client->getName();
+
+		ui.label_StatutClientDisplay->setText("Plaque reçue");
+		ui.label_ImmatriculationDisplay->setText(plaque);
+		qDebug() << "=== FIN INTERACTION CLIENT ===\n";
+
+		plateManagement->AnalysePlaque(plaque, modeActif);
+	}
+
+	// Étape 3
+	if (jsonMessage.contains("statutBarriere") && jsonMessage["statutBarriere"].toString() == "Ouverte") {
+		barriere = jsonMessage["statutBarriere"].toString();
+		qDebug() << "Statut de la barrière : " << barriere << " de " << client->getName();
+		ui.label_StatutBarriereDisplay->setText("Ouverte");
+	}
+	else if (jsonMessage.contains("statutBarriere") && jsonMessage["statutBarriere"].toString() == "Fermer") {
+		barriere = jsonMessage["statutBarriere"].toString();
+		qDebug() << "Statut de la barrière : " << barriere << " de " << client->getName();
+		ui.label_StatutBarriereDisplay->setText("Fermée");
+		resetInterface();
+	}
+}
 
 
 // ==== PARTIE Accueil ====
@@ -221,6 +220,8 @@ void Process_Barriere::on_btnDeconnexion_clicked()
 
 void Process_Barriere::resetInterface()
 {
+	/* resetInterface() : permet de réinitialiser les labels présents sur l'ui. */
+
 	ui.label_ImmatriculationDisplay->setText("");
 	ui.label_StatutServeurDisplay->setText("");
 	ui.label_StatutClientDisplay->setText("");
@@ -262,6 +263,8 @@ void Process_Barriere::sendOpenBarriere()
 
 void Process_Barriere::onClientDisconnected()
 {
+	/* onClientDisconnected() : supprime le client de la liste si il se déconnecte. */
+
 	QTcpSocket* senderSocket = qobject_cast<QTcpSocket*>(sender());
 	Clients* client = clients.value(senderSocket, nullptr);
 
@@ -274,70 +277,70 @@ void Process_Barriere::onClientDisconnected()
 
 
 
-void Process_Barriere::onClientConnected()
-{
-	/* onClientConnected() : établit une connexion avec le client. */
-
-	clientConnection = server->nextPendingConnection();
-	connect(clientConnection, SIGNAL(readyRead()), this, SLOT(onClientReadyRead()));
-	connect(clientConnection, SIGNAL(disconnected()), clientConnection, SLOT(deleteLater()));
-
-	qDebug() << "Un client s'est connecter : " << clientConnection->peerAddress();
-}
-
-
-void Process_Barriere::onClientReadyRead()
-{
-	/* onClientReadyRead() : permet de lire les données envoyée par le client.
-	Se décompose en 2 = une partie pour le signal véhicule détecté, une partie pour la réception de la plaque. */
-
-	QByteArray data = clientConnection->readAll();
-	QString str(data);
-	qDebug() << "Message recu du client :" << str;
-
-	QJsonObject jsonMessage = QJsonDocument::fromJson(str.toUtf8()).object(); // Décodage JSON
-
-	// Étape 1
-	if (jsonMessage.contains("InfoVeh") && jsonMessage["InfoVeh"].toString() == "VehiculeDetecter")
-	{
-		qDebug() << "Vehicule detecte par le client.";
-		ui.label_VehiculePresenceDisplay->setText("Véhicule détecté");
-		sendLicensePlateRequest();
-		return;
-	}
-
-	// Étape 2 :
-	if (jsonMessage.contains("reponsePlaqueReco")) {
-		plaque = jsonMessage["reponsePlaqueReco"].toString(); // Affectation de la valeur de plaque
-		qDebug() << "Plaque recue :" << plaque;
-
-		ui.label_StatutClientDisplay->setText("Plaque reçue");
-		ui.label_ImmatriculationDisplay->setText(plaque);
-		qDebug() << "=== FIN INTERRACTION CLIENT ===\n";
-		plateManagement->AnalysePlaque(plaque, modeActif);
-	}
-}
-
-void Process_Barriere::sendLicensePlateRequest()
-{
-	/* sendLicensePlateRequest() : envoi au client une demande de récupèration de plaque. */
-
-	if (clientConnection) {
-		qDebug() << "Envoi de la demande de reconnaissance de plaque.";
-
-		QJsonObject message;
-		QJsonArray tableauDonnees;
-
-		message["DemandeRecoPlaque"] = "DemandeOUI";
-
-		// Conversion de l'objet JSON en chaîne JSON
-		QJsonDocument jsonDocument(message);
-		QString jsonString = jsonDocument.toJson(QJsonDocument::Compact);
-
-		clientConnection->write(jsonString.toUtf8());
-
-		ui.label_StatutServeurDisplay->setText("Demande envoyée");
-	}
-}
+//void Process_Barriere::onClientConnected()
+//{
+//	/* onClientConnected() : établit une connexion avec le client. */
+//
+//	clientConnection = server->nextPendingConnection();
+//	connect(clientConnection, SIGNAL(readyRead()), this, SLOT(onClientReadyRead()));
+//	connect(clientConnection, SIGNAL(disconnected()), clientConnection, SLOT(deleteLater()));
+//
+//	qDebug() << "Un client s'est connecter : " << clientConnection->peerAddress();
+//}
+//
+//
+//void Process_Barriere::onClientReadyRead()
+//{
+//	/* onClientReadyRead() : permet de lire les données envoyée par le client.
+//	Se décompose en 2 = une partie pour le signal véhicule détecté, une partie pour la réception de la plaque. */
+//
+//	QByteArray data = clientConnection->readAll();
+//	QString str(data);
+//	qDebug() << "Message recu du client :" << str;
+//
+//	QJsonObject jsonMessage = QJsonDocument::fromJson(str.toUtf8()).object(); // Décodage JSON
+//
+//	// Étape 1
+//	if (jsonMessage.contains("InfoVeh") && jsonMessage["InfoVeh"].toString() == "VehiculeDetecter")
+//	{
+//		qDebug() << "Vehicule detecte par le client.";
+//		ui.label_VehiculePresenceDisplay->setText("Véhicule détecté");
+//		sendLicensePlateRequest();
+//		return;
+//	}
+//
+//	// Étape 2 :
+//	if (jsonMessage.contains("reponsePlaqueReco")) {
+//		plaque = jsonMessage["reponsePlaqueReco"].toString(); // Affectation de la valeur de plaque
+//		qDebug() << "Plaque recue :" << plaque;
+//
+//		ui.label_StatutClientDisplay->setText("Plaque reçue");
+//		ui.label_ImmatriculationDisplay->setText(plaque);
+//		qDebug() << "=== FIN INTERRACTION CLIENT ===\n";
+//		plateManagement->AnalysePlaque(plaque, modeActif);
+//	}
+//}
+//
+//void Process_Barriere::sendLicensePlateRequest()
+//{
+//	/* sendLicensePlateRequest() : envoi au client une demande de récupèration de plaque. */
+//
+//	if (clientConnection) {
+//		qDebug() << "Envoi de la demande de reconnaissance de plaque.";
+//
+//		QJsonObject message;
+//		QJsonArray tableauDonnees;
+//
+//		message["DemandeRecoPlaque"] = "DemandeOUI";
+//
+//		// Conversion de l'objet JSON en chaîne JSON
+//		QJsonDocument jsonDocument(message);
+//		QString jsonString = jsonDocument.toJson(QJsonDocument::Compact);
+//
+//		clientConnection->write(jsonString.toUtf8());
+//
+//		ui.label_StatutServeurDisplay->setText("Demande envoyée");
+//	}
+//}
 
 

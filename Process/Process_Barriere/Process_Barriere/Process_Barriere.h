@@ -29,7 +29,7 @@ private slots:
 	void onClientReadyRead();
 	void onClientDisconnected();
 	void sendLicensePlateRequest();
-	//void interractClient(Clients* client, const QJsonObject& jsonMessage);
+	void interractClient(Clients* client, const QJsonObject& jsonMessage);
 
 	void on_btnCasparCas_cliked();
 	void on_btnGestionGlobale_cliked();
@@ -49,9 +49,9 @@ private:
 	Ui::Process_BarriereClass ui;
 	DatabaseConnect databaseConnect;
 	QTcpServer* server; // Déclaration du serveur TCP/IP
-	QTcpSocket* clientConnection; // Déclaration du socket pour la connexion avec le client
+	QTcpSocket* clientConnection; // Déclaration socket pour la connexion avec les clients
 
-	QMap<QTcpSocket*, Clients*> clients;  
-	QMap<QString, QString> clientsConnus;
+	QMap<QTcpSocket*, Clients*> clients; // Liste QMap pour les clients  
+	QMap<QString, QString> clientsConnus; // Liste des clients du projet
 
 };

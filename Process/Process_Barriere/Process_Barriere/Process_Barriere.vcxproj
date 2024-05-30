@@ -90,7 +90,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Clients.cpp" />
-    <ClCompile Include="Querys.cpp" />
+    <ClCompile Include="SQLQuerys.cpp" />
     <QtRcc Include="Process_Barriere.qrc" />
     <QtUic Include="Process_Barriere.ui" />
     <QtMoc Include="Process_Barriere.h" />
@@ -104,7 +104,7 @@
     <ClInclude Include="DatabaseConnect.h" />
     <ClInclude Include="Mode.h" />
     <ClInclude Include="Plate_Management.h" />
-    <ClInclude Include="Querys.h" />
+    <ClInclude Include="SQLQuerys.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

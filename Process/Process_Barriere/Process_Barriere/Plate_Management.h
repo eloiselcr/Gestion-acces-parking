@@ -1,13 +1,11 @@
 #pragma once
 #include <QString>
-#include <QSqlQuery>
-#include <QtSql>
-#include <QDateTime>
 #include "ui_Process_Barriere.h" 
 #include "Mode.h"
 
-class Plate_Management
+class Plate_Management 
 {
+
 public:
     Plate_Management(Ui::Process_BarriereClass& ui) : ui(ui) {}
     Ui::Process_BarriereClass& ui;

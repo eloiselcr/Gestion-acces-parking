@@ -1,7 +1,9 @@
 #include <QTcpSocket>
 #include <QString>
 
-class Clients {
+class Clients 
+{
+
 public:
     Clients(QTcpSocket* socket, const QString& name);
     QTcpSocket* getSocket() const;

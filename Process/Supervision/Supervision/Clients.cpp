@@ -1,8 +1,7 @@
 #include "Clients.h"
 
 Clients::Clients(QTcpSocket* socket, const QString& name)
-    : socket(socket), name(name)
-{
+    : socket(socket), name(name) {
 }
 
 QTcpSocket* Clients::getSocket() const {

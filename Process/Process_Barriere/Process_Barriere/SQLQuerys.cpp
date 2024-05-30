@@ -1,4 +1,4 @@
-#include "Querys.h"
+#include "SQLQuerys.h"
 
 QString SQLQueries::getqueryInfos(const QString& plaque) {
     return "SELECT id, nom, prenom, statut, immatriculation, date, iduser FROM Demande_Vehicule WHERE immatriculation = :plaque";

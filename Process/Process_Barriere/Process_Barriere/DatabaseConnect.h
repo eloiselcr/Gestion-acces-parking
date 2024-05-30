@@ -1,13 +1,11 @@
 #pragma once
 #include <QtSql>
 
-class DatabaseConnect
-{
+class DatabaseConnect {
+
 public:
     DatabaseConnect();
 
 private:
     QSqlDatabase db;
 };
-
-

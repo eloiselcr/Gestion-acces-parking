@@ -6,8 +6,8 @@
 #include "DatabaseConnect.h"
 #include "Clients.h"
 
-class Supervision : public QMainWindow
-{
+class Supervision : public QMainWindow {
+
     Q_OBJECT
 
 public:
@@ -19,6 +19,9 @@ private slots:
     void on_btnAskStatut_clicked();
 
     void onClientConnected();
+    void onClientReadyRead();
+    void sendEtatCamera();
+    void interractClient(Clients* client, const QJsonObject& jsonMessage);
 
 private:
     Ui::SupervisionClass ui;
@@ -26,7 +29,7 @@ private:
     QTcpServer* server; // Déclaration du serveur TCP/IP
     QTcpSocket* clientConnection; // Déclaration du socket pour la connexion avec le client
 
-    QMap<QTcpSocket*, Clients*> clients;  // Map for storing clients by their socket
-    QMap<QString, QString> knownClients;
+    QMap<QTcpSocket*, Clients*> clients; 
+    QMap<QString, QString> clientsConnus;
     
 };

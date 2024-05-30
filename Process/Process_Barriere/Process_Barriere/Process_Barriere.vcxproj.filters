@@ -43,7 +43,7 @@
     <ClCompile Include="Plate_Management.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Querys.cpp">
+    <ClCompile Include="SQLQuerys.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Clients.cpp">
@@ -60,7 +60,7 @@
     <ClInclude Include="Plate_Management.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Querys.h">
+    <ClInclude Include="SQLQuerys.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Clients.h">

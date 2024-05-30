@@ -1,8 +1,4 @@
-#include <QDebug>
-#include <QSqlQuery>
-#include <QDateTime>
-#include <QMap>
-#include "querys.h"
+#include "SQLQuerys.h"
 #include "Plate_Management.h"
 #include "Process_Barriere.h"
 
