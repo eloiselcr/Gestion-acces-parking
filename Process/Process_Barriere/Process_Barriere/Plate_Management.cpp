@@ -140,6 +140,7 @@ void Plate_Management::DirectSendSQL(Mode modeActif)
 		else {
 			qDebug() << "Insertion dans la table Acces réussie.";
 			//sendOpenBarriere();
+			//resetInterface
 		}
 	}
 	else {
@@ -150,6 +151,7 @@ void Plate_Management::DirectSendSQL(Mode modeActif)
 		else {
 			qDebug() << "Insertion dans la table Acces_SansDemande réussie.";
 			//sendOpenBarriere();
+			//resetInterface
 		}
 	}
 }
@@ -191,6 +193,7 @@ void Plate_Management::on_btnOuvrirBarriere_clicked(Mode modeActif)
 		else {
 			qDebug() << "Insertion dans la table Acces réussie.";
 			//sendOpenBarriere();
+			//resetInterface
 		}
 	} 
 	else
@@ -202,6 +205,7 @@ void Plate_Management::on_btnOuvrirBarriere_clicked(Mode modeActif)
 		else {
 			qDebug() << "Insertion dans la table Acces_SansDemande réussie.";
 			//sendOpenBarriere();
+			//resetInterface
 		}
 	}
 }

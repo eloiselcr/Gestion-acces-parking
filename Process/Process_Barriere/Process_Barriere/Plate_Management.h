@@ -1,5 +1,6 @@
 #pragma once
 #include <QString>
+#include <QDateTime>
 #include "ui_Process_Barriere.h" 
 #include "Mode.h"
 
