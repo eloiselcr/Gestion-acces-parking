@@ -40,9 +40,9 @@ private slots:
 
 	void on_btnDeconnexion_clicked();
 
-	// void onClientConnected();
-	// void onClientReadyRead();
-	// void sendLicensePlateRequest();
+	//void onClientConnected();
+	//void onClientReadyRead();
+	//void sendLicensePlateRequest();
 
 private:
 	Plate_Management* plateManagement;

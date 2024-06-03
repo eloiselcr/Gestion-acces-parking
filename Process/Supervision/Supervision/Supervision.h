@@ -17,11 +17,14 @@ public:
 private slots:
     void on_btnAccesConnexion_clicked();
     void on_btnAskStatut_clicked();
+    void prout();
+    //void sendEtatCamera();
+    //void sendEtatArd1();
+    //void sendEtatArd2();
 
-    void onClientConnected();
-    void onClientReadyRead();
-    void sendEtatCamera();
-    void interractClient(Clients* client, const QJsonObject& jsonMessage);
+    //void onClientConnected();
+    //void onClientReadyRead();
+    //void interractClient(Clients* client, const QJsonObject& jsonMessage);
 
 private:
     Ui::SupervisionClass ui;

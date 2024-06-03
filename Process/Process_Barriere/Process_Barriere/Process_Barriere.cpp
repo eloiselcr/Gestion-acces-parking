@@ -20,6 +20,7 @@ Process_Barriere::Process_Barriere(QWidget* parent)
 	ui.stackedWidget->setCurrentIndex(0);
 	ui.widget_SCStatut->setVisible(false);
 	ui.widget_SupervisionBarriere->setVisible(false);
+	ui.img_warning->setVisible(false);
 	ui.edit_Mdp->setEchoMode(QLineEdit::Password);
 	
 	plateManagement = new Plate_Management(ui);
@@ -181,23 +182,21 @@ void Process_Barriere::on_btnAccesConnexion_clicked()
 
 void Process_Barriere::on_btnCasparCas_cliked() {
 	modeActif = CasparCas;
-	ui.label_ActualModeDisplay->setText("Cas par Cas");
+	ui.label_ActualModeDisplay->setText("Cas-par-Cas");
 	qDebug() << "Mode actif : " << modeActif;
-	resetInterface();
 }
 
 void Process_Barriere::on_btnGestionGlobale_cliked() {
 	modeActif = GestionGlobale;
 	ui.label_ActualModeDisplay->setText("Gestion Globale");
+	ui.label_StatutBarriereDisplay->setText("Ouverte");
 	qDebug() << "Mode actif : " << modeActif;
-	resetInterface();
 }
 
 void Process_Barriere::on_btnManuel_cliked() {
 	modeActif = Manuel;
 	ui.label_ActualModeDisplay->setText("Manuel");
 	qDebug() << "Mode actif : " << modeActif;
-	resetInterface();
 }
 
 
@@ -205,6 +204,7 @@ void Process_Barriere::on_btnOuvrirBarriere_clicked()
 {
 	qDebug() << "Slot btnOuvrirBarriere_clicked";
 	plateManagement->on_btnOuvrirBarriere_clicked(modeActif);
+	resetInterface();
 }
 
 
@@ -214,8 +214,10 @@ void Process_Barriere::on_btnDeconnexion_clicked()
 
 	modeActif = Manuel;
 	resetInterface();
+	ui.label_InsertCheck->setText("");
 	ui.stackedWidget->setCurrentIndex(0);
 	ui.widget_SCStatut->setVisible(false);
+	qDebug() << "Déconnexion de l'interface";
 }
 
 void Process_Barriere::resetInterface()
@@ -227,7 +229,9 @@ void Process_Barriere::resetInterface()
 	ui.label_StatutClientDisplay->setText("");
 	ui.label_StatutVehiculeDisplay->setText("");
 	ui.label_VehiculePresenceDisplay->setText("");
+	ui.img_warning->setVisible(false);
 	ui.widget_SupervisionBarriere->setVisible(false);
+	qDebug() << "Reset de l'interface";
 }
 
 
@@ -276,7 +280,6 @@ void Process_Barriere::onClientDisconnected()
 }
 
 
-
 //void Process_Barriere::onClientConnected()
 //{
 //	/* onClientConnected() : établit une connexion avec le client. */
@@ -285,7 +288,7 @@ void Process_Barriere::onClientDisconnected()
 //	connect(clientConnection, SIGNAL(readyRead()), this, SLOT(onClientReadyRead()));
 //	connect(clientConnection, SIGNAL(disconnected()), clientConnection, SLOT(deleteLater()));
 //
-//	qDebug() << "Un client s'est connecter : " << clientConnection->peerAddress();
+//	qDebug() << "Un client s'est connecté : " << clientConnection->peerAddress();
 //}
 //
 //
@@ -303,7 +306,7 @@ void Process_Barriere::onClientDisconnected()
 //	// Étape 1
 //	if (jsonMessage.contains("InfoVeh") && jsonMessage["InfoVeh"].toString() == "VehiculeDetecter")
 //	{
-//		qDebug() << "Vehicule detecte par le client.";
+//		qDebug() << "Véhicule détecté par le client.";
 //		ui.label_VehiculePresenceDisplay->setText("Véhicule détecté");
 //		sendLicensePlateRequest();
 //		return;
@@ -312,7 +315,7 @@ void Process_Barriere::onClientDisconnected()
 //	// Étape 2 :
 //	if (jsonMessage.contains("reponsePlaqueReco")) {
 //		plaque = jsonMessage["reponsePlaqueReco"].toString(); // Affectation de la valeur de plaque
-//		qDebug() << "Plaque recue :" << plaque;
+//		qDebug() << "Plaque reçue :" << plaque;
 //
 //		ui.label_StatutClientDisplay->setText("Plaque reçue");
 //		ui.label_ImmatriculationDisplay->setText(plaque);

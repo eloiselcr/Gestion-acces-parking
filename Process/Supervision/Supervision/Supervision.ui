@@ -62,7 +62,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="interface_accueil">
      <widget class="QWidget" name="widget_Accueil" native="true">
@@ -325,32 +325,6 @@ color: rgb(255, 255, 255);</string>
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <widget class="QPushButton" name="btn_AskStatut">
-       <property name="geometry">
-        <rect>
-         <x>820</x>
-         <y>430</y>
-         <width>281</width>
-         <height>41</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">border-radius: 15px;
-border: 2px solid white;
-background-color: rgb(3, 144, 3);
-color: white;</string>
-       </property>
-       <property name="text">
-        <string>Renvoyer une demande d'état</string>
-       </property>
-      </widget>
       <widget class="QLabel" name="img_camera">
        <property name="geometry">
         <rect>
@@ -460,7 +434,7 @@ color: white;</string>
         <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
        </property>
        <property name="text">
-        <string/>
+        <string>En ligne</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_statutard1">
@@ -476,7 +450,7 @@ color: white;</string>
         <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
        </property>
        <property name="text">
-        <string/>
+        <string>En ligne</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_statutard2">
@@ -492,7 +466,7 @@ color: white;</string>
         <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
        </property>
        <property name="text">
-        <string/>
+        <string>En ligne</string>
        </property>
       </widget>
      </widget>

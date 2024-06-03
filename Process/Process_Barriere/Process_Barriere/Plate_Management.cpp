@@ -40,10 +40,10 @@ void Plate_Management::AnalysePlaque(QString plaque, Mode modeActif)
 
 
 		static const QMap<QString, QString> statutMessages = {
-			{"Refusee", "Le véhicule a été refusé par l'administration."},
-			{"Traitement en cours", "La demande pour ce véhicule est en cours de traitement."},
-			{"Informations demandees", "Des informations supplémentaires ont été demandées pour ce véhicule."},
-			{"Validee", "Ce véhicule a été validé par l'administration."},
+			{"Refusee", "Véhicule refusé par l'administration."},
+			{"Traitement en cours", "La demande est en cours de traitement."},
+			{"Informations demandees", "Des informations supplémentaires sont requises."},
+			{"Validee", "Véhicule validé par l'administration."},
 		};
 
 		if (gStatut() == "Validee") {
@@ -51,7 +51,7 @@ void Plate_Management::AnalysePlaque(QString plaque, Mode modeActif)
 			QDateTime dateLimite = date.addYears(1);
 
 			if (dateActuelle > dateLimite) {
-				qDebug() << "Date de validite expiree";
+				qDebug() << "Date de validite expirée";
 				statut = "Validee mais expiree";
 				ui.label_StatutVehiculeDisplay->setText("Véhicule avec une validité expirée.");
 			}
@@ -62,6 +62,9 @@ void Plate_Management::AnalysePlaque(QString plaque, Mode modeActif)
 		}
 		if (statutMessages.contains(gStatut())) {
 			ui.label_StatutVehiculeDisplay->setText(statutMessages[gStatut()]);
+			if (gStatut() != "Validee") {
+				ui.img_warning->setVisible(true);
+			}
 		}
 	}
 	else {
@@ -69,6 +72,7 @@ void Plate_Management::AnalysePlaque(QString plaque, Mode modeActif)
 		statut = "Inconnue";
 		ui.label_ImmatriculationDisplay->setText(plaque);
 		ui.label_StatutVehiculeDisplay->setText("Plaque inconnue du système.");
+		ui.img_warning->setVisible(true);
 	}
 	setPlaque(plaque);
 	GestionMode(modeActif);
@@ -130,28 +134,28 @@ void Plate_Management::DirectSendSQL(Mode modeActif)
 		{"Traitement en cours", "En cours de traitement"},
 		{"Informations demandees", "Informations demandées"},
 		{"Validee mais expiree", "Validité expirée"},
-		{"Iconnue", "Véhicule inconnu"}
+		{"Inconnue", "Véhicule inconnu"}
 	};
 
 	if (modeActif == CasparCas || (modeActif == GestionGlobale && gStatut() == "Validee")) {
 		if (!queryAcces.exec()) {
-			qDebug() << "Erreur lors de l'insertion dans la table Accs : " << queryAcces.lastError().text();
+			qDebug() << "Erreur lors de l'insertion dans la table Acces : " << queryAcces.lastError().text();
 		}
 		else {
 			qDebug() << "Insertion dans la table Acces réussie.";
 			//sendOpenBarriere();
-			//resetInterface
 		}
 	}
 	else {
 		queryAccesSD.bindValue(":motif", motifs.value(gStatut()));
 		if (!queryAccesSD.exec()) {
 			qDebug() << "Erreur lors de l'insertion dans la table Acces_SansDemande : " << queryAccesSD.lastError().text();
+			ui.label_InsertCheck->setText("Problème rencontré. Contactez un administrateur.");
 		}
 		else {
 			qDebug() << "Insertion dans la table Acces_SansDemande réussie.";
+			ui.label_InsertCheck->setText("Entrée enregistrée.");
 			//sendOpenBarriere();
-			//resetInterface
 		}
 	}
 }
@@ -182,18 +186,19 @@ void Plate_Management::on_btnOuvrirBarriere_clicked(Mode modeActif)
 	{"Traitement en cours", "En cours de traitement"},
 	{"Informations demandees", "Informations demandées"},
 	{"Validee mais expiree", "Validité expirée"},
-	{"Iconnue", "Véhicule inconnu"}
+	{"Inconnue", "Véhicule inconnu"}
 	};
 
 	if (gStatut() == "Validee")
 	{
 		if (!queryAcces.exec()) {
 			qDebug() << "Erreur lors de l'insertion dans la table Acces : " << queryAccesSD.lastError().text();
+			ui.label_InsertCheck->setText("Problème rencontré. Contactez un administrateur.");
 		}
 		else {
 			qDebug() << "Insertion dans la table Acces réussie.";
+			ui.label_InsertCheck->setText("Entrée enregistrée.");
 			//sendOpenBarriere();
-			//resetInterface
 		}
 	} 
 	else
@@ -201,11 +206,12 @@ void Plate_Management::on_btnOuvrirBarriere_clicked(Mode modeActif)
 		queryAccesSD.bindValue(":motif", motifs.value(gStatut()));
 		if (!queryAccesSD.exec()) {
 			qDebug() << "Erreur lors de l'insertion dans la table Acces_SansDemande : " << queryAccesSD.lastError().text();
+			ui.label_InsertCheck->setText("Problème rencontré. Contactez un administrateur.");
 		}
 		else {
 			qDebug() << "Insertion dans la table Acces_SansDemande réussie.";
+			ui.label_InsertCheck->setText("Entrée enregistrée.");
 			//sendOpenBarriere();
-			//resetInterface
 		}
 	}
 }
