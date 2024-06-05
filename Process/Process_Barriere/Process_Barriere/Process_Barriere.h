@@ -25,11 +25,11 @@ public:
 private slots:
 	void on_btnAccesConnexion_clicked();
 
-	void onClientConnected();
-	void onClientReadyRead();
-	void onClientDisconnected();
-	void sendLicensePlateRequest();
-	void interractClient(Clients* client, const QJsonObject& jsonMessage);
+	//void onClientConnected();
+	//void onClientReadyRead();
+	//void onClientDisconnected();
+	//void sendLicensePlateRequest();
+	//void interractClient(Clients* client, const QJsonObject& jsonMessage);
 
 	void on_btnCasparCas_cliked();
 	void on_btnGestionGlobale_cliked();
@@ -40,9 +40,9 @@ private slots:
 
 	void on_btnDeconnexion_clicked();
 
-	//void onClientConnected();
-	//void onClientReadyRead();
-	//void sendLicensePlateRequest();
+	void onClientConnected();
+	void onClientReadyRead();
+	void sendLicensePlateRequest();
 
 private:
 	Plate_Management* plateManagement;

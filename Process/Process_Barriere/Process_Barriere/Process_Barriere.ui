@@ -55,7 +55,7 @@
      <string notr="true">font: 75 italic 22pt &quot;MS Sans Serif&quot;;</string>
     </property>
     <property name="text">
-     <string>GESTION DE LA BARRIERE</string>
+     <string>PILOTAGE DE LA BARRIERE</string>
     </property>
    </widget>
    <widget class="Line" name="line_Accueil">
