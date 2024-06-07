@@ -55,7 +55,7 @@
      <string notr="true">font: 75 italic 22pt &quot;MS Sans Serif&quot;;</string>
     </property>
     <property name="text">
-     <string>PILOTAGE DE LA BARRIERE</string>
+     <string>PILOTAGE DE LA BARRIÈRE</string>
     </property>
    </widget>
    <widget class="Line" name="line_Accueil">
@@ -81,7 +81,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="interface_accueil">
      <widget class="QWidget" name="widget_Accueil" native="true">

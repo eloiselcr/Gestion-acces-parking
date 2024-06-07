@@ -13,9 +13,7 @@ class Process_Barriere : public QMainWindow {
 	Q_OBJECT
 
 public:
-	Process_Barriere(QWidget* parent = nullptr);
-	~Process_Barriere();
-
+	static Process_Barriere* getInstance();
 	void sendOpenBarriere();
 
 	QString plaque;
@@ -25,11 +23,11 @@ public:
 private slots:
 	void on_btnAccesConnexion_clicked();
 
-	//void onClientConnected();
-	//void onClientReadyRead();
-	//void onClientDisconnected();
-	//void sendLicensePlateRequest();
-	//void interractClient(Clients* client, const QJsonObject& jsonMessage);
+	void onClientConnected();
+	void onClientReadyRead();
+	void onClientDisconnected();
+	void sendLicensePlateRequest();
+	void interractClient(Clients* client, const QJsonObject& jsonMessage);
 
 	void on_btnCasparCas_cliked();
 	void on_btnGestionGlobale_cliked();
@@ -40,14 +38,20 @@ private slots:
 
 	void on_btnDeconnexion_clicked();
 
-	void onClientConnected();
-	void onClientReadyRead();
-	void sendLicensePlateRequest();
+	//void onClientConnected();
+	//void onClientReadyRead();
+	//void sendLicensePlateRequest();
 
 private:
+	static Process_Barriere* instance;
+	Process_Barriere(QWidget* parent = nullptr);
+	~Process_Barriere();
+
 	Plate_Management* plateManagement;
 	Ui::Process_BarriereClass ui;
+
 	DatabaseConnect databaseConnect;
+
 	QTcpServer* server; // Déclaration du serveur TCP/IP
 	QTcpSocket* clientConnection; // Déclaration socket pour la connexion avec les clients
 

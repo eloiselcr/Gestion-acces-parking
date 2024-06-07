@@ -140,10 +140,11 @@ void Plate_Management::DirectSendSQL(Mode modeActif)
 	if (modeActif == CasparCas || (modeActif == GestionGlobale && gStatut() == "Validee")) {
 		if (!queryAcces.exec()) {
 			qDebug() << "Erreur lors de l'insertion dans la table Acces : " << queryAcces.lastError().text();
+			ui.label_InsertCheck->setText("Problème rencontré. Contactez un administrateur.");
 		}
 		else {
-			qDebug() << "Insertion dans la table Acces réussie.";
-			//sendOpenBarriere();
+			qDebug() << "Insertion dans la table Acces réussie !\n";
+			Process_Barriere::getInstance()->sendOpenBarriere();
 		}
 	}
 	else {
@@ -153,9 +154,9 @@ void Plate_Management::DirectSendSQL(Mode modeActif)
 			ui.label_InsertCheck->setText("Problème rencontré. Contactez un administrateur.");
 		}
 		else {
-			qDebug() << "Insertion dans la table Acces_SansDemande réussie.";
+			qDebug() << "Insertion dans la table Acces_SansDemande réussie !\n";
 			ui.label_InsertCheck->setText("Entrée enregistrée.");
-			//sendOpenBarriere();
+			Process_Barriere::getInstance()->sendOpenBarriere();
 		}
 	}
 }
@@ -196,9 +197,9 @@ void Plate_Management::on_btnOuvrirBarriere_clicked(Mode modeActif)
 			ui.label_InsertCheck->setText("Problème rencontré. Contactez un administrateur.");
 		}
 		else {
-			qDebug() << "Insertion dans la table Acces réussie.";
+			qDebug() << "Insertion dans la table Acces réussie !\n";
 			ui.label_InsertCheck->setText("Entrée enregistrée.");
-			//sendOpenBarriere();
+			Process_Barriere::getInstance()->sendOpenBarriere();
 		}
 	} 
 	else
@@ -209,10 +210,10 @@ void Plate_Management::on_btnOuvrirBarriere_clicked(Mode modeActif)
 			ui.label_InsertCheck->setText("Problème rencontré. Contactez un administrateur.");
 		}
 		else {
-			qDebug() << "Insertion dans la table Acces_SansDemande réussie.";
+			qDebug() << "Insertion dans la table Acces_SansDemande réussie !\n";
 			ui.label_InsertCheck->setText("Entrée enregistrée.");
-			//sendOpenBarriere();
-		}
+			Process_Barriere::getInstance()->sendOpenBarriere();		
+	    }
 	}
 }
 
