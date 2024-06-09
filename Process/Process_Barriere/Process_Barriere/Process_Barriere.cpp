@@ -45,8 +45,7 @@ Process_Barriere::~Process_Barriere()
 }
 
 
-// ==== PARTIE SERVEUR ====
-
+// ==== PARTIE Serveur - Clients ====
 
 void Process_Barriere::onClientConnected()
 {
@@ -63,7 +62,20 @@ void Process_Barriere::onClientConnected()
 	connect(clientSocket, SIGNAL(disconnected()), this, SLOT(onClientDisconnected()));
 
 	qDebug() << "\nClient connecté : " << clientName << " avec l'IP : " << clientIp;
+}
 
+void Process_Barriere::onClientDisconnected()
+{
+	/* onClientDisconnected() : supprime le client de la liste si il se déconnecte. */
+
+	QTcpSocket* senderSocket = qobject_cast<QTcpSocket*>(sender());
+	Clients* client = clients.value(senderSocket, nullptr);
+
+	if (client) {
+		qDebug() << "Client déconnecté : " << client->getName();
+		clients.remove(senderSocket);
+		delete client;
+	}
 }
 
 void Process_Barriere::onClientReadyRead()
@@ -118,7 +130,7 @@ void Process_Barriere::interractClient(Clients* client, const QJsonObject& jsonM
 	/* interractClient() : permet de lire les données envoyée par le client.
 	Se décompose en 3 = le signal véhicule détecté, la réception de la plaque et l'état de la barrière. */
 
-	// Étape 1
+	// Étape 1 : envoi demande plaque
 	if (jsonMessage.contains("InfoVeh") && jsonMessage["InfoVeh"].toString() == "VehiculeDetecter") {
 		qDebug() << "Véhicule détecté par le client : " << client->getName();
 		ui.label_VehiculePresenceDisplay->setText("Véhicule détecté");
@@ -126,7 +138,7 @@ void Process_Barriere::interractClient(Clients* client, const QJsonObject& jsonM
 		return;
 	}
 
-	// Étape 2
+	// Étape 2 : réception plaque
 	if (jsonMessage.contains("reponsePlaqueReco")) {
 		plaque = jsonMessage["reponsePlaqueReco"].toString();
 		qDebug() << "Plaque reçue : " << plaque << " de " << client->getName();
@@ -138,7 +150,7 @@ void Process_Barriere::interractClient(Clients* client, const QJsonObject& jsonM
 		plateManagement->AnalysePlaque(plaque, modeActif);
 	}
 
-	// Étape 3
+	// Étape 3 : statut barrière
 	if (jsonMessage.contains("statutBarriere") && jsonMessage["statutBarriere"].toString() == "Ouverte") {
 		barriere = jsonMessage["statutBarriere"].toString();
 		qDebug() << "Statut de la barrière : " << barriere << " de " << client->getName();
@@ -151,97 +163,6 @@ void Process_Barriere::interractClient(Clients* client, const QJsonObject& jsonM
 		resetInterface();
 	}
 }
-
-
-// ==== PARTIE Accueil ====
-
-void Process_Barriere::on_btnAccesConnexion_clicked()
-{
-	/* on_btnAccesConnexion_clicked() : vérifie en BDD si l'utilisateur a les permissions nécessaires pour 
-	se connecter, ainsi que les bons identifiants. */
-
-	QString login = ui.edit_Login->text();
-	QString mdp = ui.edit_Mdp->text();
-
-	QSqlQuery query;
-	query.prepare("SELECT * FROM User WHERE login = :login AND password = :mdp AND type = 'superviseur'");
-	query.bindValue(":login", login);
-	query.bindValue(":mdp", mdp);
-	query.exec();
-
-	qDebug() << "Requête SQL effectuée";
-
-	if (query.next()) {
-		ui.label_ErrorConnect->setText("Identifiants corrects !");
-		ui.stackedWidget->setCurrentIndex(1);
-		ui.widget_SCStatut->setVisible(true);
-		ui.label_BienvenueTexte->setVisible(false);
-
-		qDebug() << "ID corrects";
-	}
-	else {
-		ui.label_ErrorConnect->setText("Identifiants incorrects.");
-
-		qDebug() << "ID incorrects";
-	}
-}
-
-
-// === PARTIE SELECTION DES MODES ====
-
-void Process_Barriere::on_btnCasparCas_cliked() {
-	modeActif = CasparCas;
-	ui.label_ActualModeDisplay->setText("Cas-par-Cas");
-	qDebug() << "Mode actif : " << modeActif;
-}
-
-void Process_Barriere::on_btnGestionGlobale_cliked() {
-	modeActif = GestionGlobale;
-	ui.label_ActualModeDisplay->setText("Gestion Globale");
-	ui.label_StatutBarriereDisplay->setText("Ouverte");
-	qDebug() << "Mode actif : " << modeActif;
-}
-
-void Process_Barriere::on_btnManuel_cliked() {
-	modeActif = Manuel;
-	ui.label_ActualModeDisplay->setText("Manuel");
-	qDebug() << "Mode actif : " << modeActif;
-}
-
-
-void Process_Barriere::on_btnOuvrirBarriere_clicked()
-{
-	qDebug() << "Slot btnOuvrirBarriere_clicked";
-	plateManagement->on_btnOuvrirBarriere_clicked(modeActif);
-}
-
-
-void Process_Barriere::on_btnDeconnexion_clicked()
-{
-	/* on_btnDeconnexion_clicked() : permet la déconnexion de l'interface de gestion. */
-
-	modeActif = Manuel;
-	resetInterface();
-	ui.label_InsertCheck->setText("");
-	ui.stackedWidget->setCurrentIndex(0);
-	ui.widget_SCStatut->setVisible(false);
-	qDebug() << "Déconnexion de l'interface";
-}
-
-void Process_Barriere::resetInterface()
-{
-	/* resetInterface() : permet de réinitialiser les labels présents sur l'ui. */
-
-	ui.label_ImmatriculationDisplay->setText("");
-	ui.label_StatutServeurDisplay->setText("");
-	ui.label_StatutClientDisplay->setText("");
-	ui.label_StatutVehiculeDisplay->setText("");
-	ui.label_VehiculePresenceDisplay->setText("");
-	ui.img_warning->setVisible(false);
-	ui.widget_SupervisionBarriere->setVisible(false);
-	qDebug() << "Reset de l'interface";
-}
-
 
 void Process_Barriere::sendOpenBarriere()
 {
@@ -271,20 +192,101 @@ void Process_Barriere::sendOpenBarriere()
 
 }
 
-void Process_Barriere::onClientDisconnected()
+
+// ==== PARTIE Accueil ====
+
+void Process_Barriere::on_btnAccesConnexion_clicked()
 {
-	/* onClientDisconnected() : supprime le client de la liste si il se déconnecte. */
+	/* on_btnAccesConnexion_clicked() : vérifie en BDD si l'utilisateur a les permissions nécessaires pour 
+	se connecter + bons identifiants. */
 
-	QTcpSocket* senderSocket = qobject_cast<QTcpSocket*>(sender());
-	Clients* client = clients.value(senderSocket, nullptr);
+	QString login = ui.edit_Login->text();
+	QString mdp = ui.edit_Mdp->text();
 
-	if (client) {
-		qDebug() << "Client déconnecté : " << client->getName();
-		clients.remove(senderSocket);
-		delete client;
+	QSqlQuery query;
+	query.prepare("SELECT * FROM User WHERE login = :login AND password = :mdp AND type = 'superviseur'");
+	query.bindValue(":login", login);
+	query.bindValue(":mdp", mdp);
+	query.exec();
+
+	qDebug() << "Requête SQL effectuée";
+
+	if (query.next()) {
+		ui.label_ErrorConnect->setText("Identifiants corrects !");
+		ui.stackedWidget->setCurrentIndex(1);
+		ui.widget_SCStatut->setVisible(true);
+		ui.label_BienvenueTexte->setVisible(false);
+
+		qDebug() << "ID corrects";
+	}
+	else {
+		ui.label_ErrorConnect->setText("Identifiants incorrects.");
+
+		qDebug() << "ID incorrects";
 	}
 }
 
+
+// === PARTIE Sélection des modes ====
+
+void Process_Barriere::on_btnCasparCas_cliked() {
+	modeActif = CasparCas;
+	ui.label_ActualModeDisplay->setText("Cas-par-Cas");
+	qDebug() << "Mode actif : " << modeActif;
+}
+
+void Process_Barriere::on_btnGestionGlobale_cliked() {
+	modeActif = GestionGlobale;
+	ui.label_ActualModeDisplay->setText("Gestion Globale");
+	ui.label_StatutBarriereDisplay->setText("Ouverte");
+	qDebug() << "Mode actif : " << modeActif;
+}
+
+void Process_Barriere::on_btnManuel_cliked() {
+	modeActif = Manuel;
+	ui.label_ActualModeDisplay->setText("Manuel");
+	qDebug() << "Mode actif : " << modeActif;
+}
+
+
+
+void Process_Barriere::on_btnOuvrirBarriere_clicked()
+{
+	/* on_btnOuvrirBarriere_clicked() : permet d'ouvrir la barrière via Plate_Management. */
+
+	qDebug() << "Slot btnOuvrirBarriere_clicked";
+	plateManagement->on_btnOuvrirBarriere_clicked(modeActif);
+}
+
+
+void Process_Barriere::on_btnDeconnexion_clicked()
+{
+	/* on_btnDeconnexion_clicked() : déconnexion de l'interface de gestion. */
+
+	modeActif = Manuel;
+	resetInterface();
+	ui.label_InsertCheck->setText("");
+	ui.stackedWidget->setCurrentIndex(0);
+	ui.widget_SCStatut->setVisible(false);
+	qDebug() << "Déconnexion de l'interface";
+}
+
+void Process_Barriere::resetInterface()
+{
+	/* resetInterface() : réinitialise les labels présents sur l'ui. */
+
+	ui.label_ImmatriculationDisplay->setText("");
+	ui.label_StatutServeurDisplay->setText("");
+	ui.label_StatutClientDisplay->setText("");
+	ui.label_StatutVehiculeDisplay->setText("");
+	ui.label_VehiculePresenceDisplay->setText("");
+	ui.img_warning->setVisible(false);
+	ui.widget_SupervisionBarriere->setVisible(false);
+	qDebug() << "Reset de l'interface";
+}
+
+
+// === PARTIE Simulation Client ====
 
 //void Process_Barriere::onClientConnected()
 //{
@@ -351,5 +353,3 @@ void Process_Barriere::onClientDisconnected()
 //		ui.label_StatutServeurDisplay->setText("Demande envoyée");
 //	}
 //}
-
-

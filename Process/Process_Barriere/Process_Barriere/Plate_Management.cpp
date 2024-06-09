@@ -82,7 +82,7 @@ void Plate_Management::AnalysePlaque(QString plaque, Mode modeActif)
 void Plate_Management::GestionMode(Mode modeActif)
 {
 	/* GestionMode() : en fonction du mode actif, oriente vers une suite d'évènements.
-	2 cas possible = intervention du superviseur ou envoi direct en BDD. */
+	2 cas possible = envoi direct en BDD ou intervention du superviseur. */
 
 	qDebug() << "\n=== Entrée dans GestionMode ===\n";
 	qDebug() << "Mode : " << modeActif;
@@ -111,7 +111,7 @@ void Plate_Management::GestionMode(Mode modeActif)
 
 void Plate_Management::DirectSendSQL(Mode modeActif)
 {
-	/* DirectSendSQL() : envoi direct en BDD si la plaque est valide en CPC et GB. */
+	/* DirectSendSQL() : envoi direct en BDD si la plaque est valide en CPC, ou mode sélectionné = GB. */
 
 	qDebug() << "\n=== Entrée dans DirectSendSQL ===\n";
 	qDebug() << "id demande : " << gid_Demande();
